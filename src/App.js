@@ -1,11 +1,13 @@
 import React from 'react';
 import Main from 'Main';
-
+import { ProSidebarProvider } from 'react-pro-sidebar';
 
 function App() {
   return (
     <React.Fragment>
-      <Main />
+      <ProSidebarProvider>
+        <Main />
+      </ProSidebarProvider>
     </React.Fragment>
   );
 }
