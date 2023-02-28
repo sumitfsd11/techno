@@ -133,7 +133,7 @@ export default function SidebarC({ children }) {
                 </React.Fragment>
 
             </Sidebar>
-            <main>
+            <main className='w-full'>
                 {
                     children
                 }

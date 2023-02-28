@@ -11,6 +11,7 @@ export default function Layout() {
   return (
     <React.Fragment>
       <Provider store={store}>
+        
         <NotificationBanner />
         {
           session ? (<AfterLoginHeader />) : (<Outlet />)
