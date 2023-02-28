@@ -4,8 +4,9 @@ import { store } from 'app/store';
 import { AfterLoginHeader, NotificationBanner } from '.';
 import { Outlet } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import SidebarC from './utilsComponents/Sidebar';
 export default function Layout() {
-  const session = false;
+  const session = true;
 
   return (
     <React.Fragment>
