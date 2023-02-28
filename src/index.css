@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
     overflow: hidden !important;
+}
+
+.mouseup:hover {
+    background: linear-gradient(45deg, #1557cd 0%, #5ae1ff 100%);
 }

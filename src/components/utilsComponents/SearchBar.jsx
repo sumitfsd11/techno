@@ -1,3 +1,4 @@
+import React from 'react';
 import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
@@ -14,7 +15,7 @@ const people = [
 ]
 
 export default function SearchBar() {
-    const [selected, setSelected] = useState(people[0])
+    const [selected, setSelected] = useState('')
     const [query, setQuery] = useState('')
 
     const filteredPeople =
@@ -27,10 +28,14 @@ export default function SearchBar() {
                     .includes(query.toLowerCase().replace(/\s+/g, ''))
             )
 
-
+    const searchAction = React.useCallback((e) => {
+        setSelected(e)
+    }, [selected])
+    
+    console.log()
     return (
         <SearchbarWrapper>
-            <Combobox value={selected} onChange={setSelected}>
+            <Combobox value={selected} onChange={searchAction}>
                 <div className="relative">
                     <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
                         <Combobox.Input
