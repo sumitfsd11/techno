@@ -1,9 +1,11 @@
 
-import React from "react"
+import React from "react";
 /**
  * private routes 
  * public routes
  */
+ 
+import { Login } from "pages";
 
 const private_routes = [
     {
@@ -11,7 +13,7 @@ const private_routes = [
         path:'/',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<Login/>)
     },
     {
         name: '',
@@ -28,7 +30,7 @@ const public_routes = [
         path:'/',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<React.Fragment><Login/></React.Fragment>)
     },
     {
         name: '',
