@@ -1,11 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root{
+    --primar-color:#3496e4;
+    --primary-hover:#9d9d9d5c;
+}
+
+.primary-color{
+    color: var(--primar-color);
+}
+.primary-hover{
+    color: var(--primar-color);
+}
+.bgprimary-color{
+    background-color: var(--primar-color) !important;
+}
+
 
 body {
     overflow: hidden !important;
 }
 
+.gradient{
+    background: linear-gradient(45deg, #1557cd 0%, #5ae1ff 100%);
+}
 .mouseup:hover {
     background: linear-gradient(45deg, #1557cd 0%, #5ae1ff 100%);
 }
