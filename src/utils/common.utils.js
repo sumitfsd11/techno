@@ -4,14 +4,14 @@ import React from "react";
 import { CURRENCY_SYMBOL } from "constants/common.constants";
 import moment from "moment";
 import toast from 'react-hot-toast';
-import ProfileImg from "assets/profile_pic.jpg";
-import LogoImg from "assets/budiLogo.png";
+// import ProfileImg from "assets/profile_pic.jpg";
+// import LogoImg from "assets/budiLogo.png";
 import styled from "styled-components";
 // import { imgBaseUrl } from "constants/config.constants";
 
 
 
-export const Logo = ({style, src}) => <LogoIcon theme={style} src={src??LogoImg} alt="budi" />;
+// export const Logo = ({style, src}) => <LogoIcon theme={style} src={src??LogoImg} alt="budi" />;
 export const isFunction = (fn) => typeof fn === "function";
 export const stringifyError = (errors) => {
   return errors;
@@ -119,7 +119,8 @@ export const ImgProvider = (src) => {
   if (src) {
     return `${src}`;
   } else {
-    return ProfileImg;
+    // remove from string 
+    return 'ProfileImg';
   }
 }
 

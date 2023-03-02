@@ -17,10 +17,10 @@ const private_routes = [
     },
     {
         name: '',
-        path:'/',
+        path:'/home',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<p>lorem ioipsum</p>)
     },
 ]
 
@@ -30,14 +30,14 @@ const public_routes = [
         path:'/',
         key: '',
         permissions: [],
-        component: (<React.Fragment><Login/></React.Fragment>)
+        component: (<Login/>)
     },
     {
         name: '',
         path:'/login',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<Login/>)
     },
 ]
 
