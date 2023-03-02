@@ -44,12 +44,12 @@ export default function useFetch({
         setData(null)
         setLoading(false)
         setError(error)
-        onFailure(error)
+        onFailure(error, preFetch?.method??method)
       } else {
         setData(response)
         setLoading(false)
         setError(null)
-        onSuccess(response)
+        onSuccess(response , preFetch?.method??method)
       }
     }
 

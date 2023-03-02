@@ -2,12 +2,12 @@ import React from 'react';
 import { useFetch } from 'hooks';
 export default function Login() {
 
-    const onFailure = React.useCallback((error) => {
-        console.log(error, "---error ")
+    const onFailure = React.useCallback((error , method) => {
+        console.log(error, "---success " ,method)
     }, [])
 
-    const onSuccess = React.useCallback((response) => {
-        console.log(response, "---success ")
+    const onSuccess = React.useCallback((response , method) => {
+        console.log(response, "---success " ,method)
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
@@ -37,6 +37,7 @@ export default function Login() {
     return (
         <div>
             <button onClick={refetch}>clikc</button>
+       
         </div>
     )
 }
