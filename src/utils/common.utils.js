@@ -7,3 +7,5 @@ export const isPublicApi = (url) => {
 export const asyncWrapper = (promise) =>
     promise.then((data) => ({ data, error: null }))
         .catch((error) => ({ data: null, error }));
+
+
