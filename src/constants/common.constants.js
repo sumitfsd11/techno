@@ -1,0 +1,1 @@
+const CURRENCY_SYMBOL = '$'
