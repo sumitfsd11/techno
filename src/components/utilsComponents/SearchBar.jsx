@@ -32,7 +32,7 @@ export default function SearchBar() {
         setSelected(e)
     }, [selected])
     
-    console.log()
+
     return (
         <SearchbarWrapper>
             <Combobox value={selected} onChange={searchAction}>

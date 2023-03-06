@@ -36,7 +36,7 @@ export default function Login() {
 
     return (
         <div>
-            <button onClick={refetch}>clikc</button>
+            <button onClick={refetch}>click</button>
        
         </div>
     )
