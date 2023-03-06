@@ -17,10 +17,10 @@ const private_routes = [
     },
     {
         name: '',
-        path:'/',
+        path:'/home',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<p>lorem ioipsum</p>)
     },
 ]
 
@@ -30,18 +30,53 @@ const public_routes = [
         path:'/',
         key: '',
         permissions: [],
-        component: (<React.Fragment><Login/></React.Fragment>)
+        component: (<Login/>)
     },
     {
         name: '',
         path:'/login',
         key: '',
         permissions: [],
-        component: (<React.Fragment>kk</React.Fragment>)
+        component: (<Login/>)
     },
 ]
 
+const private_routes_user = [
+    {
+        name: '',
+        path:'/',
+        key: '',
+        permissions: [],
+        component: (<Login/>)
+    },
+    {
+        name: '',
+        path:'/home',
+        key: '',
+        permissions: [],
+        component: (<p>lorem ioipsum</p>)
+    },
+]
+
+const public_routes_user = [
+    {
+        name: '',
+        path:'/',
+        key: '',
+        permissions: [],
+        component: (<Login/>)
+    },
+    {
+        name: '',
+        path:'/login',
+        key: '',
+        permissions: [],
+        component: (<Login/>)
+    },
+]
 export {
     private_routes,
-    public_routes
+    public_routes,
+    public_routes_user,
+    private_routes_user
 }
