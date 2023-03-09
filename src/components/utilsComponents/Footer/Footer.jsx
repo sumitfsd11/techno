@@ -2,6 +2,7 @@ import React from 'react'
 
 export default function Footer() {
 
+
     const LeftSideFooter = React.memo(() => {
         return (
             <React.Fragment>
@@ -45,8 +46,8 @@ export default function Footer() {
 
                     <section className='my-2 '>
                         <form  >
-                            <div className=''>
-
+                            <div className=' flex'>
+                                <input required type="text" className='peer h-12  w-full rounded-l-lg bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all text-[#6b6a6a] duration-200 ease-in-out focus:bg-white focus:ring-2 text-sm ' /><button type='="submit' className=' bg-[#fdc25e] px-3 py-2 text-sm rounded-r-lg h-12 '>Subscribe</button>
                             </div>
                         </form>
                     </section>
@@ -113,6 +114,17 @@ export default function Footer() {
                         </div>
                         <div className='col-span-4'>
                             <RightSideFooter />
+                        </div>
+                    </footer>
+
+                    <footer className=' mt-4 inner-section border-t border-white'>
+                        <div className='lg:flex md:flex block lg:justify-between md:justify-between'>
+                            <div className='text-white text-sm lg:mt-4 mt-2 '>
+                                Copyright © 2023 Technomatic Academy . All Rights Reserved.
+                            </div>
+                            <div className='text-white text-sm lg:mt-4 mt-2 '>
+
+                            </div>
                         </div>
                     </footer>
                 </div>
