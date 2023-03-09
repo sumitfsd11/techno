@@ -15,7 +15,7 @@ export default function Feedback() {
                     {
                         Array(3, 4, 4).map((i, index) => (
                             <div className='  col-span-4 lg:px-5 md:px-2 px-0 py-6 ' key={index}>
-                                <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s">
+                                {/* <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s"> */}
                                     <div className=' border bg-white border-[#e7e7ec] animation-all  hover:drop-shadow-lg rounded-md ' style={{ boxShadow: " rgba(149, 157, 165, 0.15) 0px 3px 6px 0px" }}>
                                         <div className=' '>
                                             <div className='flex pt-5 pl-5 items-center'>
@@ -33,7 +33,7 @@ export default function Feedback() {
                                             </section>
                                         </div>
                                     </div>
-                                </AnimationOnScroll>
+                                {/* </AnimationOnScroll> */}
                             </div>
                         ))
                     }

@@ -7,6 +7,8 @@ import { toast } from 'react-hot-toast';
 import SidebarC from './utilsComponents/Sidebar';
 import { ThemeProvider } from "@material-tailwind/react";
 import 'animate.css';
+import "animate.css/animate.min.css";
+
 
 
 export default function Layout() {

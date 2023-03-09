@@ -60,29 +60,29 @@ export default function CouseList() {
                 <div className='lg:px-36 '>
                     <div className='grid grid-cols-12 gap-5 '>
                         <div className='col-span-4 my-2 lg:px-3  '>
-                            <AnimationOnScroll  animateIn="animate__zoomIn ">
+                            {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 <Card />
-                            </AnimationOnScroll >
+                            {/* </AnimationOnScroll > */}
                         </div>
                         <div className='col-span-4 my-2 lg:px-3  '>
-                            <AnimationOnScroll  animateIn="animate__zoomIn ">
+                            {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 <Card />
-                            </AnimationOnScroll >
+                            {/* </AnimationOnScroll > */}
                         </div>
                         <div className='col-span-4 my-2 lg:px-3  '>
-                            <AnimationOnScroll  animateIn="animate__zoomIn ">
+                            {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 <Card />
-                            </AnimationOnScroll >
+                            {/* </AnimationOnScroll > */}
                         </div>
                         <div className='col-span-4 my-2 lg:px-3  '>
-                            <AnimationOnScroll  animateIn="animate__zoomIn ">
+                            {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 <Card />
-                            </AnimationOnScroll >
+                            {/* </AnimationOnScroll > */}
                         </div>
                         <div className='col-span-4 my-2 lg:px-3  '>
-                            <AnimationOnScroll  animateIn="animate__zoomIn ">
+                            {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 <Card />
-                            </AnimationOnScroll >
+                            {/* </AnimationOnScroll > */}
                         </div>
                     </div>
                 </div>

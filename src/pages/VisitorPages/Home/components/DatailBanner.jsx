@@ -15,7 +15,7 @@ export default function DatailBanner() {
                     {
                         Array(3, 4, 4).map((i, index) => (
                             <div className='col-span-4 lg:px-12 py-6 ' key={index}>
-                                <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s">
+                                {/* <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s"> */}
                                     <div className=' text-center'>
                                         <div className="grid my-3 ">
                                             <img src={img} className=" w-[130px] h-auto  m-auto" alt="loading..." />
@@ -26,7 +26,7 @@ export default function DatailBanner() {
                                             </p>
                                         </section>
                                     </div>
-                                </AnimationOnScroll>
+                                {/* </AnimationOnScroll> */}
                             </div>
                         ))
                     }

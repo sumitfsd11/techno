@@ -8,7 +8,7 @@ export default function UpcomingEvent() {
 
     const EventCard = React.memo(() => (
         <React.Fragment>
-            <div className=' card-event w-ful rounded-md p-3 bg-white'>
+            <div className=' card-event  w-ful rounded-md p-3 bg-white'>
                 <div className='flex justify-between'>
                     <div className=''>
                         <div className='flex  items-center'>
@@ -82,9 +82,9 @@ export default function UpcomingEvent() {
                         {
                             Array(12, 39, 939, 90, 70, 45, 2004, 4, 5, 7, 748, 37, 340, 404).map((_, index) => (
                                 <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
-                                    <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s">
+                                    {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
                                         <EventCard />
-                                    </AnimationOnScroll>
+                                    {/* </AnimationOnScroll> */}
                                 </div>
                             ))
                         }
