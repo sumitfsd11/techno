@@ -13,7 +13,7 @@ export default function MyModal() {
   }
 
   return (
-    <>
+    <React.Fragment>
       <div className="fixed inset-0 flex items-center justify-center">
         <button
           type="button"
@@ -78,6 +78,6 @@ export default function MyModal() {
           </div>
         </Dialog>
       </Transition>
-    </>
+    </React.Fragment>
   )
 }

@@ -4,76 +4,103 @@ import React from "react";
  * private routes 
  * public routes
  */
- 
-import { Login } from "pages";
+
+import {
+    Login
+    , ResetPassword
+    , VerifyOtp
+} from "pages";
+import Home from "pages/VisitorPages/Home/Home";
 
 const private_routes = [
     {
         name: '',
-        path:'/',
+        path: '/',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<Login />)
     },
     {
         name: '',
-        path:'/home',
+        path: '/admin/home',
         key: '',
         permissions: [],
-        component: (<p>lorem ioipsum</p>)
+        component: (<VerifyOtp />)
+    },
+    {
+        name: '',
+        path: '*',
+        key: '',
+        permissions: [],
+        component: (<p>not font </p>)
     },
 ]
 
 const public_routes = [
     {
         name: '',
-        path:'/',
+        path: '/',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<Login />)
     },
     {
         name: '',
-        path:'/login',
+        path: '/verify-otp',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<VerifyOtp />)
+    },
+    {
+        name: '',
+        path: '/forget-password',
+        key: '',
+        permissions: [],
+        component: (<ResetPassword />)
+    },
+    {
+        name: '',
+        path: '*',
+        key: '',
+        permissions: [],
+        component: (<p>not font </p>)
     },
 ]
 
 const private_routes_user = [
     {
         name: '',
-        path:'/',
+        path: '/',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<Home />)
     },
     {
         name: '',
-        path:'/home',
+        path: '/home',
         key: '',
         permissions: [],
-        component: (<p>lorem ioipsum</p>)
+        component: (<Home />)
     },
 ]
 
 const public_routes_user = [
     {
         name: '',
-        path:'/',
+        path: '/',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<Login />)
     },
     {
         name: '',
-        path:'/login',
+        path: '/login',
         key: '',
         permissions: [],
-        component: (<Login/>)
+        component: (<Login />)
     },
 ]
+
 export {
     private_routes,
     public_routes,

@@ -1,16 +1,21 @@
 import React from 'react';
 import { Outlet, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
-import { Layout , UserLayout } from 'components';
-import { private_routes, public_routes } from 'routes/route';
+import { Layout, UserLayout } from 'components';
+import {
+    private_routes,
+    public_routes,
+    private_routes_user,
+    public_routes_user
+} from 'routes/route';
 import 'App.css';
 import 'index.css';
 
-const Authetication = ({ user, link = "/home" }) => {
+const Authetication = ({ user, link =  '/admin/home'}) => {
     if (user) {
         return <Navigate to={link} replace />
     }
     return <Outlet />
-    
+
 }
 
 const Protected = ({ user, link = "/login" }) => {
@@ -39,7 +44,7 @@ export default function Main() {
                                 </Route>
                                 <Route element={<Protected user={session} />}>
                                     {
-                                        private_routes?.map((route, index, array) => {
+                                        [private_routes,...private_routes_user]?.map((route, index, array) => {
                                             return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                         })
                                     }
@@ -48,16 +53,16 @@ export default function Main() {
 
                         ) : (
                             <Route element={<UserLayout />}>
-                                <Route element={<Authetication user={session} />}>
+                                <Route element={<Authetication user={session} link={"/home"} />}>
                                     {
-                                        public_routes?.map((route, index, arr) => {
+                                        public_routes_user?.map((route, index, arr) => {
                                             return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                         })
                                     }
                                 </Route>
                                 <Route element={<Protected user={session} />}>
                                     {
-                                        private_routes?.map((route, index, array) => {
+                                        private_routes_user?.map((route, index, array) => {
                                             return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                         })
                                     }
