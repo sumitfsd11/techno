@@ -82,6 +82,13 @@ const private_routes_user = [
         permissions: [],
         component: (<Home />)
     },
+    {
+        name: '',
+        path: '/admin/login',
+        key: '',
+        permissions: [],
+        component: (<Login />)
+    },
 ]
 
 const public_routes_user = [
@@ -94,7 +101,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/login',
+        path: '/admin/login',
         key: '',
         permissions: [],
         component: (<Login />)
