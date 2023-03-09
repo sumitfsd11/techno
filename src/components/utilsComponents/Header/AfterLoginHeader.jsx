@@ -14,7 +14,6 @@ export default function AfterLoginHeader() {
                     </main>
                 </React.Fragment>
             </SidebarC>
-
         </div>
     )
 }
@@ -25,7 +24,7 @@ export const UserAfterLoginHeader=()=> {
         <div>
                 <React.Fragment>
                     <TopHeader />
-                     <main className='lg:p-3 md:p-2 p-1 w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
+                     <main className='lg:p-3   w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
                         <Outlet />
                     </main>
                 </React.Fragment>
