@@ -8,8 +8,14 @@ import SidebarC from './utilsComponents/Sidebar';
 import { ThemeProvider } from "@material-tailwind/react";
 import 'animate.css';
 import "animate.css/animate.min.css";
+// import { useQuill } from 'react-quilljs';
+import 'quill/dist/quill.snow.css';
 
+// const { quill, quillRef } = useQuill();
 
+// console.log(quill);    // undefined > Quill Object
+// console.log(quillRef);
+// <div ref={quillRef}/>
 
 export default function Layout() {
   const session = true;

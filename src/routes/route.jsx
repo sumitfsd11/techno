@@ -11,6 +11,9 @@ import {
     , VerifyOtp
 } from "pages";
 import Home from "pages/VisitorPages/Home/Home";
+import CourseDetail from "pages/VisitorPages/Courses/CourseDetail";
+import Blog from "pages/VisitorPages/Blog/Blog";
+import Events from "pages/VisitorPages/Events/Events";
 
 const private_routes = [
     {
@@ -18,7 +21,7 @@ const private_routes = [
         path: '/',
         key: '',
         permissions: [],
-        component: (<Login />)
+        component: (<Events  />)
     },
     {
         name: '',
@@ -42,7 +45,7 @@ const public_routes = [
         path: '/',
         key: '',
         permissions: [],
-        component: (<Login />)
+        component: (<Blog />)
     },
     {
         name: '',
@@ -97,14 +100,14 @@ const public_routes_user = [
         path: '/',
         key: '',
         permissions: [],
-        component: (<Login />)
+        component: (<CourseDetail />)
     },
     {
         name: '',
         path: '/admin/login',
         key: '',
         permissions: [],
-        component: (<Login />)
+        component: (<CourseDetail />)
     },
 ]
 
