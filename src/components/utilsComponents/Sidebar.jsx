@@ -6,7 +6,6 @@ import { AdminSVG } from 'icons';
 import img from "assets/icon.png";
 import icons from "assets/icons.png"
 // model 
-import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
 export default function SidebarC({ children }) {
