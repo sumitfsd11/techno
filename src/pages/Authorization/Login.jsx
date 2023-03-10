@@ -27,7 +27,8 @@ export default function Login() {
   } = methods;
 
   const onSubmit = React.useCallback((data) => {
-    login(data);
+    // login(data);
+    console.log(data ," ====> ")
   }, [login]);
 
   React.useEffect(() => {

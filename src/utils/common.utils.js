@@ -148,21 +148,32 @@ export const redirectOut = (e) => {
 }
 
 const LogoIcon = styled.img`
-width: ${props=>props?.theme.width?? '140px'};
+width: ${props => props?.theme.width ?? '140px'};
 height:auto;
 margin:auto;
 && @media only screen and (max-width:550px){
-  width: ${props=>props?.theme.width?? '140px'};
+  width: ${props => props?.theme.width ?? '140px'};
 }
 `;
 
 export const isPublicApi = (url) => {
-    const publicApiArray = ["/api/login/", "/api/register/"];
-    return Boolean(publicApiArray.filter((e) => url?.includes(e))?.length);
+  const publicApiArray = ["/api/login/", "/api/register/"];
+  return Boolean(publicApiArray.filter((e) => url?.includes(e))?.length);
 };
 
 export const asyncWrapper = (promise) =>
-    promise.then((data) => ({ data, error: null }))
-        .catch((error) => ({ data: null, error }));
+  promise.then((data) => ({ data, error: null }))
+    .catch((error) => ({ data: null, error }));
 
 
+
+
+const universalRoutes = (isUser, routes) => {
+  let user_arr = ["/login", "/forget-password", "/admin/verfiy-otp"]
+  let high_priority = ["/admin/login", "/admin/forget-password", "/admin/verfiy-otp"]
+  if (isUser) {
+    return !Boolean(routes.map((j) => user_arr.some((i) => i === j))[0])
+  } else {
+    return !Boolean(routes.map((j) => high_priority.some((i) => i === j))[0])
+  }
+}

@@ -1,7 +1,6 @@
 import Layout ,{UserLayout} from "./Layout";
 // formUtils
-import Selector from "./formUitls/Selector";
-import AutoSelector from "./formUitls/AutoComplete";
+
 import TextArea from "./formUitls/TextArea";
 import TextField from "./formUitls/TextField";
 import Button from "./formUitls/Button";
@@ -19,8 +18,6 @@ export {
     Header,
     NotificationBanner,
     // formUtils
-    Selector,
-    AutoSelector,
     TextArea,
     TextField,
     Button,
