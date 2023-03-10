@@ -13,13 +13,15 @@ import {
 import Home from "pages/VisitorPages/Home/Home";
 import CourseDetail from "pages/VisitorPages/Courses/CourseDetail";
 import Blog from "pages/VisitorPages/Blog/Blog";
+import Events from "pages/VisitorPages/Events/Events";
+
 const private_routes = [
     {
         name: '',
         path: '/',
         key: '',
         permissions: [],
-        component: (<Blog  />)
+        component: (<Events  />)
     },
     {
         name: '',
