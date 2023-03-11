@@ -23,9 +23,7 @@ export {
     Button,
     CheckBox,
     Radio,
-
     // chartUtils
-
     // layout
     Layout,
     UserLayout
