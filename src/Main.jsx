@@ -19,7 +19,7 @@ const Authetication = ({ user, link = '/admin/login' }) => {
 
 }
 
-const Protected = ({ user, link = "/login" }) => {
+const Protected = ({ user, link = "/" }) => {
     if (!user) {
         return <Navigate to={link} replace />
     }
@@ -34,7 +34,7 @@ export default function Main() {
         <React.Fragment>
             <BrowserRouter>
                 <Routes>
-                    <Route element={<UserLayout/>??<Layout />}>
+                    <Route element={<Layout/>??<Layout />}>
                         <Route element={<Authetication user={session} />}>
                             {
                                 public_routes?.map((route, index, arr) => {
