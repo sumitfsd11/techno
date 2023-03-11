@@ -10,7 +10,7 @@ import Radio from "./formUitls/RadioBtn";
 import AfterLoginHeader ,{UserAfterLoginHeader}from "./utilsComponents/Header/AfterLoginHeader";
 import Header from "./utilsComponents/Header/Header";
 import NotificationBanner from "./utilsComponents/Header/Settings/NotificationBanner";
-
+import SearchBar from "./Searchbar/Searchbar";
 export {
     // component 
     AfterLoginHeader,
@@ -26,7 +26,8 @@ export {
     // chartUtils
     // layout
     Layout,
-    UserLayout
+    UserLayout,
+    SearchBar
    
 
 }

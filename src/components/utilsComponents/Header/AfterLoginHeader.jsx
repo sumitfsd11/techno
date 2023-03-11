@@ -9,7 +9,7 @@ export default function AfterLoginHeader() {
             <SidebarC>
                 <React.Fragment>
                     <TopHeader />
-                    <main className='lg:p-3 md:p-2 p-1 w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
+                    <main className='lg:p-1 md:p-2 p-1 w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
                         <Outlet />
                     </main>
                 </React.Fragment>

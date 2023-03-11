@@ -6,6 +6,7 @@ import { FormProvider, useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from "hooks";
+import { ImgIcon } from 'icons';
 
 export default function LandingBanner() {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ export default function LandingBanner() {
                                                                     <Image src={src} />
                                                                 ) : (
                                                                     <UploadText>
-                                                                  img 
+                                                               <ImgIcon className={'w-20 h-20 '}/>
                                                                     </UploadText>
                                                                 )}
                                                                 <FileInput
@@ -360,10 +361,10 @@ export default function LandingBanner() {
     return (
         <div>
             <div className='grid lg:grid-cols-12 gap-3 '>
-                <div className='col-span-9  '>
+                <div className='col-span-9 overflow-y-auto h-[91vh] custome_scroll '>
                     <CourseDetail />
                 </div>
-                <div className='col-span-3'>
+                <div className='col-span-3 h-[90vh] overflow-auto custome_scroll'>
                     <FormAction />
                 </div>
             </div>

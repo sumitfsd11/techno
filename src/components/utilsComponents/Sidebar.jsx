@@ -1,18 +1,16 @@
 import React from 'react';
 import { Sidebar, Menu, MenuItem, useProSidebar, SubMenu } from 'react-pro-sidebar';
-
 import { Link } from 'react-router-dom';
 import { AdminSVG } from 'icons';
 import img from "assets/icon.png";
-import icons from "assets/icons.png"
+import icons from "assets/icons.png";
+import { ArrowRight, ArrowLeft } from 'icons';
 // model 
-import { Fragment, useState } from 'react'
-
 export default function SidebarC({ children }) {
     const { collapseSidebar, collapsed } = useProSidebar();
     console.log(collapsed, "")
 
-    let [isOpen, setIsOpen] = useState(true)
+    let [isOpen, setIsOpen] = React.useState(true)
 
     function closeModal() {
         setIsOpen(false)
@@ -30,13 +28,17 @@ export default function SidebarC({ children }) {
 
     return (
         <div className='flex '>
-            <Sidebar className='lg:inline md:hidden hidden h-[100vh] customeScrollbar overflow-y-auto'>
+            <Sidebar className='lg:inline md:hidden hidden h-[100vh] custome_scroll overflow-y-auto'>
                 <React.Fragment>
                     <header className='mx-5 mt-5 mb-7 rounded-lg'>
-                        <div className=''>
-                            <img src={img} alt={"loading..."} />
+                        <div className='flex'>
+                            <img src={img} alt={"loading..."} className={collapsed?` hidden`:''} />
+                            <div className=''>
+                            <button onClick={()=>collapseSidebar()} className={'mr-1 '}>{collapsed?<ArrowRight/>:<ArrowLeft/>}</button>
+                            </div>
                         </div>
                     </header>
+               
                 </React.Fragment>
 
                 <React.Fragment>
