@@ -1,7 +1,8 @@
 import React from 'react'
-import SearchBar from '../SearchBar';
+
 import QuickReach from '../HeaderUtils/QuickReach';
 import { useLocation } from 'react-router-dom';
+import { SearchBar } from '../..';
 export default function TopHeader() {
     const location = useLocation()
    
@@ -14,7 +15,9 @@ export default function TopHeader() {
                     </div>
                 </div>
                 <div className='col-span-4'>
+                    <div className='mt-2 '>
                     <SearchBar />
+                    </div>
                 </div>
                 <div className='col-span-4'>
                     <div className='flex justify-between w-full'>

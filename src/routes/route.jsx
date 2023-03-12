@@ -14,6 +14,7 @@ import Home from "pages/VisitorPages/Home/Home";
 import CourseDetail from "pages/VisitorPages/Courses/CourseDetail";
 import Blog from "pages/VisitorPages/Blog/Blog";
 import Events from "pages/VisitorPages/Events/Events";
+import LandingBanner from "pages/ActionAdmin/Banners/components/LandingBanner";
 
 const private_routes = [
     {
@@ -21,7 +22,7 @@ const private_routes = [
         path: '/',
         key: '',
         permissions: [],
-        component: (<Events  />)
+        component: (<Blog />)
     },
     {
         name: '',
@@ -45,7 +46,7 @@ const public_routes = [
         path: '/',
         key: '',
         permissions: [],
-        component: (<Blog />)
+        component: (<LandingBanner />)
     },
     {
         name: '',
