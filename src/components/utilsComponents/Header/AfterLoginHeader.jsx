@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom'
 import SidebarC from '../Sidebar';
 import TopHeader from './TopHeader';
 import Footer from '../Footer/Footer';
+import { Navbar } from './TopHeader';
 export default function AfterLoginHeader() {
     return (
         <div>
@@ -23,7 +24,7 @@ export const UserAfterLoginHeader = () => {
     return (
         <div>
             <React.Fragment>
-                <TopHeader />
+                <Navbar />
                 <main className='   w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
                     <Outlet />
                     <Footer />

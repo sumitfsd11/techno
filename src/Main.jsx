@@ -3,8 +3,6 @@ import { Outlet, Routes, Route, Navigate, BrowserRouter, useLocation } from 'rea
 import { Layout, UserLayout } from 'components';
 import {
     private_routes,
-    public_routes,
-    private_routes_user,
     public_routes_user
 } from 'routes/route';
 import 'App.css';
@@ -34,17 +32,17 @@ export default function Main() {
         <React.Fragment>
             <BrowserRouter>
                 <Routes>
-                    <Route element={<Layout/>??<Layout />}>
+                    <Route element={ session?(<Layout/>):(<UserLayout />)}>
                         <Route element={<Authetication user={session} />}>
                             {
-                                public_routes?.map((route, index, arr) => {
+                                public_routes_user?.map((route, index, arr) => {
                                     return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                 })
                             }
                         </Route>
                         <Route element={<Protected user={session} />}>
                             {
-                                [private_routes, ...private_routes_user]?.map((route, index, array) => {
+                                private_routes?.map((route, index, array) => {
                                     return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                 })
                             }
