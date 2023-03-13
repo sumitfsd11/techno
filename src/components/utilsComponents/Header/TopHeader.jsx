@@ -3,6 +3,7 @@ import React from 'react'
 import QuickReach from '../HeaderUtils/QuickReach';
 import { useLocation } from 'react-router-dom';
 import { SearchBar } from '../..';
+import { Link } from 'react-router-dom';
 export default function TopHeader() {
     const location = useLocation()
 
@@ -38,23 +39,22 @@ export const Navbar = () => {
     return (
         <React.Fragment>
             <nav className='nav_bar_user'>
-                 <div className="wrapper">
+                <div className="wrapper">
                     <div className="logo"><a href="#">Technomatic</a></div>
                     <input type="radio" name="slider" id="menu-btn" />
                     <input type="radio" name="slider" id="close-btn" />
                     <ul className="nav-links">
                         <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /></label>
                         <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
+                        <li><Link to="/events">About</Link></li>
                         <li>
                             <a href="#" className="desktop-item">Dropdown Menu</a>
                             <input type="checkbox" id="showDrop" />
-                            <label htmlFor="showDrop" className="mobile-item">Dropdown Menu</label>
+                            <label htmlFor="showDrop" className="mobile-item">Couser</label>
                             <ul className="drop-menu">
-                                <li><a href="#">Drop menu 1</a></li>
-                                <li><a href="#">Drop menu 2</a></li>
-                                <li><a href="#">Drop menu 3</a></li>
-                                <li><a href="#">Drop menu 4</a></li>
+                                <li><Link to="/course/2">AWS</Link></li>
+                                <li><Link to="/course/3">Azura</Link></li>
+                                <li><Link to="/course/3">Google Cloud</Link></li>
                             </ul>
                         </li>
                         <li>
