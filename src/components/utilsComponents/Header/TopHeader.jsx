@@ -1,18 +1,19 @@
 import React from 'react'
-
 import QuickReach from '../HeaderUtils/QuickReach';
 import { useLocation } from 'react-router-dom';
 import { SearchBar } from '../..';
 import { Link } from 'react-router-dom';
+import { Menu , ChevronDown} from 'icons';
 export default function TopHeader() {
     const location = useLocation()
+
 
     return (
         <React.Fragment>
             <div className='grid border-b gap-2 bg-[#f6fbfe] border-b-[#c0c0c074] grid-cols-12 h-[8vh]'>
-                <div className='col-span-4'>
-                    <div>
-                        {location?.state?.title ?? location.pathname.replace("/", " ").replace("-", " ")}
+                <div className='col-span-4 h-full'>
+                    <div className='h-full flex items-center capitalize pl-2'>
+                        { location.pathname.replaceAll("/", " ").replaceAll("-", " ")}
                     </div>
                 </div>
                 <div className='col-span-4'>
@@ -48,7 +49,8 @@ export const Navbar = () => {
                         <li><a href="#">Home</a></li>
                         <li><Link to="/events">About</Link></li>
                         <li>
-                            <a href="#" className="desktop-item">Dropdown Menu</a>
+                            <a href="#" className="desktop-item">Dropdown Menu </a>
+
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">Couser</label>
                             <ul className="drop-menu">
@@ -98,7 +100,7 @@ export const Navbar = () => {
                         </li>
                         <li><a href="#">Feedback</a></li>
                     </ul>
-                    <label htmlFor="menu-btn" className="btn menu-btn"><i className="fas fa-bars" />hh</label>
+                    <label htmlFor="menu-btn" className="btn menu-btn"><Menu  /></label>
                 </div>
             </nav>
 
