@@ -9,7 +9,7 @@ import 'App.css';
 import 'index.css';
 
 
-const Authetication = ({ user, link = '/admin/login' }) => {
+const Authetication = ({ user, link = '/admin/home' }) => {
     if (user) {
         return <Navigate to={link} replace />
     }
@@ -26,7 +26,7 @@ const Protected = ({ user, link = "/" }) => {
 
 
 export default function Main() {
-    const session = false ;
+    const session = true ;
 
     return (
         <React.Fragment>
