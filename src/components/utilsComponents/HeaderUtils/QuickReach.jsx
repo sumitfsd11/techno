@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import {  Dropdown } from 'antd';
 import {
     AdminSVG,
     EditActiveIcon,
@@ -20,6 +20,33 @@ import {
 
 } from 'icons';
 
+
+const items = [
+    {
+      key: '1',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+          1st menu item
+        </a>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+          2nd menu item
+        </a>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+          3rd menu item
+        </a>
+      ),
+    },
+  ];
 
 const solutions = [
     {
@@ -96,6 +123,12 @@ export default function QuickReach() {
                 <div>
                     <ProfileIcon />
                 </div>
+
+                <Dropdown menu={{ items }} placement="bottomRight" arrow>
+                    <div>
+                        <ProfileIcon />
+                    </div>
+                </Dropdown>
             </div>
         </React.Fragment>
     )
