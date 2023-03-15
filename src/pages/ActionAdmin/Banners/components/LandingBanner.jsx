@@ -6,7 +6,7 @@ import { FormProvider, useForm, Controller, useFieldArray } from "react-hook-for
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from "hooks";
-import { ImgIcon } from 'icons';
+import { ImgIcon, EditIcon, DeleteIcon } from 'icons';
 import {
     Accordion,
     AccordionHeader,
@@ -20,7 +20,7 @@ import 'quill/dist/quill.snow.css'
 
 export default function LandingBanner() {
     const [open, setOpen] = React.useState(1);
-    const [field_ , setField] = React.useState('');
+    const [field_, setField] = React.useState('');
     const [api, contextHolder] = notification.useNotification();
     const { quill, quillRef } = useQuill();
 
@@ -63,12 +63,12 @@ export default function LandingBanner() {
         formState: { isDirty: isDirtyfaqs, isValid: isValidfaqs }
     } = methodfaqs;
 
-    const { fields:fieldsfaqs, append:appendfaqs, prepend:prependfaqs, remove:removefaqs } = useFieldArray({
+    const { fields: fieldsfaqs, append: appendfaqs, prepend: prependfaqs, remove: removefaqs } = useFieldArray({
         control: controlfaqs,
         name: "faqs",
     });
     const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
-        control, 
+        control,
         name: "test",
     });
     const onSubmit = React.useCallback((data) => {
@@ -76,45 +76,43 @@ export default function LandingBanner() {
     }, []);
 
     const onSubmitCard = React.useCallback((data) => {
-        // console.warn(data)
-    
+        console.warn(data)
     }, []);
 
     const onSubmitfaqs = React.useCallback((data) => {
-        appendfaqs({title:data?.title_faqs, content:data?.des_faqs})
+        appendfaqs({ title: data?.title_faqs, content: data?.des_faqs })
     }, []);
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
 
-    // tabs post 
-
-    console.log(fieldsfaqs ,"===")
+    console.log(fieldsfaqs, "===")
 
     React.useEffect(() => {
         if (quill) {
+            // data poupulating 
             // quill.clipboard.dangerouslyPasteHTML(localStorage.getItem('test__'));
         }
     }, [fields])
 
     function add() {
         if (quill) {
-            if(quill?.container?.outerHTML && field_){
-            append({ content: quill?.container?.outerHTML , title:field_ })
+            if (quill?.container?.outerHTML && field_) {
+                append({ content: quill?.container?.outerHTML, title: field_ })
                 quill.clipboard.dangerouslyPasteHTML('');
-            setField('')
-            }else{
+                setField('')
+            } else {
                 api.error({
                     message: `Notification `,
                     description: 'Both field are required so please make sure you ptutting data in both field !',
-                    placement:'topLeft'
-                  })
+                    placement: 'topLeft'
+                })
             }
         }
     }
 
-  
+
 
     return (
         <div>
@@ -383,7 +381,7 @@ export default function LandingBanner() {
                                                 </div>
                                                 <div className="form-control mt-3 ">
                                                     <span>
-                                                                <TextField type={"text"} onChange={(e)=>setField(e.target.value)}    value={field_}  icon={''} placeholder={"Title"} className={"w-full pl-6"} />
+                                                        <TextField type={"text"} onChange={(e) => setField(e.target.value)} value={field_} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
                                                     </span>
                                                 </div>
 
@@ -405,13 +403,21 @@ export default function LandingBanner() {
                                     </div>
                                 </AccordionHeader>
                                 <AccordionBody>
-                                        <div className='my-2'>
+                                    <div className='my-2'>
                                         {
                                             fieldsfaqs?.map((i, index) => {
                                                 return (
                                                     <React.Fragment>
-                                                        <section key={index} className="border rounded-md p-2 my-3 border-[#e8e5e5]">
-                                                            <div  className="font-semibold  my-2 ">{i?.title}</div>
+                                                        <section key={index} className=" relative border rounded-md p-2 my-3 border-[#e8e5e5]">
+                                                            <div className=' flex-row absolute top-1 right-2'>
+                                                                <div className=' '>
+                                                                    <EditIcon />
+                                                                </div>
+                                                                <div className=' '>
+                                                                    <DeleteIcon />
+                                                                </div>
+                                                            </div>
+                                                            <div className="font-semibold  my-2 ">{i?.title}</div>
                                                             <article  >{i?.content}</article>
                                                         </section>
                                                     </React.Fragment>
@@ -434,7 +440,7 @@ export default function LandingBanner() {
                                                                         field,
                                                                         fieldState: { invalid, isTouched, isDirty, error },
                                                                     }) => (
-                                                                        <TextField type={"text"} error={error}  {...field}  name={"title_faqs"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
+                                                                        <TextField type={"text"} error={error}  {...field} name={"title_faqs"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
                                                                     )}
                                                                 />
                                                             </span>
@@ -448,12 +454,12 @@ export default function LandingBanner() {
                                                                         field,
                                                                         fieldState: { invalid, isTouched, isDirty, error },
                                                                     }) => (
-                                                                        <TextArea type={"text"} error={error}  {...field}  name={"des_faqs"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
+                                                                        <TextArea type={"text"} error={error}  {...field} name={"des_faqs"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
                                                                     )}
                                                                 />
                                                             </span>
                                                         </div>
-                                            
+
                                                         <div className="form-control mt-3">
                                                             <Button is={false} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
                                                                 isDisabled={!isDirtyfaqs || !isValidfaqs}
