@@ -21,22 +21,22 @@ export const useAuth = () => {
   const { getLocalStorage,
     setLocalStorage } = useLocalStorage();
   const onSuccess = React.useCallback((response) => {
-    if (response?.token) {
-      setLocalStorage(AUTH_TOKEN, response?.token);
-      setLocalStorage(USER, response?.user);
-      toast.success(response?.message);
-      navigate("/");
-    }
-    else {
-      toast.success(response?.message);
-      // navigate('/verify-otp');
-    }
+    // if (response?.token) {
+    //   setLocalStorage(AUTH_TOKEN, response?.token);
+    //   setLocalStorage(USER, response?.user);
+    //   toast.success(response?.message);
+    //   navigate("/");
+    // }
+    // else {
+    //   toast.success(response?.message);
+    //   // navigate('/verify-otp');
+    // }
   }, [navigate, setLocalStorage]);
   const onFailure = React.useCallback((error) => {
-    if (error) {
-      toast.error(error);
-      SetError(error)
-    }
+    // if (error) {
+    //   toast.error(error);
+    //   SetError(error)
+    // }
   }, []);
   const session = React.useMemo(() => {
     return getLocalStorage(AUTH_TOKEN) ?? false;
@@ -57,10 +57,11 @@ export const useAuth = () => {
     const formData = new FormData();
     formData.append("email", data.email);
     formData.append("password", data.password);
+
     callFetch({
-      url: "/login",
+      url: "/login/",
       method: "post",
-      data: formData
+      data: data
     });
 
   }, [callFetch])
@@ -103,6 +104,7 @@ export const useAuth = () => {
       window.location.reload();
     }
   }, [callFetch])
+
   return {
     session,
     userValue,
