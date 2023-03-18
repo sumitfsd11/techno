@@ -9,13 +9,13 @@ import { loginValidationSchema } from 'utils/validation';
 import { useNavigate, Link } from 'react-router-dom';
 // import { rerdirectOut } from 'utils/common.util';
 import { useAuth } from 'hooks';
-import { useFetch } from 'hooks';
+
 
 export default function Login() {
-  const { isLoading, login, verifyToken } = useAuth();
+  const { isLoading,login } = useAuth();
   const navigate = useNavigate();
   const methods = useForm({
-    resolver: yupResolver(loginValidationSchema),
+    // resolver: yupResolver(loginValidationSchema),
     mode: "all",
     defaultValues: {
       email: "",
@@ -27,12 +27,14 @@ export default function Login() {
     formState: { isDirty, isValid }
   } = methods;
 
-
   const onSubmit = React.useCallback((data) => {
-    verifyToken(data);
+    login({
+      username: data?.email,
+      password: data?.password
+    })
   }, [login]);
 
- 
+
 
   return (
     <React.Fragment>

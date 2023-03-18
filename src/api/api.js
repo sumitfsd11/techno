@@ -32,7 +32,6 @@ const FetchHandler = async function (config) {
     const { data: response, error } = await asyncWrapper(axioFetch(config))
     const status = error?.status;
     const error_msg = error?.response?.data ?? null ;
-    console.log(error_msg ,"===",status)
     if (error) {
         throw { data: null, error:error_msg }
     }
