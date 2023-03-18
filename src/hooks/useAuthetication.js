@@ -1,8 +1,8 @@
 import React from "react";
-import {useFetch , useLocalStorage} from "hooks"
+import { useFetch, useLocalStorage } from "hooks"
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { AUTH_TOKEN , USER } from "constants/Localstorage.constants";
+import { AUTH_TOKEN, USER } from "constants/Localstorage.constants";
 
 /**
  * @returns  
@@ -38,6 +38,7 @@ export const useAuth = () => {
     //   SetError(error)
     // }
   }, []);
+
   const session = React.useMemo(() => {
     return getLocalStorage(AUTH_TOKEN) ?? false;
   }, [getLocalStorage]);
@@ -55,15 +56,15 @@ export const useAuth = () => {
 
   const login = React.useCallback((data) => {
     const formData = new FormData();
-    formData.append("email", data.email);
+    formData.append("username", data.email);
     formData.append("password", data.password);
-
+    console.log(data)
+console.log("cal;l  djjd")
     callFetch({
       url: "/login/",
       method: "post",
       data: data
     });
-
   }, [callFetch])
 
   const verifyToken = React.useCallback((data) => {
@@ -82,6 +83,7 @@ export const useAuth = () => {
   }, [callFetch, navigate])
 
   const forgetPassword = React.useCallback((data) => {
+    console.log(data)
     callFetch({
       url: "/forget-password/",
       method: "post",
