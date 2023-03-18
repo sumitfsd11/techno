@@ -24,7 +24,6 @@ export default function useFetch({
       SetPrefetch(config)
     }, 500)
   }, [])
-
   React.useEffect(() => {
     const cancelTokenSource = axios.CancelToken.source();
     const fetch = async () => {
@@ -34,12 +33,13 @@ export default function useFetch({
       options.onUploadProgress = function (e) {
         setUploadActivity(e)
       }
-      const { data: response, error } = await asyncWrapper(FetchHandler(preFetch ? preFetch : {
+      const { data: response, error=null } = await asyncWrapper(FetchHandler(preFetch ? preFetch : {
         url: url,
         method: method,
         data: data,
         params: params
       }))
+      console.log(response ,"==useFetch==",error )
       if (error) {
         setData(null)
         setLoading(false)

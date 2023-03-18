@@ -26,7 +26,7 @@ const Protected = ({ user, link = "/" }) => {
 
 
 export default function Main() {
-    const session = true ;
+    const session = false ;
 
     return (
         <React.Fragment>
