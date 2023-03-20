@@ -33,7 +33,6 @@ export const VerifyOtp = () => {
 
     const onFailure = React.useCallback((data) => {
         let response = data.error
-        console.log(response ,"   failure   " ,data)
         if (response) {
             setError('username', { type: 'custom', message: response?.message })
         }

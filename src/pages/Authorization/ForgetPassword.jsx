@@ -39,7 +39,6 @@ export const ResetPassword = () => {
 
   const onFailure = React.useCallback((data) => {
     let response = data.error
-    console.log(response, "   failure   ", data)
     if (response) {
       setError("otp", { type: 'custom', message: response?.message })
     }
