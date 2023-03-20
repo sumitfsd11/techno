@@ -76,7 +76,7 @@ export default function Login() {
                 </span>
                 <div className="flex px-1 justify-between">
                   <label className="label">
-                    <span className="label-text-alt hover:underline  link link-hover cursor-pointer text-sm " onClick={() => navigate('/verify-otp')}>Forgot password ?</span>
+                    <span className="label-text-alt hover:underline  link link-hover cursor-pointer text-sm " onClick={() => navigate('/admin/otp-verfication')}>Forgot password ?</span>
                   </label>
                   <div className="flex justify-between">
                     <div className=" pr-2 leading-[18px]">

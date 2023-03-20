@@ -56,12 +56,12 @@ export const useAuth = () => {
     onSuccess,
   });
 
+
+
   const login = React.useCallback((data) => {
     const formData = new FormData();
     formData.append("username", data.email);
     formData.append("password", data.password);
-    console.log(data)
-console.log("cal;l  djjd")
     callFetch({
       url: "/login/",
       method: "post",
@@ -69,35 +69,9 @@ console.log("cal;l  djjd")
     });
   }, [callFetch])
 
-  const verifyToken = React.useCallback((data) => {
-    callFetch({
-      url: "/login/",
-      method: "post",
-      data: data,
-      onSuccess: (res) => {
-        toast.success(res.msg);
-        // navigate('/login');
-      },
-      onFailure: (err) => {
-        toast.error(err.msg)
-      }
-    });
-  }, [callFetch])
 
-  const forgetPassword = React.useCallback((data) => {
-    console.log(data)
-    callFetch({
-      url: "/forget-password/",
-      method: "post",
-      data: data,
-      onSuccess: (res) => {
-        toast.success(res.msg);
-      },
-      onFailure: (err) => {
-        toast.error(err.msg)
-      }
-    });
-  }, [callFetch])
+
+
   const logout = React.useCallback(() => {
     if (window !== undefined) {
       // callFetch({
@@ -113,10 +87,8 @@ console.log("cal;l  djjd")
   return {
     session,
     userValue,
-    verifyToken,
     logout,
     login,
-    forgetPassword,
     isLoading,
     error
   }

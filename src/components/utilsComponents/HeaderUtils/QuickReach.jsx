@@ -1,14 +1,9 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {  Dropdown } from 'antd';
-
 import {
     PersonSVG,
     MessageSVGIcon,
-    IconOne,
-    IconTwo,
-    IconThree,
-
 } from 'icons';
 import { useAuth } from 'hooks/';
 
@@ -16,9 +11,7 @@ import { useAuth } from 'hooks/';
 export default function QuickReach() {
     const {logout} = useAuth()
     const navigate = useNavigate();
-    const detail = useLocation();
-
-    
+    const detail = useLocation();    
 const items = [
     {
       key: '1',
@@ -45,7 +38,6 @@ const items = [
       ),
     },
   ];
-
     const Icon = React.memo(({ children }) => (
         <React.Fragment>
             <div className='h-full  '>
