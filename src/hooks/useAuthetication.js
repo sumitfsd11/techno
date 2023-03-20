@@ -16,30 +16,32 @@ import { AUTH_TOKEN, USER } from "constants/Localstorage.constants";
  */
 
 export const useAuth = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [error, SetError] = React.useState(null)
   const { getLocalStorage,
     setLocalStorage } = useLocalStorage();
-  const onSuccess = React.useCallback((response) => {
-    // if (response?.token) {
-    //   setLocalStorage(AUTH_TOKEN, response?.token);
-    //   setLocalStorage(USER, response?.user);
-    //   toast.success(response?.message);
-    //   navigate("/");
-    // }
-    // else {
-    //   toast.success(response?.message);
-    //   // navigate('/verify-otp');
-    // }
-  }, [navigate, setLocalStorage]);
+  const onSuccess = React.useCallback((data) => {
+    let response = data?.response
+    if (response?.token) {
+      setLocalStorage(AUTH_TOKEN, response?.token);
+      setLocalStorage(USER, response?.user);
+      toast.success(response?.message);
+      window.location.href = "/admin/home"
+      // navigate("/admin/home");
+    }
+    else {
+      toast.success(response?.message);
+      // navigate('/verify-otp');
+    }
+  }, [ setLocalStorage]);
   const onFailure = React.useCallback((error) => {
-    // if (error) {
-    //   toast.error(error);
-    //   SetError(error)
-    // }
+    if (error) {
+      toast.error(error);
+      SetError(error)
+    }
   }, []);
 
-  const session = React.useMemo(() => {
+  const session = React.useCallback(() => {
     return getLocalStorage(AUTH_TOKEN) ?? false;
   }, [getLocalStorage]);
   const userValue = React.useMemo(() => {
@@ -74,13 +76,13 @@ console.log("cal;l  djjd")
       data: data,
       onSuccess: (res) => {
         toast.success(res.msg);
-        navigate('/login');
+        // navigate('/login');
       },
       onFailure: (err) => {
         toast.error(err.msg)
       }
     });
-  }, [callFetch, navigate])
+  }, [callFetch])
 
   const forgetPassword = React.useCallback((data) => {
     console.log(data)
@@ -98,12 +100,13 @@ console.log("cal;l  djjd")
   }, [callFetch])
   const logout = React.useCallback(() => {
     if (window !== undefined) {
-      callFetch({
-        url: "/logout",
-        method: "post",
-      });
+      // callFetch({
+      //   url: "/logout",
+      //   method: "post",
+      // });
       localStorage.clear();
       window.location.reload();
+      toast.success("Logout successfully ")
     }
   }, [callFetch])
 

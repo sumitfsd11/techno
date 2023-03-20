@@ -15,7 +15,7 @@ export default function Login() {
   const { isLoading,login } = useAuth();
   const navigate = useNavigate();
   const methods = useForm({
-    // resolver: yupResolver(loginValidationSchema),
+    resolver: yupResolver(loginValidationSchema),
     mode: "all",
     defaultValues: {
       email: "",

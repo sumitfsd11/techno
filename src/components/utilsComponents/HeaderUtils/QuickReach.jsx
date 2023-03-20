@@ -1,17 +1,8 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import {  Dropdown } from 'antd';
+
 import {
-    AdminSVG,
-    EditActiveIcon,
-    DuplicateInactiveIcon,
-    DuplicateActiveIcon,
-    ArchiveInactiveIcon,
-    ArchiveActiveIcon,
-    MoveInactiveIcon,
-    MoveActiveIcon,
-    DeleteInactiveIcon,
-    DeleteActiveIcon,
     PersonSVG,
     MessageSVGIcon,
     IconOne,
@@ -19,8 +10,15 @@ import {
     IconThree,
 
 } from 'icons';
+import { useAuth } from 'hooks/';
 
 
+export default function QuickReach() {
+    const {logout} = useAuth()
+    const navigate = useNavigate();
+    const detail = useLocation();
+
+    
 const items = [
     {
       key: '1',
@@ -41,39 +39,12 @@ const items = [
     {
       key: '3',
       label: (
-        <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-          3rd menu item
-        </a>
+        <div target="_blank" onClick={()=>logout()} >
+       Logout
+        </div>
       ),
     },
   ];
-
-const solutions = [
-    {
-        name: 'Insights',
-        description: 'Measure actions your users take',
-        href: '##',
-        icon: IconOne,
-    },
-    {
-        name: 'Automations',
-        description: 'Create your own targeted content',
-        href: '##',
-        icon: IconTwo,
-    },
-    {
-        name: 'Reports',
-        description: 'Keep track of your growth',
-        href: '##',
-        icon: IconThree,
-    },
-]
-
-
-
-export default function QuickReach() {
-    const navigate = useNavigate();
-    const detail = useLocation();
 
     const Icon = React.memo(({ children }) => (
         <React.Fragment>
