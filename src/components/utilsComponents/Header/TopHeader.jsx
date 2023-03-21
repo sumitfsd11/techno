@@ -3,7 +3,7 @@ import QuickReach from '../HeaderUtils/QuickReach';
 import { useLocation } from 'react-router-dom';
 import { SearchBar } from '../..';
 import { Link } from 'react-router-dom';
-import { Menu , ChevronDown} from 'icons';
+import { Menu , Times} from 'icons';
 export default function TopHeader() {
     const location = useLocation()
 
@@ -45,7 +45,7 @@ export const Navbar = () => {
                     <input type="radio" name="slider" id="menu-btn" />
                     <input type="radio" name="slider" id="close-btn" />
                     <ul className="nav-links">
-                        <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" />ghg</label>
+                        <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /><Times/></label>
                         <li className=' '><Link to="/"><span className=''>Home</span></Link></li>
                         <li className=' '><Link to="/events">About</Link></li>
                         <li>
@@ -100,7 +100,7 @@ export const Navbar = () => {
                         </li>
                         <li><a href="#">Feedback</a></li>
                     </ul>
-                    <label htmlFor="menu-btn" className="btn menu-btn"><Menu  /></label>
+                    <label htmlFor="menu-btn" className="btn menu-btn text-black"><Menu  /></label>
                 </div>
             </nav>
 

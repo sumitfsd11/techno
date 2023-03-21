@@ -12,7 +12,7 @@ import { useAuth } from 'hooks';
 
 
 export default function Login() {
-  const { isLoading,login } = useAuth();
+  const { isLoading,login , error} = useAuth();
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(loginValidationSchema),
@@ -34,6 +34,12 @@ export default function Login() {
     })
   }, [login]);
 
+  React.useEffect(()=>{
+    if(error){
+      setError('email', { type: 'custom', message:error })
+       
+    }
+  },[error])
 
 
   return (
