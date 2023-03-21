@@ -128,7 +128,7 @@ export const ResetPassword = () => {
               <div className="form-control mt-6">
                 <Button
                   isLoading={isLoading}
-                  className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                  className={`w-full bg-primarybg rounded-full `} type={'submit'}
                 // isDisabled={!isDirty || !isValid}
                 >{'SUBMIT '}</Button>
               </div>

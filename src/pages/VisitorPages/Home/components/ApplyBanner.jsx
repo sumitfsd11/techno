@@ -6,7 +6,7 @@ export default function ApplyBanner() {
         <div>
 
             <div className='grid bg-white' style={{ background: 'url(https://www.izaanschool.com/assets/img/illustrations/illustration-5.jpg)', backgroundPosition: "center", height: "60vh", backgroundSize: "cover" }}>
-                <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s">
+                {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
                     <div className='grid h-full'>
                         <div className='m-auto'>
                             <div className='nowrap text-primarybg text-4xl '>Limitless Learning, More Possibilities</div>
@@ -18,7 +18,7 @@ export default function ApplyBanner() {
                             </div>
                         </div>
                     </div>
-                </AnimationOnScroll>
+                {/* </AnimationOnScroll> */}
             </div>
         </div>
     )

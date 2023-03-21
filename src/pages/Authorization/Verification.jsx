@@ -86,7 +86,7 @@ export const VerifyOtp = () => {
                                 </div>
                             </div>
                             <div className="form-control mt-3">
-                                <Button isLoading={isLoading} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                                <Button isLoading={isLoading} className={`w-full bg-primarybg rounded-full `} type={'submit'}
                                     isDisabled={!isDirty || !isValid}
                                 >{'SEND OTP'}</Button>
                             </div>
