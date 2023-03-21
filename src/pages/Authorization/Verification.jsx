@@ -8,6 +8,7 @@ import { MailSVG } from 'icons';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth, useFetch } from "hooks";
 import toast from 'react-hot-toast';
+
 export const VerifyOtp = () => {
 
     const state = useLocation()
@@ -39,7 +40,7 @@ export const VerifyOtp = () => {
     }, [setError])
 
     const { isLoading, callFetch } = useFetch({
-        initialUrl: "/login/",
+        url: "/login/",
         skipOnStart: true,
         onFailure,
         onSuccess,

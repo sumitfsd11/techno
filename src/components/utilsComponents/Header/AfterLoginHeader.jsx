@@ -25,7 +25,7 @@ export const UserAfterLoginHeader = () => {
         <div>
             <React.Fragment>
                 <Navbar />
-                <main className='   w-full lg:h-[92vh] lg:overflow-y-auto customeScrollbar '>
+                <main className='  w-full lg:h-[100vh] lg:overflow-y-auto customeScrollbar '>
                     <Outlet />
                     <Footer />
                 </main>
