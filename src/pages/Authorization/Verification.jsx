@@ -1,13 +1,12 @@
 import React from 'react'
 import { TextField, Button } from 'components';
 import { FormProvider, useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 // import { rerdirectOut } from 'utils/common.util';
-import { MailSVG } from 'icons';
-// import ImageTechnomatic Academy from "assets/Technomatic Academy.png";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { useAuth, useFetch } from "hooks";
+import {  useFetch } from "hooks";
 import toast from 'react-hot-toast';
+import img from "assets/icon.png";
 
 export const VerifyOtp = () => {
 
@@ -60,7 +59,7 @@ export const VerifyOtp = () => {
             <div className="grid h-[100vh] bg-transparent background_authpage_logim">
                 <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
                     <div className="gird">
-                        {/* <img src={ImageTechnomatic Academy} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." /> */}
+                        <img src={img} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." />
                     </div>
                     <FormProvider {...methods}>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,7 +85,7 @@ export const VerifyOtp = () => {
                                 </div>
                             </div>
                             <div className="form-control mt-3">
-                                <Button isLoading={isLoading} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                                <Button isLoading={isLoading} className={`w-full bg-primarybg rounded-full `} type={'submit'}
                                     isDisabled={!isDirty || !isValid}
                                 >{'SEND OTP'}</Button>
                             </div>

@@ -1,13 +1,12 @@
 import React from 'react'
-import { TextField, Button, CheckBox } from 'components';
-import { MailSVG, PasswordHideSVG, EyeSVG } from 'icons';
+import { TextField, Button  } from 'components';
+import {  EyeSVG } from 'icons';
 import { FormProvider, useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-// import { loginValidationSchema } from 'utils/valiadation';
-// import ImageHatzoff from "assets/hatzoff.png";
+// import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { useAuth, useFetch } from "hooks";
+import {  useFetch } from "hooks";
 import toast from "react-hot-toast";
+import img from "assets/icon.png";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -69,7 +68,7 @@ export const ResetPassword = () => {
       <div className="grid h-[100vh] bg-transparent background_authpage_logim">
         <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
           <div className="gird">
-            {/* <img src={ImageHatzoff} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." /> */}
+            <img src={img} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." />
           </div>
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -128,7 +127,7 @@ export const ResetPassword = () => {
               <div className="form-control mt-6">
                 <Button
                   isLoading={isLoading}
-                  className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                  className={`w-full bg-primarybg rounded-full `} type={'submit'}
                 // isDisabled={!isDirty || !isValid}
                 >{'SUBMIT '}</Button>
               </div>

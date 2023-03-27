@@ -8,7 +8,7 @@ export default function CouserBanner(props) {
                 <div className='h-full flex items-center'>
                     <section className='lg:pl-[5%] pl-[2%] lg:w-[35%] md:w-[40%] '>
                         <h2 className='text-3xl mb-2 font-semibold text-white'>
-                            Izaan Events
+                        Technomatic Academy Events
                         </h2>
                         <article className='text-white '>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet beatae possimus veniam temporibus voluptatum voluptates 

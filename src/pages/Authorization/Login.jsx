@@ -1,18 +1,15 @@
 import React from 'react'
-import { TextField, CheckBox, Button } from 'components';
-import { MailSVG, PasswordHideSVG, EyeSVG } from 'icons';
+import { TextField, Button } from 'components';
+import { MailSVG , EyeSVG } from 'icons';
 import { FormProvider, useForm, Controller } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginValidationSchema } from 'utils/validation';
-// import ImageHatzoff from "assets/hatzoff.png";
-// onClick={() => rerdirectOut(`mailto:${'lenwoper@gmail.com'}`)}
 import { useNavigate, Link } from 'react-router-dom';
-// import { rerdirectOut } from 'utils/common.util';
 import { useAuth } from 'hooks';
-
+import img from "assets/icon.png";
 
 export default function Login() {
-  const { isLoading,login } = useAuth();
+  const { isLoading,login , error} = useAuth();
   const navigate = useNavigate();
   const methods = useForm({
     resolver: yupResolver(loginValidationSchema),
@@ -34,6 +31,12 @@ export default function Login() {
     })
   }, [login]);
 
+  React.useEffect(()=>{
+    if(error){
+      setError('email', { type: 'custom', message:error })
+       
+    }
+  },[error])
 
 
   return (
@@ -42,9 +45,8 @@ export default function Login() {
       <div className="grid h-[100vh] bg-transparent background_authpage_logim">
         <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
           <div className="gird">
-            {/* <img src={ImageHatzoff} className="w-[150px]  mb-5 h-auto m-auto" alt="loading..." /> */}
+            <img src={img} className="w-[150px]  mb-5 h-auto m-auto" alt="loading..." />
           </div>
-          {/* <button onClick={callss}>click</button> */}
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-control">
@@ -98,7 +100,7 @@ export default function Login() {
                 </div>
               </div>
               <div className="form-control mt-6">
-                <Button isLoading={isLoading} className={`w-full gradient rounded-full `} type={'submit'}
+                <Button isLoading={isLoading} className={`w-full bg-primarybg rounded-full `} type={'submit'}
                   isDisabled={!isDirty || !isValid}
                 >{'LOGIN'}</Button>
               </div>

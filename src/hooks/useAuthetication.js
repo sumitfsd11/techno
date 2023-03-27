@@ -35,9 +35,10 @@ export const useAuth = () => {
     }
   }, [ setLocalStorage]);
   const onFailure = React.useCallback((error) => {
+    let response = error.error
     if (error) {
-      toast.error(error);
-      SetError(error)
+      toast.error(response?.message);
+      SetError(response?.message)
     }
   }, []);
 
