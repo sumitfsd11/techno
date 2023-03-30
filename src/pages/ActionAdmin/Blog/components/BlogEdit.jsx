@@ -8,7 +8,7 @@ import CouserBanner from "pages/VisitorPages/components/Banner";
 
 // import CourseBa
 
-export default function EventEdit() {
+export default function BlogEdit() {
     const { quill, quillRef } = useQuill();
     const methods = useForm({
         // resolver:,
@@ -52,7 +52,7 @@ export default function EventEdit() {
         <React.Fragment>
             <CouserBanner />
             <div className='lg:px-40 md:px-10 px-2'>
-                <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>
+                <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>
                     <section className='text-center'>
                         <article>
                             <h2 className='text-3xl font-semibold '>Breaking Into Tech at Islamic Center of Irving</h2>
@@ -60,18 +60,14 @@ export default function EventEdit() {
                                 <div className='m-auto'>
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
-                                            <button className='bg-[#ffc78b] text-white  py-1 font-normal px-4 rounded-full text-sm '>
-                                                12 Feb 2023
+                                            <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full text-sm '>
+                                               Andrew Nilson
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
                                             Sunday 12-04-2023 , 03:40AM
                                         </div>
-                                        <div className='mx-2 '>
-                                            <button className=' bg-[#8c98a4] text-white  py-1 font-normal px-4 rounded-full text-sm'>
-                                                Room 210 AB, Islamic Center of Irving
-                                            </button>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +153,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="subtitle"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Host Location"} className={"w-full pl-6"} />
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title "} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>

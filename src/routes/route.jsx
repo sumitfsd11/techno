@@ -19,6 +19,7 @@ import LandingBanner from "pages/ActionAdmin/Banners/components/LandingBanner";
 // event edit 
 // import {EventEdit} from "pages/ActionAdmin/Events/Index";
 import EventEdit from "pages/ActionAdmin/Events/components/EventEdit";
+import BlogEdit from "pages/ActionAdmin/Blog/components/BlogEdit";
 
 const private_routes = [
     {
@@ -47,14 +48,14 @@ const private_routes = [
         path: '/admin/blogs-listing',
         key: '',
         permissions: [],
-        component: (<VerifyOtp />)
+        component: (<BlogEdit />)
     },
     {
         name: '',
         path: '/admin/blog/:id',
         key: '',
         permissions: [],
-        component: (<VerifyOtp />)
+        component: (<BlogEdit />)
     },
     {
         name: '',

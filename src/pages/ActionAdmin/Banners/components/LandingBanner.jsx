@@ -461,7 +461,8 @@ export default function LandingBanner() {
                                                         </div>
 
                                                         <div className="form-control mt-3">
-                                                            <Button is={false} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                                                            <Button is={false} 
+                                                            className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
                                                                 isDisabled={!isDirtyfaqs || !isValidfaqs}
                                                             >{'SUBMIT'}</Button>
                                                         </div>
