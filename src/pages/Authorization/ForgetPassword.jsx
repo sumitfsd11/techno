@@ -1,17 +1,17 @@
 import React from 'react'
-import { TextField, Button, CheckBox } from 'components';
-import { MailSVG ,PasswordHideSVG , EyeSVG} from 'icons';
+import { TextField, Button  } from 'components';
+import {  EyeSVG } from 'icons';
 import { FormProvider, useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
-// import { loginValidationSchema } from 'utils/valiadation';
-// import ImageHatzoff from "assets/hatzoff.png";
+// import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import {useAuth} from "hooks";
+import {  useFetch } from "hooks";
+import toast from "react-hot-toast";
+import img from "assets/icon.png";
 
-export const ResetPassword =()=> {
+export const ResetPassword = () => {
   const navigate = useNavigate();
-  const { isLoading, forget_password, error } = useAuth();
   const { state } = useLocation()
+
   const methods = useForm({
     // resolver: yupResolver(loginValidationSchema),
     mode: "all",
@@ -22,31 +22,53 @@ export const ResetPassword =()=> {
     }
   });
 
-  console.log(state?.data, "it is your name ")
+  console.log(state)
 
   const { control, handleSubmit, setError,
     formState: { isDirty, isValid }
   } = methods;
 
-  const onSubmit = React.useCallback((data) => {
-    let formData = new FormData()
-    formData.append("username",state?.data)
-    formData.append("new_password",data?.password)
-    formData.append("confirm_new_password",data?.password_confirm)
-    formData.append("otp",data?.otp)
-    forget_password(formData)
-  }, [forget_password]);
+  const onSuccess = React.useCallback((data) => {
+    let response = data.response
+    if (response) {
+      toast.success(response?.message)
+      navigate("/admin/login")
+    }
+  }, [navigate])
 
-  React.useEffect(() => {
-    error && setError('otp', { type: 'custom', message: error })
-}, [setError, error])
+  const onFailure = React.useCallback((data) => {
+    let response = data.error
+    if (response) {
+      setError("otp", { type: 'custom', message: response?.message })
+    }
+  }, [setError])
+
+  const { isLoading, callFetch } = useFetch({
+    initialUrl: "/login/",
+    skipOnStart: true,
+    onFailure,
+    onSuccess,
+  })
+
+  const onSubmit = React.useCallback((data) => {
+    callFetch({
+      url: '/forget_password/',
+      method: 'post',
+      data: {
+        "username": state,
+        "password": data?.password,
+        "confirm_password": data?.password_confirm,
+        "otp": data?.otp
+      }
+    })
+  }, [callFetch]);
 
   return (
     <React.Fragment>
       <div className="grid h-[100vh] bg-transparent background_authpage_logim">
         <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
           <div className="gird">
-            {/* <img src={ImageHatzoff} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." /> */}
+            <img src={img} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." />
           </div>
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -103,8 +125,10 @@ export const ResetPassword =()=> {
                 </div>
               </div>
               <div className="form-control mt-6">
-                <Button isLoading={isLoading} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
-                  // isDisabled={!isDirty || !isValid}
+                <Button
+                  isLoading={isLoading}
+                  className={`w-full bg-primarybg rounded-full `} type={'submit'}
+                // isDisabled={!isDirty || !isValid}
                 >{'SUBMIT '}</Button>
               </div>
               <section className='form_control p-0 mb-3 mt-4' style={{ boxShadow: "none", background: "none" }}>
@@ -113,7 +137,7 @@ export const ResetPassword =()=> {
                   <summary className='text-sm cursor-pointer font-semibold'>Need to help ?</summary>
                   <div className='text-blue-500 '><span className='cursor-pointer '
                   //  onClick={() => rerdirectOut(`mailto:${'lenwoper@gmail.com'}`)}
-                   >Report ?</span></div>
+                  >Report ?</span></div>
                 </details>
               </section>
             </form>

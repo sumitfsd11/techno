@@ -1,8 +1,8 @@
 import React from "react";
-import {useFetch , useLocalStorage} from "hooks"
+import { useFetch, useLocalStorage } from "hooks"
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { AUTH_TOKEN , USER } from "constants/Localstorage.constants";
+import { AUTH_TOKEN, USER } from "constants/Localstorage.constants";
 
 /**
  * @returns  
@@ -16,29 +16,33 @@ import { AUTH_TOKEN , USER } from "constants/Localstorage.constants";
  */
 
 export const useAuth = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [error, SetError] = React.useState(null)
   const { getLocalStorage,
     setLocalStorage } = useLocalStorage();
-  const onSuccess = React.useCallback((response) => {
+  const onSuccess = React.useCallback((data) => {
+    let response = data?.response
     if (response?.token) {
       setLocalStorage(AUTH_TOKEN, response?.token);
       setLocalStorage(USER, response?.user);
       toast.success(response?.message);
-      navigate("/");
+      window.location.href = "/admin/home"
+      // navigate("/admin/home");
     }
     else {
       toast.success(response?.message);
       // navigate('/verify-otp');
     }
-  }, [navigate, setLocalStorage]);
+  }, [ setLocalStorage]);
   const onFailure = React.useCallback((error) => {
+    let response = error.error
     if (error) {
-      toast.error(error);
-      SetError(error)
+      toast.error(response?.message);
+      SetError(response?.message)
     }
   }, []);
-  const session = React.useMemo(() => {
+
+  const session = React.useCallback(() => {
     return getLocalStorage(AUTH_TOKEN) ?? false;
   }, [getLocalStorage]);
   const userValue = React.useMemo(() => {
@@ -53,63 +57,39 @@ export const useAuth = () => {
     onSuccess,
   });
 
+
+
   const login = React.useCallback((data) => {
     const formData = new FormData();
-    formData.append("email", data.email);
+    formData.append("username", data.email);
     formData.append("password", data.password);
-    callFetch({
-      url: "/login",
-      method: "post",
-      data: formData
-    });
-
-  }, [callFetch])
-
-  const verifyToken = React.useCallback((data) => {
     callFetch({
       url: "/login/",
       method: "post",
-      data: data,
-      onSuccess: (res) => {
-        toast.success(res.msg);
-        navigate('/login');
-      },
-      onFailure: (err) => {
-        toast.error(err.msg)
-      }
-    });
-  }, [callFetch, navigate])
-
-  const forgetPassword = React.useCallback((data) => {
-    callFetch({
-      url: "/forget-password/",
-      method: "post",
-      data: data,
-      onSuccess: (res) => {
-        toast.success(res.msg);
-      },
-      onFailure: (err) => {
-        toast.error(err.msg)
-      }
+      data: data
     });
   }, [callFetch])
+
+
+
+
   const logout = React.useCallback(() => {
     if (window !== undefined) {
-      callFetch({
-        url: "/logout",
-        method: "post",
-      });
+      // callFetch({
+      //   url: "/logout",
+      //   method: "post",
+      // });
       localStorage.clear();
       window.location.reload();
+      toast.success("Logout successfully ")
     }
   }, [callFetch])
+
   return {
     session,
     userValue,
-    verifyToken,
     logout,
     login,
-    forgetPassword,
     isLoading,
     error
   }

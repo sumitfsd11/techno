@@ -16,6 +16,10 @@ import Blog from "pages/VisitorPages/Blog/Blog";
 import Events from "pages/VisitorPages/Events/Events";
 // admin pages
 import LandingBanner from "pages/ActionAdmin/Banners/components/LandingBanner";
+// event edit 
+// import {EventEdit} from "pages/ActionAdmin/Events/Index";
+import EventEdit from "pages/ActionAdmin/Events/components/EventEdit";
+import BlogEdit from "pages/ActionAdmin/Blog/components/BlogEdit";
 
 const private_routes = [
     {
@@ -27,7 +31,42 @@ const private_routes = [
     },
     {
         name: '',
-        path: '/admin/home',
+        path: '/admin/course-listing',
+        key: '',
+        permissions: [],
+        component: (<LandingBanner />)
+    },
+    {
+        name: '',
+        path: '/admin/course/:id',
+        key: '',
+        permissions: [],
+        component: (<LandingBanner />)
+    },
+    {
+        name: '',
+        path: '/admin/blogs-listing',
+        key: '',
+        permissions: [],
+        component: (<BlogEdit />)
+    },
+    {
+        name: '',
+        path: '/admin/blog/:id',
+        key: '',
+        permissions: [],
+        component: (<BlogEdit />)
+    },
+    {
+        name: '',
+        path: '/admin/event-listing',
+        key: '',
+        permissions: [],
+        component: (<EventEdit />)
+    },
+    {
+        name: '',
+        path: '/admin/events/:id',
         key: '',
         permissions: [],
         component: (<VerifyOtp />)

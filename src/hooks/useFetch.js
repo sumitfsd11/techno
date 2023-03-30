@@ -21,7 +21,7 @@ export default function useFetch({
 
   const callFetch = React.useCallback((config) => {
     setTimeout(() => {
-      SetPrefetch(config)
+      SetPrefetch(config??{url:url,method:method,data:data})
     }, 500)
   }, [])
 
@@ -40,16 +40,20 @@ export default function useFetch({
         data: data,
         params: params
       }))
-      if (error) {
-        setData(null)
-        setLoading(false)
-        setError(error)
-        onFailure(error, preFetch?.method??method)
-      } else {
-        setData(response)
-        setLoading(false)
-        setError(null)
-        onSuccess(response , preFetch?.method??method)
+      try {
+        if (error) {
+          setData(null)
+          setLoading(false)
+          setError(error)
+          onFailure && onFailure(error, preFetch?.method ?? method)
+        } else {
+          setData(response)
+          setLoading(false)
+          setError(null)
+          onSuccess && onSuccess(response, preFetch?.method ?? method)
+        }
+      } catch (error) {
+        console.warn(error)
       }
     }
 
@@ -59,13 +63,15 @@ export default function useFetch({
     } if (preFetch) {
       setLoading(true)
       fetch()
+      SetPrefetch(null)
     }
+
     return () => {
       cancelTokenSource.cancel('Error occured ')
     };
   }, [
     onSuccess
-    ,onFailure
+    , onFailure
     , url
     , data
     , method
@@ -74,10 +80,8 @@ export default function useFetch({
     , preFetch
   ])
 
-  const uploadingRate = React.useMemo(() => uploadActivity && `${ 
-   (uploadActivity?.loaded / uploadActivity?.total) * 100}% `, [uploadActivity])
-
-
+  const uploadingRate = React.useMemo(() => uploadActivity && `${(uploadActivity?.loaded / uploadActivity?.total) * 100}% `, [uploadActivity])
+  
   return {
     uploadActivity,
     dowloadActivity,

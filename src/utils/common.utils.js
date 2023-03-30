@@ -1,17 +1,11 @@
 
-// import NoImage from "Asset/.png";
-import React from "react";
 import { CURRENCY_SYMBOL } from "constants/common.constants";
 import moment from "moment";
 import toast from 'react-hot-toast';
-// import ProfileImg from "assets/profile_pic.jpg";
-// import LogoImg from "assets/budiLogo.png";
 import styled from "styled-components";
-// import { imgBaseUrl } from "constants/config.constants";
 
 
 
-// export const Logo = ({style, src}) => <LogoIcon theme={style} src={src??LogoImg} alt="budi" />;
 export const isFunction = (fn) => typeof fn === "function";
 export const stringifyError = (errors) => {
   return errors;
@@ -147,7 +141,7 @@ export const redirectOut = (e) => {
   }
 }
 
-const LogoIcon = styled.img`
+export const LogoIcon = styled.img`
 width: ${props => props?.theme.width ?? '140px'};
 height:auto;
 margin:auto;
@@ -168,7 +162,7 @@ export const asyncWrapper = (promise) =>
 
 
 
-const universalRoutes = (isUser, routes) => {
+export const universalRoutes = (isUser, routes) => {
   let user_arr = ["/login", "/forget-password", "/admin/verfiy-otp"]
   let high_priority = ["/admin/login", "/admin/forget-password", "/admin/verfiy-otp"]
   if (isUser) {

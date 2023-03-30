@@ -1,16 +1,16 @@
 import React from 'react'
 import { TextField, Button } from 'components';
 import { FormProvider, useForm, Controller } from "react-hook-form";
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { yupResolver } from '@hookform/resolvers/yup';
 // import { rerdirectOut } from 'utils/common.util';
-import { MailSVG } from 'icons';
-// import ImageTechnomatic Academy from "assets/Technomatic Academy.png";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { useAuth } from "hooks";
+import {  useFetch } from "hooks";
+import toast from 'react-hot-toast';
+import img from "assets/icon.png";
 
- export const  VerifyOtp=()=>{
-    const { isLoading, verify_otp, error } = useAuth();
-    const state  = useLocation()
+export const VerifyOtp = () => {
+
+    const state = useLocation()
     const navigate = useNavigate();
     const methods = useForm({
         // resolver: yupResolver(loginValidationSchema),
@@ -19,26 +19,47 @@ import { useAuth } from "hooks";
             username: ""
         }
     });
-    console.log(state ,"" , state?.username)
-    const { control, handleSubmit, setError,
+
+    const { control, handleSubmit, setError,watch,
         formState: { isDirty, isValid }
     } = methods;
+    const onSuccess = React.useCallback((data) => {
+        let response = data.response
+        if (response) {
+            toast.success(response?.message)
+            navigate("/admin/forget-password" ,{state:watch('username')})
+        }
+    }, [navigate])
+
+    const onFailure = React.useCallback((data) => {
+        let response = data.error
+        if (response) {
+            setError('username', { type: 'custom', message: response?.message })
+        }
+    }, [setError])
+
+    const { isLoading, callFetch } = useFetch({
+        url: "/login/",
+        skipOnStart: true,
+        onFailure,
+        onSuccess,
+    })
 
     const onSubmit = React.useCallback((data) => {
-        console.warn(data)
-        // verify_otp(data)
-    }, [verify_otp]);
+        callFetch({
+            url: '/otp_verification/',
+            method: 'post',
+            data: data
+        })
+    }, [callFetch]);
 
-    React.useEffect(() => {
-        error && setError('username', { type: 'custom', message: error })
-    }, [setError, error])
 
     return (
         <React.Fragment>
             <div className="grid h-[100vh] bg-transparent background_authpage_logim">
                 <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
                     <div className="gird">
-                        {/* <img src={ImageTechnomatic Academy} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." /> */}
+                        <img src={img} className="w-[150px] mb-5 h-auto m-auto" alt="loading..." />
                     </div>
                     <FormProvider {...methods}>
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,7 +85,7 @@ import { useAuth } from "hooks";
                                 </div>
                             </div>
                             <div className="form-control mt-3">
-                                <Button is={isLoading} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                                <Button isLoading={isLoading} className={`w-full bg-primarybg rounded-full `} type={'submit'}
                                     isDisabled={!isDirty || !isValid}
                                 >{'SEND OTP'}</Button>
                             </div>
@@ -73,7 +94,7 @@ import { useAuth } from "hooks";
                                 <p className="text-sm text-gray-500 py-2"><span>By continuing, you agree to Technomatic Academy's  </span><span className='text-blue-500 font-semibold'><Link to="" >Conditions</Link></span> of Use and <span className='text-blue-500 font-semibold'><Link to="" >Privacy</Link></span>  Notice.</p>
                                 <details className='text-sm'>
                                     <summary className='text-sm cursor-pointer font-semibold'>Need to help ?</summary>
-                                    <div className='text-blue-500 '><span className='cursor-pointer ' 
+                                    <div className='text-blue-500 '><span className='cursor-pointer '
                                     // onClick={() => rerdirectOut(`mailto:${'lenwoper@gmail.com'}`)}
                                     >Report ?</span></div>
                                 </details>
