@@ -174,9 +174,9 @@ export const universalRoutes = (isUser, routes) => {
 
 // pagination component 
 function remevoFilterKey(object__){
-  Object.keys(object__).forEach((key)=>(object__[key] === undefined
+  Object.keys(object__).forEach((key)=>((object__[key] === undefined
     || object__[key] === null 
-    || object__[key] === "" && delete object__[key]))
+    || object__[key] === "") && delete object__[key]))
 }
 
 function preparedQuery(object__){
