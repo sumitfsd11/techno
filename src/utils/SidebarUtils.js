@@ -49,7 +49,7 @@ const sidebar_utils = [
                 query: '',
             },
             {
-                title: 'Applied',
+                title: 'Blogs',
                 permissions: [],
                 key_: '',
                 link: '/admin/blogs-listing',
