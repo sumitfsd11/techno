@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { useQuill } from 'react-quilljs';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { TextField, Button, TextArea } from 'components';
+import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
 
@@ -18,20 +18,23 @@ export default function EventEdit() {
             subtitle: "",
             sub_des: "",
             meta_content: "",
-            event_content: ""
+            event_content: "",
+            eventPlace: "",
+            schedule: "",
+            status:""
         }
 
     })
-    const { control, handleSubmit,setValue, formState: { isDirty, isValid } } = methods
+    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
-        console.log(data ,"it is your name ")
+        console.log(data, "it is your name ")
     }, [])
 
     const event__action = React.useCallback((e) => {
         e?.preventDefault()
-       let content= quill?.container?.outerHTML ;
-    //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
-        console.log(" it is test " , content)
+        let content = quill?.container?.outerHTML;
+        //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
+        console.log(" it is test ", content)
     }, [])
     React.useEffect(() => {
         if (quill) {
@@ -39,6 +42,11 @@ export default function EventEdit() {
             // quill.clipboard.dangerouslyPasteHTML(localStorage.getItem('test__'));
         }
     }, [])
+
+
+    const _onFocus = React.useCallback(()=>{
+        document.getElementById("_date_picker").type ="datetime-local"
+    },[])
 
     return (
         <React.Fragment>
@@ -73,6 +81,7 @@ export default function EventEdit() {
 
                 <div className=' mt-10 '>
                     <div>
+
                         <FormProvider {...methods} >
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
@@ -118,23 +127,52 @@ export default function EventEdit() {
                                         </div>
                                     </div>
                                     <div className='lg:col-span-8 md:col-span-12 col-span-12'>
-                                        <div className='form-control mb-2 '>
-                                            <Controller
-                                                control={control}
-                                                name="title"
-                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextField type={"text"} error={error}  {...field} name={"title"} placeholder={"Title"} className={"w-full pl-6"} />
-                                                )}
-                                            />
+                                        <div className=' grid grid-cols-12 gap-3'>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="title"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <TextField type={"text"} error={error}  {...field} name={"title"} placeholder={"Title"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='col-span-6'>
+                                                <div>
+                                                    <Controller
+                                                        control={control}
+                                                        name="schedule"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text"  onFocus={_onFocus} value={field?.value}  />
+                                                        )} />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='form-control mb-2 '>
-                                            <Controller
-                                                control={control}
-                                                name="subtitle"
-                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
-                                                )}
-                                            />
+                                        <div className=' grid grid-cols-12 gap-3'>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="subtitle"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Host Location"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="status"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <Selector type={"text"} defaultValues={field.value??null}  label={"Status"} error={error} selectionOption={["Draft" , "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className='form-control mb-2 '>
                                             <Controller

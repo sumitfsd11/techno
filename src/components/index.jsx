@@ -6,11 +6,13 @@ import TextField from "./formUitls/TextField";
 import Button from "./formUitls/Button";
 import CheckBox from "./formUitls/CheckBox";
 import Radio from "./formUitls/RadioBtn";
+import Selector from "./formUitls/Selector";
 // component
 import AfterLoginHeader ,{UserAfterLoginHeader}from "./utilsComponents/Header/AfterLoginHeader";
 import Header from "./utilsComponents/Header/Header";
 import NotificationBanner from "./utilsComponents/Header/Settings/NotificationBanner";
 import SearchBar from "./Searchbar/Searchbar";
+
 export {
     // component 
     AfterLoginHeader,
@@ -23,6 +25,7 @@ export {
     Button,
     CheckBox,
     Radio,
+    Selector,
     // chartUtils
     // layout
     Layout,

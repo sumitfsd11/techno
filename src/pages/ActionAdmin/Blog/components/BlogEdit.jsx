@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components';
 import { useQuill } from 'react-quilljs';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { TextField, Button, TextArea } from 'components';
+import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
 
@@ -18,7 +18,10 @@ export default function BlogEdit() {
             subtitle: "",
             sub_des: "",
             meta_content: "",
-            event_content: ""
+            event_content: "",
+            eventPlace: "",
+            schedule: "",
+            status:""
         }
 
     })
@@ -40,6 +43,11 @@ export default function BlogEdit() {
         }
     }, [])
 
+
+    const _onFocus = React.useCallback(()=>{
+        document.getElementById("_date_picker").type ="datetime-local"
+    },[])
+
     return (
         <React.Fragment>
             <CouserBanner />
@@ -52,16 +60,14 @@ export default function BlogEdit() {
                                 <div className='m-auto'>
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
-                                            <button className='bg-[#ffc78b] italic text-white  py-1 font-normal px-4 rounded-full text-sm '>
-                                                Andrew Nilson
+                                            <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full text-sm '>
+                                               Andrew Nilson
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
                                             Sunday 12-04-2023 , 03:40AM
                                         </div>
-                                        <div className='mx-2 '>
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -71,6 +77,7 @@ export default function BlogEdit() {
 
                 <div className=' mt-10 '>
                     <div>
+
                         <FormProvider {...methods} >
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
@@ -116,23 +123,52 @@ export default function BlogEdit() {
                                         </div>
                                     </div>
                                     <div className='lg:col-span-8 md:col-span-12 col-span-12'>
-                                        <div className='form-control mb-2 '>
-                                            <Controller
-                                                control={control}
-                                                name="title"
-                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextField type={"text"} error={error}  {...field} name={"title"} placeholder={"Title"} className={"w-full pl-6"} />
-                                                )}
-                                            />
+                                        <div className=' grid grid-cols-12 gap-3'>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="title"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <TextField type={"text"} error={error}  {...field} name={"title"} placeholder={"Title"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='col-span-6'>
+                                                <div>
+                                                    <Controller
+                                                        control={control}
+                                                        name="schedule"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text"  onFocus={_onFocus} value={field?.value}  />
+                                                        )} />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className='form-control mb-2 '>
-                                            <Controller
-                                                control={control}
-                                                name="subtitle"
-                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
-                                                )}
-                                            />
+                                        <div className=' grid grid-cols-12 gap-3'>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="subtitle"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title "} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='col-span-6'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="status"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <Selector type={"text"} defaultValues={field.value??null}  label={"Status"} error={error} selectionOption={["Draft" , "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className='form-control mb-2 '>
                                             <Controller
