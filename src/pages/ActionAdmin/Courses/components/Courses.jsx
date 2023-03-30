@@ -4,7 +4,7 @@ import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 
-export default function Blogs() {
+export default function Courses() {
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
@@ -149,7 +149,7 @@ export default function Blogs() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput className="searchbar" type="search" placeholder={'By Blog Name , Date  '} />
+                                <SearchInput className="searchbar" type="search" placeholder={'By Event Name , Date  '} />
                             </div>
                         </div>
                     </div>

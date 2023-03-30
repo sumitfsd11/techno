@@ -171,3 +171,21 @@ export const universalRoutes = (isUser, routes) => {
     return !Boolean(routes.map((j) => high_priority.some((i) => i === j))[0])
   }
 }
+
+// pagination component 
+function remevoFilterKey(object__){
+  Object.keys(object__).forEach((key)=>(object__[key] === undefined
+    || object__[key] === null 
+    || object__[key] === "" && delete object__[key]))
+}
+
+function preparedQuery(object__){
+  Object.keys(object__).map((key)=>{
+    return key+"="+object__[key]
+  }).join("&")
+}
+
+export {
+  preparedQuery,
+  remevoFilterKey
+}

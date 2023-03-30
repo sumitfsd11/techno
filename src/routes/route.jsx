@@ -19,22 +19,25 @@ import LandingBanner from "pages/ActionAdmin/Banners/components/LandingBanner";
 // event edit 
 // import {EventEdit} from "pages/ActionAdmin/Events/Index";
 import EventEdit from "pages/ActionAdmin/Events/components/EventEdit";
+import EventsList from "pages/ActionAdmin/Events/components/Events";
 import BlogEdit from "pages/ActionAdmin/Blog/components/BlogEdit";
-
+import CourseList from "pages/ActionAdmin/Courses/components/Courses";
+// dashboard info 
+import ApplyList from "pages/ActionAdmin/Apply/components/ApplyList";
 const private_routes = [
     {
         name: '',
         path: '/admin/home',
         key: '',
         permissions: [],
-        component: (<LandingBanner />)
+        component: (<ApplyList />)
     },
     {
         name: '',
         path: '/admin/course-listing',
         key: '',
         permissions: [],
-        component: (<LandingBanner />)
+        component: (<CourseList />)
     },
     {
         name: '',
@@ -62,14 +65,14 @@ const private_routes = [
         path: '/admin/event-listing',
         key: '',
         permissions: [],
-        component: (<EventEdit />)
+        component: (<EventsList />)
     },
     {
         name: '',
         path: '/admin/events/:id',
         key: '',
         permissions: [],
-        component: (<VerifyOtp />)
+        component: (<EventEdit />)
     },
     {
         name: '',

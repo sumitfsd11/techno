@@ -4,10 +4,9 @@ import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 
-export default function Blogs() {
+export default function ApplyList() {
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
-
 
 
     const paginationAction = React.useCallback((a, p) => {
@@ -17,7 +16,7 @@ export default function Blogs() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Blogs#</h2>
+                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Applyies#</h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
@@ -149,7 +148,7 @@ export default function Blogs() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput className="searchbar" type="search" placeholder={'By Blog Name , Date  '} />
+                                <SearchInput className="searchbar" type="search" placeholder={'By  Name , Date  '} />
                             </div>
                         </div>
                     </div>
