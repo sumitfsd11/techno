@@ -7,6 +7,7 @@ import Button from "./formUitls/Button";
 import CheckBox from "./formUitls/CheckBox";
 import Radio from "./formUitls/RadioBtn";
 import Selector from "./formUitls/Selector";
+import { PaginationComponent as PaginationWrapper } from "./utilsComponents/CoomonUtils/Paginatination";
 // component
 import AfterLoginHeader ,{UserAfterLoginHeader}from "./utilsComponents/Header/AfterLoginHeader";
 import Header from "./utilsComponents/Header/Header";
@@ -19,6 +20,7 @@ export {
     UserAfterLoginHeader,
     Header,
     NotificationBanner,
+
     // formUtils
     TextArea,
     TextField,
@@ -30,7 +32,9 @@ export {
     // layout
     Layout,
     UserLayout,
-    SearchBar
+    SearchBar,
+    // common utils 
+    PaginationWrapper
    
 
 }

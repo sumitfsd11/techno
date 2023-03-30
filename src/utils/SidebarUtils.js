@@ -22,7 +22,7 @@ const sidebar_utils = [
                 title: 'Applied',
                 permissions: [],
                 key_: '',
-                link: null,
+                link: '/admin/home',
                 icon: '',
                 subtitle: '',
                 query: '',
@@ -41,6 +41,45 @@ const sidebar_utils = [
         SubMenu: [
             {
                 title: 'Couses',
+                permissions: [],
+                key_: '',
+                link: '/admin/course-listing',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
+                title: 'Blogs',
+                permissions: [],
+                key_: '',
+                link: '/admin/blogs-listing',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
+                title: 'Events',
+                permissions: [],
+                key_: '',
+                link: '/admin/event-listing',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+        ]
+
+    },
+    {
+        title: 'Widgets',
+        permissions: [],
+        key_: '',
+        link: null,
+        icon: '',
+        subtitle: '',
+        query: '',
+        SubMenu: [
+            {
+                title: 'Landing',
                 permissions: [],
                 key_: '',
                 link: '/admin/course-listing',
