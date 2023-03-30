@@ -1,14 +1,38 @@
 import React from 'react'
-// import Events from 'pages/Events'
-import Events from "pages/VisitorPages/Events/Events";
-import CouserBanner from "pages/VisitorPages/components/Banner";
+import styled from 'styled-components';
 import { useQuill } from 'react-quilljs';
+import { FormProvider, useForm, Controller } from 'react-hook-form';
+import { TextField, Button, TextArea } from 'components';
+import { ImgIcon } from 'icons';
+import CouserBanner from "pages/VisitorPages/components/Banner";
+
 // import CourseBa
 
 export default function EventEdit() {
     const { quill, quillRef } = useQuill();
+    const methods = useForm({
+        // resolver:,
+        defaultValues: {
+            title: "",
+            backgroundImage: "",
+            subtitle: "",
+            sub_des: "",
+            meta_content: "",
+            event_content: ""
+        }
 
+    })
+    const { control, handleSubmit,setValue, formState: { isDirty, isValid } } = methods
+    const onSubmit = React.useCallback((data) => {
+        console.log(data ,"it is your name ")
+    }, [])
 
+    const event__action = React.useCallback((e) => {
+        e?.preventDefault()
+       let content= quill?.container?.outerHTML ;
+    //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
+        console.log(" it is test " , content)
+    }, [])
     React.useEffect(() => {
         if (quill) {
             // data poupulating 
@@ -18,7 +42,7 @@ export default function EventEdit() {
 
     return (
         <React.Fragment>
-            <CouserBanner/>
+            <CouserBanner />
             <div className='lg:px-40 md:px-10 px-2'>
                 <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>
                     <section className='text-center'>
@@ -47,27 +71,167 @@ export default function EventEdit() {
                     </section>
                 </div>
 
-                <div className='blog_container__ mt-10 '>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, ullam sed consectetur vero a earum expedita inventore. Libero, hic natus.
+                <div className=' mt-10 '>
+                    <div>
+                        <FormProvider {...methods} >
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <div className='grid grid-cols-12 gap-3 mb-4'>
+                                    <div className='lg:col-span-4 md:col-span-12 col-span-12'>
+                                        <div className='form-control'>
+                                            <div className='w-full'>
+                                                <Controller
+                                                    control={control}
+                                                    name="backgroundImage"
+                                                    render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
+                                                        let src = field.value ?? null;
+                                                        if (
+                                                            field.value &&
+                                                            field.value.length > 0 &&
+                                                            typeof field.value !== "string"
+                                                        ) {
+                                                            const objectUrl = URL.createObjectURL(field.value[0]);
+                                                            src = objectUrl;
+                                                        }
 
+                                                        return (
+                                                            <React.Fragment>
+                                                                <ProfileImage>
+                                                                    {src ? (
+                                                                        <Image src={src} />
+                                                                    ) : (
+                                                                        <UploadText>
+                                                                            <ImgIcon className={'w-20 h-20 '} />
+                                                                        </UploadText>
+                                                                    )}
+                                                                    <FileInput
+                                                                        type="file"
+                                                                        onChange={(e) => {
+                                                                            field.onChange(e.target.files);
+                                                                        }}
+                                                                    />
+                                                                </ProfileImage>
+                                                                <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
+                                                            </React.Fragment>
+                                                        );
+                                                    }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='lg:col-span-8 md:col-span-12 col-span-12'>
+                                        <div className='form-control mb-2 '>
+                                            <Controller
+                                                control={control}
+                                                name="title"
+                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                    <TextField type={"text"} error={error}  {...field} name={"title"} placeholder={"Title"} className={"w-full pl-6"} />
+                                                )}
+                                            />
+                                        </div>
+                                        <div className='form-control mb-2 '>
+                                            <Controller
+                                                control={control}
+                                                name="subtitle"
+                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                    <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                )}
+                                            />
+                                        </div>
+                                        <div className='form-control mb-2 '>
+                                            <Controller
+                                                control={control}
+                                                name="sub_des"
+                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                    <TextField type={"text"} error={error}  {...field} name={"sub_des"} placeholder={"Description"} className={"w-full pl-6"} />
+                                                )}
+                                            />
+                                        </div>
+                                        <div className='form-control'>
+                                            <Controller
+                                                control={control}
+                                                name="meta_content"
+                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                    <TextArea type={"text"} error={error}  {...field} name={"meta_content"} placeholder={"Meta Content"} className={"w-full pl-6"} />
+                                                )}
+                                            />
+                                        </div>
+                                        <div className='form-control'>
+                                            <div className='flex justify-between mt-2'>
+                                                <div className=''>
 
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. At, ratione aut neque tenetur, alias vel veritatis ut quia vitae reprehenderit magni cupiditate, perspiciatis minima ea placeat aspernatur. Quidem quisquam adipisci consequatur nemo beatae ex quo architecto consectetur iste assumenda ratione, deleniti ducimus obcaecati, aut libero explicabo odio quod, optio repellendus saepe? Exercitationem voluptates soluta recusandae porro ipsum eligendi! Praesentium quasi nam sint repellendus iste consectetur. Esse maxime, similique deleniti quidem eius modi? Quia dolores ab, quam voluptatem, minus nulla fugiat quisquam placeat in vitae possimus molestias maiores est laudantium earum aliquam explicabo perferendis porro quas nisi labore dignissimos cum. Vitae?
-                </div>
-            </div>
-            {/*  */}
-            {/* <div className='grid lg:grid-cols-12 gap-3 '>
-                <div className='col-span-12 overflow-y-auto h-[91vh] custome_scroll '>
-                    <Events />
-                </div>
-                <div className='col-span-12 overflow-y-auto h-[91vh] custome_scroll '>
-                  
-                    <div className='w-full'>
-                        <div className=' border  outline-none border-[#eae9e9]'>
-                            <div ref={quillRef} />
+                                                </div>
+                                                <div className=''>
+                                                    <Button type='submit'
+                                                        //  isLoading={isLoading} 
+                                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
+                                                        isDisabled={!isDirty || !isValid}>
+                                                        {'Submit'}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </FormProvider>
+                    </div>
+                    <div>
+                        <div className='form-control'>
+                            <div>
+                                <div className='h-[360px] border ' ref={quillRef} />
+                            </div>
+                            <div className='flex justify-between mt-2'>
+                                <div className=''>
+
+                                </div>
+                                <div className=''>
+                                    <Button type='submit'
+                                        //  isLoading={isLoading} 
+                                        onClick={event__action}
+                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
+                                    >
+                                        {'Submit'}
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> */}
-        </React.Fragment>
+            </div>
+
+        </React.Fragment >
     )
 }
+
+
+const ProfileImage = styled.label`
+  width: 100%;
+  padding:10px;
+  background: #ffffff;
+  border: 1px dashed #c0c0c0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+width:100%;
+height:100%;
+  justify-content: center;
+`;
+
+
+const UploadText = styled.span`
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 16px;
+  color: #000000;
+`;
+
+
+const FileInput = styled.input`
+  display: none;
+`;
+const Image = styled.img`
+  width: 100%;
+  height: 100%;
+`;
