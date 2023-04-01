@@ -22,11 +22,11 @@ export default function FeedBackAction() {
         }
     })
 
-    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
+    const { control, handleSubmit, setValue,watch, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         console.log(data, "it is your name ")
     }, [])
-
+console.log(watch("firstName") ,watch("lastName") ,watch("roll") ,watch("profileImg") ,watch("rating"),watch("feedback"), watch("status"))
     return (
         <React.Fragment>
             <div className='lg:px-36 md:px-5 px-2 mt-6 grid grid-cols-12 gap-4 '>
@@ -35,16 +35,18 @@ export default function FeedBackAction() {
                         <div className=' '>
                             <div className='flex pt-5 pl-5 items-center'>
                                 <div className=''>
-                                    <img alt='Test Demo image ' className='w-[70px] rounded-full h-[70px]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1pEiLahUshC6pxmaGbdWai34H9KF_bY6rdLBty_svjf_I7exWI4tGPCUXKidSlVUnbH4&usqp=CAU' />
+                                   { watch("profileImg") && ( <img alt='Test Demo image ' className='w-[70px] rounded-full h-[70px]' src={URL.createObjectURL(watch("profileImg")[0])} />)}
                                 </div>
                                 <div className='pl-3 '>
-                                    <p className='text-primarybg'>Rudolph Hennry</p>
-                                    <p className='text-[#77838f] text-sm '>MLOps </p>
+                                    <p className='text-primarybg'>{watch("firstName")} {watch("lastName") }</p>
+                                    <p className='text-[#77838f] text-sm '>{watch("roll")} </p>
+                                    <Rate allowHalf disabled value={watch("rating")??0}/>
                                 </div>
                             </div>
                             <section className='mt-4 p-4 '>
                                 <p className='text-[#77838f]  '>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum et explicabo laudantium. Asperiores, magnam neque suscipit amet ad obcaecati nihil soluta quam perferendis aliquid commodi nesciunt quis natus iste, officia sit modi architecto, fugit a totam quaerat molestias eum necessitatibus provident. Vel in sapiente necessitatibus, fuga ipsam facilis culpa debitis id consequatur architecto quis numquam explicabo molestias! Veritatis, atque! Ea!    </p>
+                                    {watch("feedback")}
+                                       </p>
                             </section>
                         </div>
                     </div>
@@ -149,7 +151,7 @@ export default function FeedBackAction() {
                                                 control={control}
                                                 name="feedback"
                                                 render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextArea type={"text"} error={error}  {...field} name={"feedback"} placeholder={"Feedback"} className={"w-full pl-6"} />
+                                                    <TextArea type={"text"} error={error}  {...field} name={"feedback"} placeholder={"Feedback"} className={"w-full min-h-[90px] pl-6"} />
                                                 )}
                                             />
                                         </div>
@@ -179,7 +181,6 @@ export default function FeedBackAction() {
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                         </FormProvider>
                     </div>
