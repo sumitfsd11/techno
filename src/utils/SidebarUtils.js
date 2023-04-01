@@ -67,6 +67,15 @@ const sidebar_utils = [
                 query: '',
             },
             {
+                title: 'FeedBack',
+                permissions: [],
+                key_: '',
+                link: '/admin/about-us-edit',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
                 title: 'About Us',
                 permissions: [],
                 key_: '',
@@ -87,6 +96,7 @@ const sidebar_utils = [
         subtitle: '',
         query: '',
         SubMenu: [
+    
             {
                 title: 'Socials',
                 permissions: [],
