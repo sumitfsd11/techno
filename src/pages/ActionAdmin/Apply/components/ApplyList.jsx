@@ -1,19 +1,20 @@
 import React from 'react'
 import { Pagination } from 'antd'
-import { PaginationWrapper } from 'components'
+import { PaginationWrapper , Button } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-import { useNavigate } from 'react-router-dom'
-export default function Events() {
-    const navigate = useNavigate()
+import { CSVLink } from 'react-csv'
+export default function ApplyList() {
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
-
-    const redirect__ = React.useCallback((path) => {
-        if (path) {
-            navigate(path)
-        }
+    const __analytic = React.useMemo(() => {
+        return [
+            ["firstname", "lastname", "email"],
+            ["Ahmed", "Tomi", "ah@smthing.co.com"],
+            ["Raed", "Labes", "rl@smthing.co.com"],
+            ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+        ]
     }, [])
 
     const paginationAction = React.useCallback((a, p) => {
@@ -23,7 +24,14 @@ export default function Events() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Events#</h2>
+                    <div className='flex justify-between '>
+                        <h2 className="mb-3 text-2xl font-semibold leading-tight">Applyies#</h2>
+                        <div className=' lg:pr-16 md:pr-5 pr-2 '>
+                            <CSVLink id="id" data={__analytic} >     <Button 
+                  className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `} 
+                >{'EXPORT CSV'}</Button></CSVLink>
+                        </div>
+                    </div>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
@@ -38,7 +46,7 @@ export default function Events() {
                             </thead>
                             <tbody>
                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/event/${1}`)}>
+                                    <td className="p-3">
                                         <p>97412378923</p>
                                     </td>
                                     <td className="p-3">
@@ -155,7 +163,7 @@ export default function Events() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput className="searchbar" type="search" placeholder={'By Event Name , Date  '} />
+                                <SearchInput className="searchbar" type="search" placeholder={'By  Name , Date  '} />
                             </div>
                         </div>
                     </div>
