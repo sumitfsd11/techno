@@ -1,13 +1,21 @@
 import React from 'react'
 import { Pagination } from 'antd'
-import { PaginationWrapper } from 'components'
+import { PaginationWrapper , Button } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-
+import { CSVLink } from 'react-csv'
 export default function ApplyList() {
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
+    const __analytic = React.useMemo(() => {
+        return [
+            ["firstname", "lastname", "email"],
+            ["Ahmed", "Tomi", "ah@smthing.co.com"],
+            ["Raed", "Labes", "rl@smthing.co.com"],
+            ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+        ]
+    }, [])
 
     const paginationAction = React.useCallback((a, p) => {
         console.log(a, "===", p)
@@ -16,7 +24,14 @@ export default function ApplyList() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Applyies#</h2>
+                    <div className='flex justify-between '>
+                        <h2 className="mb-3 text-2xl font-semibold leading-tight">Applyies#</h2>
+                        <div className=' lg:pr-16 md:pr-5 pr-2 '>
+                            <CSVLink id="id" data={__analytic} >     <Button 
+                  className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `} 
+                >{'EXPORT CSV'}</Button></CSVLink>
+                        </div>
+                    </div>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">

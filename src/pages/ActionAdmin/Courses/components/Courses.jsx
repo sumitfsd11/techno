@@ -3,12 +3,19 @@ import { Pagination } from 'antd'
 import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-
+import { useNavigate } from 'react-router-dom'
 export default function Courses() {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
 
+
+    const redirect__ = React.useCallback((path) => {
+        if (path) {
+            navigate(path)
+        }
+    },[navigate])
 
     const paginationAction = React.useCallback((a, p) => {
         console.log(a, "===", p)
@@ -17,10 +24,10 @@ export default function Courses() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Blogs#</h2>
+                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Courses#</h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
-                            <thead className="dark:bg-gray-700">
+                            <thead className="dark:bg-gray-700" >
                                 <tr className="text-left">
                                     <th className="p-3">Invoice #</th>
                                     <th className="p-3">Client</th>
@@ -32,7 +39,7 @@ export default function Courses() {
                             </thead>
                             <tbody>
                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3">
+                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/course/${1}`)}>
                                         <p>97412378923</p>
                                     </td>
                                     <td className="p-3">

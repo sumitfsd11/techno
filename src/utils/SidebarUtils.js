@@ -66,6 +66,15 @@ const sidebar_utils = [
                 subtitle: '',
                 query: '',
             },
+            {
+                title: 'About Us',
+                permissions: [],
+                key_: '',
+                link: '/admin/about-us-edit',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
         ]
 
     },
@@ -79,7 +88,7 @@ const sidebar_utils = [
         query: '',
         SubMenu: [
             {
-                title: 'Landing',
+                title: 'Socials',
                 permissions: [],
                 key_: '',
                 link: '/admin/course-listing',
@@ -88,7 +97,7 @@ const sidebar_utils = [
                 query: '',
             },
             {
-                title: 'Blogs',
+                title: 'Apply',
                 permissions: [],
                 key_: '',
                 link: '/admin/blogs-listing',
@@ -97,7 +106,7 @@ const sidebar_utils = [
                 query: '',
             },
             {
-                title: 'Events',
+                title: 'Footer',
                 permissions: [],
                 key_: '',
                 link: '/admin/event-listing',

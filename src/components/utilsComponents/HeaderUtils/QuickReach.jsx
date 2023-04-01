@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
-import {  Dropdown } from 'antd';
+import { Dropdown } from 'antd';
 import {
     PersonSVG,
     MessageSVGIcon,
@@ -9,35 +9,32 @@ import { useAuth } from 'hooks/';
 
 
 export default function QuickReach() {
-    const {logout} = useAuth()
+    const { logout } = useAuth()
     const navigate = useNavigate();
-    const detail = useLocation();    
-const items = [
-    {
-      key: '1',
-      label: (
-        <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-          1st menu item
-        </a>
-      ),
-    },
-    {
-      key: '2',
-      label: (
-        <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-          2nd menu item
-        </a>
-      ),
-    },
-    {
-      key: '3',
-      label: (
-        <div target="_blank" onClick={()=>logout()} >
-       Logout
-        </div>
-      ),
-    },
-  ];
+    const detail = useLocation();
+    const redirect__ = React.useCallback((path) => {
+        if (path) {
+            navigate(path)
+        }
+    }, [])
+    const items = [
+        {
+            key: '2',
+            label: (
+                <div target="_blank" onClick={() => redirect__('/admin/profile')} >
+                    Profile
+                </div>
+            ),
+        },
+        {
+            key: '3',
+            label: (
+                <div target="_blank" onClick={() => logout()} >
+                    Logout
+                </div>
+            ),
+        },
+    ];
     const Icon = React.memo(({ children }) => (
         <React.Fragment>
             <div className='h-full  '>
@@ -71,18 +68,23 @@ const items = [
     return (
         <React.Fragment>
             <div className='lg:px-2 mt-2 grid grid-cols-5 gap-3'>
-
-                <Icon>
-                    <IconBanner />
-                </Icon>
-                <Icon>
-                    <IconBanner />
-                </Icon>
-                <Icon>
-                    <div className='m-auto'>
+                <div>
+                    {/* <Icon>
                         <IconBanner />
-                    </div>
-                </Icon>
+                    </Icon> */}
+                </div>
+                <div>
+                    {/* <Icon>
+                    <IconBanner />
+                </Icon> */}
+                </div>
+                <div>
+                    <Icon>
+                        <div className='m-auto'>
+                            <IconBanner />
+                        </div>
+                    </Icon>
+                </div>
                 <div>
                     <ProfileIcon />
                 </div>

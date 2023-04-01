@@ -6,7 +6,7 @@ import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
 
-export default function BlogEdit() {
+export default function AboutUsEdit() {
     const { quill, quillRef } = useQuill();
     const methods = useForm({
         // resolver:,
@@ -75,6 +75,7 @@ export default function BlogEdit() {
 
                 <div className=' mt-10 '>
                     <div>
+
                         <FormProvider {...methods} >
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
