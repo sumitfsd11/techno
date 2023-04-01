@@ -101,7 +101,7 @@ const sidebar_utils = [
                 title: 'Socials',
                 permissions: [],
                 key_: '',
-                link: '/admin/course-listing',
+                link: '/admin/social-media',
                 icon: '',
                 subtitle: '',
                 query: '',
