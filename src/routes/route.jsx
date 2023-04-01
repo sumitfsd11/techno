@@ -28,6 +28,9 @@ import ApplyList from "pages/ActionAdmin/Apply/components/ApplyList";
 // profile
 import Profile from "pages/ActionAdmin/Profile/Profile";
 import AboutUsEdit from "pages/ActionAdmin/About-us/components/AboutUs";
+// 
+import ApplyForm from "pages/VisitorPages/Apply/components/ApplyForm";
+
 const private_routes = [
     {
         name: '',
@@ -131,6 +134,13 @@ const public_routes_user = [
         permissions: [],
         component: (<CourseDetail />)
     },
+    {
+        name: '',
+        path: '/Apply',
+        key: '',
+        permissions: [],
+        component: (<ApplyForm />)
+    },
     // authrization
     {
         name: '',
@@ -152,7 +162,7 @@ const public_routes_user = [
         key: '',
         permissions: [],
         component: (<VerifyOtp />)
-    },
+    }
 
 ]
 
