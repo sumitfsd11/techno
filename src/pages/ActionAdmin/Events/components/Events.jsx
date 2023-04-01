@@ -3,12 +3,18 @@ import { Pagination } from 'antd'
 import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-
+import { useNavigate } from 'react-router-dom'
 export default function Events() {
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
 
+    const redirect__ = React.useCallback((path) => {
+        if (path) {
+            navigate(path)
+        }
+    }, [])
 
     const paginationAction = React.useCallback((a, p) => {
         console.log(a, "===", p)
@@ -32,7 +38,7 @@ export default function Events() {
                             </thead>
                             <tbody>
                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3">
+                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/event/${1}`)}>
                                         <p>97412378923</p>
                                     </td>
                                     <td className="p-3">
