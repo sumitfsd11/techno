@@ -14,22 +14,19 @@ import Home from "pages/VisitorPages/Home/Home";
 import CourseDetail from "pages/VisitorPages/Courses/CourseDetail";
 import Blog from "pages/VisitorPages/Blog/Blog";
 import Events from "pages/VisitorPages/Events/Events";
-// admin pages
 import LandingBanner from "pages/ActionAdmin/Banners/components/LandingBanner";
-// event edit 
-// import {EventEdit} from "pages/ActionAdmin/Events/Index";
 import EventEdit from "pages/ActionAdmin/Events/components/EventEdit";
 import EventsList from "pages/ActionAdmin/Events/components/Events";
 import BlogEdit from "pages/ActionAdmin/Blog/components/BlogEdit";
 import Blogs from "pages/ActionAdmin/Blog/components/Blogs";
 import CourseList from "pages/ActionAdmin/Courses/components/Courses";
-// dashboard info 
 import ApplyList from "pages/ActionAdmin/Apply/components/ApplyList";
-// profile
 import Profile from "pages/ActionAdmin/Profile/Profile";
 import AboutUsEdit from "pages/ActionAdmin/About-us/components/AboutUs";
-// 
+import About from "pages/VisitorPages/AboutUS/components/About";
 import ApplyForm from "pages/VisitorPages/Apply/components/ApplyForm";
+import FeedBacks from "pages/ActionAdmin/Feedback/components/FeedBacks";
+import FeedBackAction from "pages/ActionAdmin/Feedback/components/FeedBackAction";
 
 const private_routes = [
     {
@@ -97,6 +94,20 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/feedback-list',
+        key: '',
+        permissions: [],
+        component: (<FeedBacks />)
+    },
+    {
+        name: '',
+        path: '/admin/feedback/:id',
+        key: '',
+        permissions: [],
+        component: (<FeedBackAction />)
+    },
+    {
+        name: '',
         path: '*',
         key: '',
         permissions: [],
@@ -140,6 +151,13 @@ const public_routes_user = [
         key: '',
         permissions: [],
         component: (<ApplyForm />)
+    },
+    {
+        name: '',
+        path: '/about-us',
+        key: '',
+        permissions: [],
+        component: (<About/>)
     },
     // authrization
     {

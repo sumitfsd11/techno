@@ -3,9 +3,10 @@ import { Pagination } from 'antd'
 import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
-export default function Blogs() {
+
+export default function FeedBacks() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
@@ -24,7 +25,7 @@ export default function Blogs() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Blogs#</h2>
+                    <h2 className="mb-4 text-2xl font-semibold leading-tight">FeedBacks#</h2>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
@@ -39,7 +40,7 @@ export default function Blogs() {
                             </thead>
                             <tbody>
                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/blog/${1}`)}>
+                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/feedback/${1}`)}>
                                         <p>97412378923</p>
                                     </td>
                                     <td className="p-3">

@@ -47,9 +47,9 @@ export const Navbar = () => {
                     <ul className="nav-links">
                         <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /><Times/></label>
                         <li className=' '><Link to="/"><span className=''>Home</span></Link></li>
-                        <li className=' '><Link to="/events">About</Link></li>
+                        <li className=' '><Link to="/">Events</Link></li>
                         <li>
-                            <a href="#" className="desktop-item">Dropdown Menu </a>
+                            <a href="#" className="desktop-item">Couses</a>
 
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">Couser</label>
@@ -60,9 +60,9 @@ export const Navbar = () => {
                             </ul>
                         </li>
                         <li>
-                            <a href="#" className="desktop-item">Mega Menu</a>
+                            <a href="#" className="desktop-item">Contact </a>
                             <input type="checkbox" id="showMega" />
-                            <label htmlFor="showMega" className="mobile-item">Mega Menu</label>
+                            <label htmlFor="showMega" className="mobile-item">Contact</label>
                             <div className="mega-box">
                                 <div className="content">
                                     <div className="row">
@@ -98,7 +98,7 @@ export const Navbar = () => {
                                 </div>
                             </div>
                         </li>
-                        <li><a href="#">Feedback</a></li>
+                        <li><Link to="/about-us">About Us</Link></li>
                     </ul>
                     <label htmlFor="menu-btn" className="btn menu-btn text-black"><Menu  /></label>
                 </div>

@@ -70,7 +70,7 @@ const sidebar_utils = [
                 title: 'FeedBack',
                 permissions: [],
                 key_: '',
-                link: '/admin/about-us-edit',
+                link: '/admin/feedback-list',
                 icon: '',
                 subtitle: '',
                 query: '',
