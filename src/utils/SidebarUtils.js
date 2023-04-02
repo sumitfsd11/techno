@@ -67,6 +67,15 @@ const sidebar_utils = [
                 query: '',
             },
             {
+                title: 'FeedBack',
+                permissions: [],
+                key_: '',
+                link: '/admin/feedback-list',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
                 title: 'About Us',
                 permissions: [],
                 key_: '',
@@ -87,11 +96,12 @@ const sidebar_utils = [
         subtitle: '',
         query: '',
         SubMenu: [
+    
             {
                 title: 'Socials',
                 permissions: [],
                 key_: '',
-                link: '/admin/course-listing',
+                link: '/admin/social-media',
                 icon: '',
                 subtitle: '',
                 query: '',
