@@ -11,23 +11,25 @@ import {
 } from "icons"
 
 
+
 export let socialUtils = [
-    {
-        name: "Instagram",
-        icon: (<Instagram />),
-    },
     {
         name: "Twitter",
         icon: (<Twitter />),
-    }, 
-    {
-        name: "FaceBook",
-        icon: (<FaceBook />),
     },
     {
         name: "Linkedin",
         icon: (<Linkedin />),
     },
+    {
+        name: "FaceBook",
+        icon: (<FaceBook />),
+    },
+    {
+        name: "Instagram",
+        icon: (<Instagram />),
+    }, 
+
     {
         name: "YouTube",
         icon: (<YouTube />),
