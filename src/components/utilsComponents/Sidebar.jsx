@@ -29,7 +29,7 @@ export default function SidebarC({ children }) {
 
     return (
         <div className='flex '>
-            <Sidebar className='lg:inline md:hidden hidden h-[100vh] custome_scroll overflow-y-auto'>
+            <Sidebar className='lg:inline md:hidden hidden h-[100vh] custome_scroll  overflow-y-auto'>
                 <React.Fragment>
                     <header className='mx-5 mt-5 mb-7 rounded-lg'>
                         <div className='flex'>
