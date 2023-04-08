@@ -14,7 +14,6 @@ const Index = () => {
             </div>
             <ApplyLEdit />
             <EventLEdit />
-            <br />
             <Footer />
         </React.Fragment>
     )
