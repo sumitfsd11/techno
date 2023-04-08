@@ -27,6 +27,7 @@ import About from "pages/VisitorPages/AboutUS/components/About";
 import ApplyForm from "pages/VisitorPages/Apply/components/ApplyForm";
 import FeedBacks from "pages/ActionAdmin/Feedback/components/FeedBacks";
 import FeedBackAction from "pages/ActionAdmin/Feedback/components/FeedBackAction";
+import LandingWidgets from "pages/ActionAdmin/LandingWidgets/Index"
 import { Social } from "pages/ActionAdmin/Widget/Index";
 import {NotFound} from "pages/Status/Index";
 
@@ -114,6 +115,13 @@ const private_routes = [
         key: '',
         permissions: [],
         component: (<Social />)
+    },
+    {
+        name: '',
+        path: '/admin/landing-widget',
+        key: '',
+        permissions: [],
+        component: (<LandingWidgets />)
     },
     {
         name: '',

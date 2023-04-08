@@ -129,16 +129,15 @@ const sidebar_utils = [
     },
 
     {
-        title: 'Content',
+        title: 'Landing Page ',
         permissions: [],
         key_: '',
-        link: null,
+        link: '/admin/landing-widget',
         icon: '',
         subtitle: '',
         query: '',
         SubMenu: [
         ]
-
     },
 ]
 
