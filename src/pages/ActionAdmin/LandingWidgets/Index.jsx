@@ -4,6 +4,7 @@ import ApplyLEdit from "./components/ApplyLEdit";
 import EventLEdit from "./components/EventLEdit";
 import FeatureLEdit from "./components/FeatureLEdit";
 import Footer from "components/utilsComponents/Footer/Footer";
+import FeedbackLEdit from "./components/FeedbackLEdit";
 const Index = () => {
 
     return (
@@ -13,6 +14,7 @@ const Index = () => {
             <FeatureLEdit />
             </div>
             <ApplyLEdit />
+            <FeedbackLEdit/>
             <EventLEdit />
             <Footer />
         </React.Fragment>
