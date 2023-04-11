@@ -23,8 +23,8 @@ import {
       <Card className="w-full max-w-full mt-[-50px] shadow-lg">
         <CardHeader floated={false} color="blue-gray">
           <img
-            src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
-            alt="ui/ux review check"
+            src="https://allcode.com/wp-content/uploads/2021/02/Group-169-3.png"
+            alt="course"
           />
           <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
           <IconButton
@@ -39,7 +39,7 @@ import {
         <CardBody>
           <div className="mb-3 flex items-center justify-between">
             <Typography variant="h5" color="blue-gray" className="font-medium">
-              Wooden House, Florida
+              AWS Articheture 
             </Typography>
             <Typography
               color="blue-gray"
@@ -50,8 +50,7 @@ import {
             </Typography>
           </div>
           <Typography color="gray">
-            Enter a freshly updated and thoughtfully furnished peaceful home
-            surrounded by ancient trees, stone walls, and open meadows.
+          Build, Deploy, and Manage Websites, Apps or Processes On AWS' Secure, Reliable Network. Sign Up for a Free Account & Experience AWS' Secure,
           </Typography>
           <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
             <Tooltip content="$129 per night">
@@ -87,7 +86,7 @@ import {
           </div>
         </CardBody>
         <CardFooter className="pt-3">
-          <Button size="lg" fullWidth={true}>
+          <Button size="lg" className="bg-primarybg shadow-none hover:shadow-none  drop-shadow-none " fullWidth={true}>
             Reserve
           </Button>
         </CardFooter>

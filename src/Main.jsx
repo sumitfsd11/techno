@@ -7,7 +7,7 @@ import {
 } from 'routes/route';
 import 'App.css';
 import 'index.css';
-
+import { useAuth } from './hooks';
 
 const Authetication = ({ user, link = '/admin/home' }) => {
     if (user) {
@@ -26,21 +26,21 @@ const Protected = ({ user, link = "/" }) => {
 
 
 export default function Main() {
-    const session = true ;
-
+    const {session} = useAuth()
+console.log(session() ,"==== session")
     return (
         <React.Fragment>
             <BrowserRouter>
                 <Routes>
-                    <Route element={ session?(<Layout/>):(<UserLayout />)}>
-                        <Route element={<Authetication user={session} />}>
+                    <Route element={ session()?(<Layout/>):(<UserLayout />)}>
+                        <Route element={<Authetication user={session()} />}>
                             {
                                 public_routes_user?.map((route, index, arr) => {
                                     return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
                                 })
                             }
                         </Route>
-                        <Route element={<Protected user={session} />}>
+                        <Route element={<Protected user={session()} />}>
                             {
                                 private_routes?.map((route, index, array) => {
                                     return (<Route key={index} path={route?.path} element={route?.component} {...route} />)

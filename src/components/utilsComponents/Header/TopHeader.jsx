@@ -3,7 +3,7 @@ import QuickReach from '../HeaderUtils/QuickReach';
 import { useLocation } from 'react-router-dom';
 import { SearchBar } from '../..';
 import { Link } from 'react-router-dom';
-import { Menu , ChevronDown} from 'icons';
+import { Menu , Times} from 'icons';
 export default function TopHeader() {
     const location = useLocation()
 
@@ -39,17 +39,17 @@ export default function TopHeader() {
 export const Navbar = () => {
     return (
         <React.Fragment>
-            <nav className='nav_bar_user'>
+            <nav className='nav_bar_user drop-shadow-2xl'>
                 <div className="wrapper">
-                    <div className="logo"><a href="#">Technomatic</a></div>
+                    <div className="logo"><Link to="/"><span className="text-[#070707c4] font-semibold">Technomatic</span></Link></div>
                     <input type="radio" name="slider" id="menu-btn" />
                     <input type="radio" name="slider" id="close-btn" />
                     <ul className="nav-links">
-                        <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /></label>
-                        <li><a href="#">Home</a></li>
-                        <li><Link to="/events">About</Link></li>
+                        <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /><Times/></label>
+                        <li className=' '><Link to="/"><span className=''>Home</span></Link></li>
+                        <li className=' '><Link to="/">Events</Link></li>
                         <li>
-                            <a href="#" className="desktop-item">Dropdown Menu </a>
+                            <a href="#" className="desktop-item">Couses</a>
 
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">Couser</label>
@@ -60,18 +60,18 @@ export const Navbar = () => {
                             </ul>
                         </li>
                         <li>
-                            <a href="#" className="desktop-item">Mega Menu</a>
+                            <a href="#" className="desktop-item">Contact </a>
                             <input type="checkbox" id="showMega" />
-                            <label htmlFor="showMega" className="mobile-item">Mega Menu</label>
+                            <label htmlFor="showMega" className="mobile-item">Contact</label>
                             <div className="mega-box">
                                 <div className="content">
                                     <div className="row">
                                         <img src="img.jpg" alt />
                                     </div>
                                     <div className="row">
-                                        <header>Design Services</header>
+                                        <header> Services</header>
                                         <ul className="mega-links">
-                                            <li><a href="#">Graphics</a></li>
+                                            <li><Link to="">Aws</Link></li>
                                             <li><a href="#">Vectors</a></li>
                                             <li><a href="#">Business cards</a></li>
                                             <li><a href="#">Custom logo</a></li>
@@ -98,9 +98,9 @@ export const Navbar = () => {
                                 </div>
                             </div>
                         </li>
-                        <li><a href="#">Feedback</a></li>
+                        <li><Link to="/about-us">About Us</Link></li>
                     </ul>
-                    <label htmlFor="menu-btn" className="btn menu-btn"><Menu  /></label>
+                    <label htmlFor="menu-btn" className="btn menu-btn text-black"><Menu  /></label>
                 </div>
             </nav>
 
