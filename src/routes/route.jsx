@@ -27,7 +27,9 @@ import About from "pages/VisitorPages/AboutUS/components/About";
 import ApplyForm from "pages/VisitorPages/Apply/components/ApplyForm";
 import FeedBacks from "pages/ActionAdmin/Feedback/components/FeedBacks";
 import FeedBackAction from "pages/ActionAdmin/Feedback/components/FeedBackAction";
-import LandingWidgets from "pages/ActionAdmin/LandingWidgets/Index"
+import LandingWidgets from "pages/ActionAdmin/LandingWidgets/Index";
+import HeaderEdit from "pages/ActionAdmin/Navbar/components/HeaderEdit";
+import FooterEdit from "pages/ActionAdmin/Navbar/components/FooterEdit"
 import { Social } from "pages/ActionAdmin/Widget/Index";
 import {NotFound} from "pages/Status/Index";
 
@@ -122,6 +124,20 @@ const private_routes = [
         key: '',
         permissions: [],
         component: (<LandingWidgets />)
+    },
+    {
+        name: '',
+        path: '/admin/header-widget',
+        key: '',
+        permissions: [],
+        component: (<HeaderEdit />)
+    },
+    {
+        name: '',
+        path: '/admin/footer-widget',
+        key: '',
+        permissions: [],
+        component: (<FooterEdit />)
     },
     {
         name: '',
