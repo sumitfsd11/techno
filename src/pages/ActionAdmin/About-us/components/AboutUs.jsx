@@ -5,7 +5,7 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
-
+import useFetch from 'hooks';
 export default function AboutUsEdit() {
     const { quill, quillRef } = useQuill();
     const methods = useForm({
@@ -21,11 +21,11 @@ export default function AboutUsEdit() {
             schedule: "",
             status:""
         }
-
     })
+
     const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
-        console.log(data, "it is your name ")
+        console.log(data, " ==> it your name ")
     }, [])
 
     const event__action = React.useCallback((e) => {

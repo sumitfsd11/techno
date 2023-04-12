@@ -4,12 +4,27 @@ import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom';
-
+import { useFetch } from 'hooks'
 export default function Blogs() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
 
+    const onSuccess = React.useCallback((response) => {
+
+    }, [])
+
+    const onFailure = React.useCallback((error) => {
+
+    }, [])
+
+    const { isLoading, data } = useFetch({
+        url: '/event_list/',
+        skipOnStart: false,
+        onSuccess,
+        onFailure
+    })
+    console.log(isLoading, "====", data)
 
     const redirect__ = React.useCallback((path) => {
         if (path) {
@@ -39,7 +54,7 @@ export default function Blogs() {
                             </thead>
                             <tbody>
                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/blog/${1}`)}>
+                                    <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/blog/${1}`)}>
                                         <p>97412378923</p>
                                     </td>
                                     <td className="p-3">

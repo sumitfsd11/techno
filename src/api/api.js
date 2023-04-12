@@ -1,6 +1,8 @@
 import axios from "axios";
-import { isPublicApi, asyncWrapper } from "utils/common.utils";
-const baseURl = 'https://ehsan-api.vinratechllp.com'
+import { isPublicApi, asyncWrapper , getLocalStorage} from "utils/common.utils";
+import { AUTH_TOKEN } from "constants/Localstorage.constants";
+// const baseURl = 'https://ehsan-api.vinratechllp.com'
+const baseURl = 'http://104.236.1.97:2000'
 
 export const options = {
     method: 'get',
@@ -22,7 +24,7 @@ export const axioFetch = async function (config) {
     if (isPublicApi(config.url)) {
         delete options.headers.Authorization;
     } else {
-        options.headers.Authorization = `Token ${localStorage.getItem('user')}`
+        options.headers.Authorization = `Token ${getLocalStorage(AUTH_TOKEN)}`
     }
     const response = await axios.request(options)
     return response

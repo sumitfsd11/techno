@@ -13,6 +13,7 @@ export default function useFetch({
 }) {
 
   const [isLoading, setLoading] = React.useState(!skipOnStart)
+  const [skip_on_start , set_skip_on_start ] = React.useState(skipOnStart) 
   const [response, setData] = React.useState(true);
   const [error, setError] = React.useState(null);
   const [preFetch, SetPrefetch] = React.useState(null);
@@ -57,10 +58,12 @@ export default function useFetch({
       }
     }
 
-    if (!skipOnStart) {
+    if (!skip_on_start) {
+      set_skip_on_start(true)
       setLoading(true)
       fetch()
     } if (preFetch) {
+      set_skip_on_start(true)
       setLoading(true)
       fetch()
       SetPrefetch(null)
