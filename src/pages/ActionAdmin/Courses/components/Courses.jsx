@@ -3,23 +3,33 @@ import { Pagination } from 'antd'
 import { PaginationWrapper } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { useFetch } from "hooks";
+import Loader from 'components/utilsComponents/Loader'
+
 export default function Courses() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
-    const [filter_values, setFilterValues] = React.useState()
 
-
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/course/?page=${currentPage}`,
+        skipOnStart: false,
+    })
 
     const redirect__ = React.useCallback((path) => {
         if (path) {
             navigate(path)
         }
-    },[navigate])
+    }, [navigate])
 
     const paginationAction = React.useCallback((a, p) => {
-        console.log(a, "===", p)
-    }, [])
+        setCurrentPage(a)
+        callFetch({
+            url: `/event_list/?page=${a}`,
+            method: 'get'
+        })
+    }, [callFetch])
+    console.log(data, " it is your name ")
     const Table = React.memo(() => {
         return (
             <React.Fragment>
@@ -37,104 +47,44 @@ export default function Courses() {
                                     <th className="p-3">Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3 cursor-pointer" onClick={()=>redirect__(`/admin/course/${1}`)}>
-                                        <p>97412378923</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>Microsoft Corporation</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>14 Jan 2022</p>
-                                        <p className="dark:text-gray-400">Friday</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>01 Feb 2022</p>
-                                        <p className="dark:text-gray-400">Tuesday</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <p>$15,792</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                            <span>Pending</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3">
-                                        <p>97412378923</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>Tesla Inc.</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>14 Jan 2022</p>
-                                        <p className="dark:text-gray-400">Friday</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>01 Feb 2022</p>
-                                        <p className="dark:text-gray-400">Tuesday</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <p>$275</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                            <span>Pending</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3">
-                                        <p>97412378923</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>Coca Cola co.</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>14 Jan 2022</p>
-                                        <p className="dark:text-gray-400">Friday</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>01 Feb 2022</p>
-                                        <p className="dark:text-gray-400">Tuesday</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <p>$8,950,500</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                            <span>Pending</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                    <td className="p-3">
-                                        <p>97412378923</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>Nvidia Corporation</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>14 Jan 2022</p>
-                                        <p className="dark:text-gray-400">Friday</p>
-                                    </td>
-                                    <td className="p-3">
-                                        <p>01 Feb 2022</p>
-                                        <p className="dark:text-gray-400">Tuesday</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <p>$98,218</p>
-                                    </td>
-                                    <td className="p-3 text-right">
-                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                            <span>Pending</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            {
+                                isLoading ? (<Loader />) : (
+                                    <React.Fragment>
+                                        {
+                                            data?.response?.message?.map((i, index) => (
+                                                <React.Fragment>
+                                                    <tbody>
+                                                        <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+                                                            <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/course/${1}`)}>
+                                                                <p>97412378923</p>
+                                                            </td>
+                                                            <td className="p-3">
+                                                                <p>Microsoft Corporation</p>
+                                                            </td>
+                                                            <td className="p-3">
+                                                                <p>14 Jan 2022</p>
+                                                                <p className="dark:text-gray-400">Friday</p>
+                                                            </td>
+                                                            <td className="p-3">
+                                                                <p>01 Feb 2022</p>
+                                                                <p className="dark:text-gray-400">Tuesday</p>
+                                                            </td>
+                                                            <td className="p-3 text-right">
+                                                                <p>$15,792</p>
+                                                            </td>
+                                                            <td className="p-3 text-right">
+                                                                <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+                                                                    <span>Pending</span>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </React.Fragment>
+                                            ))
+                                        }
+                                    </React.Fragment>
+                                )
+                            }
                         </table>
                     </div>
                 </div>
@@ -165,12 +115,12 @@ export default function Courses() {
             </div>
             <Table />
             <div className='lg:px-10 md:px-5 px-1'>
-                <PaginationWrapper labelText={` Page Number ${1} of ${null}`} >
+                <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
                     <Pagination showSizeChanger={false}
                         defaultCurrent={1}
                         current={currentPage}
                         defaultPageSize={10}
-                        total={90}
+                        total={data?.response?.page_count}
                         onChange={paginationAction} />
                 </PaginationWrapper>
             </div>

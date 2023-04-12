@@ -34,11 +34,6 @@ export default function Events() {
         onFailure
     })
     console.log(data)
-    const redirect__ = React.useCallback((path) => {
-        if (path) {
-            navigate(path)
-        }
-    }, [])
 
     const paginationAction = React.useCallback((a, p) => {
         setCurrentPage(a)
@@ -47,6 +42,12 @@ export default function Events() {
             method: 'get'
         })
     }, [callFetch])
+
+    const redirect__ = React.useCallback((path) => {
+        if (path) {
+            navigate(path)
+        }
+    }, [navigate])
 
     const ProfileCard = React.memo(({ props }) => {
         return (
