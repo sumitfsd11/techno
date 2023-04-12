@@ -5,8 +5,13 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
-
+import { useFetch, useAuth } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 export default function BlogEdit() {
+    const { userValue } = useAuth()
+    console.log(userValue?.id, "  === it is user value ")
+    const navigate = useNavigate()
     const { quill, quillRef } = useQuill();
     const methods = useForm({
         // resolver:,
@@ -19,20 +24,69 @@ export default function BlogEdit() {
             event_content: "",
             eventPlace: "",
             schedule: "",
-            status:""
+            status: ""
         }
 
     })
+
+    const onSuccess = React.useCallback((response) => {
+        if (response) {
+            console.log(response, "post response")
+        }
+    }, [])
+
+    const onFailure = React.useCallback((error) => {
+        if (error) {
+            console.log(error)
+        }
+    }, [])
+    const { isLoading, data, callFetch } = useFetch({
+        initialUrl: "",
+        skipOnStart: true,
+        onFailure,
+        onSuccess,
+    })
     const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
-        console.log(data, "it is your name ")
-    }, [])
+        let formData ={
+            user_id:userValue?.id,
+            title:data?.title,
+            // backgroundImage:data?.backgroundImage[0],
+            subtitle: data?.subtitle,
+            sub_des:data?.sub_des,
+            meta_content:data?.meta_content,
+            status: "Published",
+            blog_content:"__"
+        }
+        // formData.append("", data?.schedule)
+        // formData.append("", data?.status)
+        console.log(data)
+        if (false) {
+            callFetch({
+                url: "/login/",
+                method: "post",
+                data: formData
+            });
+        } else {
+            callFetch({
+                url: "/blog_action/",
+                method: "post",
+                data: formData
+            });
+        }
+    }, [callFetch])
 
     const event__action = React.useCallback((e) => {
         e?.preventDefault()
         let content = quill?.container?.outerHTML;
         //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
-        console.log(" it is test ", content)
+        const formData = new FormData()
+        formData.append("blog_content", content)
+        if (false) {
+
+        } else {
+
+        }
     }, [])
     React.useEffect(() => {
         if (quill) {
@@ -42,9 +96,9 @@ export default function BlogEdit() {
     }, [])
 
 
-    const _onFocus = React.useCallback(()=>{
-        document.getElementById("_date_picker").type ="datetime-local"
-    },[])
+    const _onFocus = React.useCallback(() => {
+        document.getElementById("_date_picker").type = "datetime-local"
+    }, [])
 
     return (
         <React.Fragment>
@@ -59,7 +113,7 @@ export default function BlogEdit() {
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
                                             <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full text-sm '>
-                                               Andrew Nilson
+                                                Andrew Nilson
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
@@ -138,7 +192,7 @@ export default function BlogEdit() {
                                                         control={control}
                                                         name="schedule"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text"  onFocus={_onFocus} value={field?.value}  />
+                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text" onFocus={_onFocus} value={field?.value} />
                                                         )} />
                                                 </div>
                                             </div>
@@ -161,7 +215,7 @@ export default function BlogEdit() {
                                                         control={control}
                                                         name="status"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <Selector type={"text"} defaultValues={field.value??null}  label={"Status"} error={error} selectionOption={["Draft" , "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                            <Selector type={"text"} defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
