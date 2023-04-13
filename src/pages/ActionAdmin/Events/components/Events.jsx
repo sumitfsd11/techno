@@ -152,7 +152,6 @@ export default function Events() {
                                     </React.Fragment>
                                 )
                             }
-
                         </table>
                     </div>
                 </div>
