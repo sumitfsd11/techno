@@ -2,12 +2,12 @@ import axios from "axios";
 import { isPublicApi, asyncWrapper , getLocalStorage} from "utils/common.utils";
 import { AUTH_TOKEN } from "constants/Localstorage.constants";
 // const baseURl = 'https://ehsan-api.vinratechllp.com'
-const baseURl = 'http://104.236.1.97:2000'
+const baseURl = 'http://104.236.1.97:2222'
 
 export const options = {
     method: 'get',
     headers: {
-        // 'Accept': 'application/json',
+        'Accept': 'application/json',
         'Content-type': 'application/json; charset=UTF-8',
     },
 };

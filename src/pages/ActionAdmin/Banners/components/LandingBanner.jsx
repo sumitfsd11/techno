@@ -4,26 +4,28 @@ import styled from 'styled-components';
 import { TextField, TextArea, Button } from 'components';
 import { FormProvider, useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { useAuth } from "hooks";
+import { useNavigate, Link, useLocation, useParams } from 'react-router-dom';
+import { useAuth, useFetch } from "hooks";
 import { ImgIcon, EditIcon, DeleteIcon } from 'icons';
 import {
     Accordion,
     AccordionHeader,
     AccordionBody,
 } from "@material-tailwind/react";
-// 
+
 import { notification } from 'antd'
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'
 
 
 export default function LandingBanner() {
+    const { userValue } = useAuth()
+    const { id } = useParams()
     const [open, setOpen] = React.useState(1);
     const [field_, setField] = React.useState('');
     const [api, contextHolder] = notification.useNotification();
     const { quill, quillRef } = useQuill();
-
+    // console.log(id)
     const navigate = useNavigate();
     const methods = useForm({
         mode: "all",
@@ -51,6 +53,24 @@ export default function LandingBanner() {
             des_faqs: ''
         }
     });
+    // api action 
+    const onSuccess = React.useCallback((response) => {
+
+    }, [])
+
+    const onFailure = React.useCallback((error) => {
+
+    }, [])
+
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/course/${id}`,
+        skipOnStart: false,
+        onSuccess,
+        onFailure
+    })
+
+    console.log(data ,"--")
+
 
     const { control, handleSubmit, setValue,
         formState: { isDirty, isValid }
@@ -119,7 +139,7 @@ export default function LandingBanner() {
             {contextHolder}
             <div className='grid lg:grid-cols-12 gap-3 '>
                 <div className='col-span-9 overflow-y-auto h-[91vh] custome_scroll '>
-                    <CourseDetail />
+                    <CourseDetail props={data?.response?.messsage} />
                 </div>
                 <div className='col-span-3  custome_scroll'>
                     <React.Fragment>
@@ -461,8 +481,8 @@ export default function LandingBanner() {
                                                         </div>
 
                                                         <div className="form-control mt-3">
-                                                            <Button is={false} 
-                                                            className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
+                                                            <Button is={false}
+                                                                className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
                                                                 isDisabled={!isDirtyfaqs || !isValidfaqs}
                                                             >{'SUBMIT'}</Button>
                                                         </div>

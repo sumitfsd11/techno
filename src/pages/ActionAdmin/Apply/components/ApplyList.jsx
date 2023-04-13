@@ -18,20 +18,21 @@ export default function ApplyList() {
         skipOnStart: false,
     })
 
-//    const { isLoading:exportingLoading, data:exportData  } = useFetch({
-//         // url: `/apply_get/?page=${currentPage}`,
-//         skipOnStart: false,
-//     })
-    // console.log(exportingLoading ," --- exporting data  " , exportData)
+    const { isLoading: exportingLoading, data: exportData } = useFetch({
+        url: `/apply_get_export/`,
+        skipOnStart: false,
+    })
 
     const __analytic = React.useMemo(() => {
-        return [
-            ["firstname", "lastname", "email"],
-            ["Ahmed", "Tomi", "ah@smthing.co.com"],
-            ["Raed", "Labes", "rl@smthing.co.com"],
-            ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-        ]
-    }, [])
+        let data__ = [["Id", "Name", "Country", "Contact", "Mail", "Postal code", "DoB", "Program", "isAccept"]]
+        if (!exportingLoading) {
+            exportData?.response?.map((i, index, arr) => {
+                data__.push([i?.id, i?.name, i?.country_name, i?.contact_number, i?.mail_id, i?.postal_code, i?.dob, i?.programme, i?.is_accepted_offer])
+                return i
+            })
+        }
+        return data__
+    }, [exportingLoading])
 
     React.useEffect(() => {
         if (filter_values) {
@@ -63,7 +64,7 @@ export default function ApplyList() {
                     <div className='flex justify-between '>
                         <h2 className="mb-3 text-2xl font-semibold leading-tight">Applyies#</h2>
                         <div className=' lg:pr-16 md:pr-5 pr-2 '>
-                            <Button isLoading={true} isDisabled={true}
+                            <Button isLoading={false} isDisabled={exportingLoading}
                                 className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
                             >
                                 <CSVLink id="id" data={__analytic} >  {'EXPORT CSV'}</CSVLink></Button>
