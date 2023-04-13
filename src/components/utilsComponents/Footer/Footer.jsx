@@ -1,8 +1,13 @@
 import React from 'react'
 import SocialiconDist from '../SocialiconDist/SocialiconDist';
+import { useFetch } from 'hooks';
 export default function Footer() {
 
-
+    const { data } = useFetch({
+        url: `/social_media/`,
+        skipOnStart: false,
+    })
+console.log(data ," it is footer data =- social ")
     const LeftSideFooter = React.memo(() => {
         return (
             <React.Fragment>
@@ -120,7 +125,7 @@ export default function Footer() {
                                 Copyright © 2023 Technomatic Academy . All Rights Reserved.
                             </div>
                             <div className='text-white text-sm lg:mt-4 mt-2 '>
-                                <SocialiconDist />
+                                <SocialiconDist props={data?.response?.message} />
                             </div>
                         </div>
                     </footer>
