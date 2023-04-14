@@ -11,8 +11,6 @@ export default function Events() {
         skipOnStart: false,
         methods: 'get',
     })
-
-
     React.useInsertionEffect(() => {
         if (window) {
             const tag = document.getElementsByTagName("div");
@@ -22,7 +20,6 @@ export default function Events() {
             }
         }
     })
-
     return (
         <div>
             {

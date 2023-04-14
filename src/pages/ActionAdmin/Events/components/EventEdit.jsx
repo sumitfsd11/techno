@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import moment from 'moment';
 
 export default function EventEdit() {
-    const { quill, quillRef, editor } = useQuill();
+    const { quill, quillRef } = useQuill();
     const { userValue } = useAuth()
     const { id } = useParams()
     const navigate = useNavigate();
@@ -33,8 +33,12 @@ export default function EventEdit() {
 
     const onSuccess = React.useCallback((response, method) => {
         if (method !== 'get') {
-            // navigate('/admin/event-listing')
-            toast.success('Updated successfully !')
+            if (method === 'post') {
+                navigate('/admin/event-listing')
+                toast.success('Posted  successfully !')
+            } else {
+                toast.success('Updated successfully !')
+            }
         }
     }, [navigate])
 
@@ -52,8 +56,9 @@ export default function EventEdit() {
         onFailure
     })
 
-    const { control, handleSubmit,watch, setValue, formState: { isDirty, isValid } } = methods
+    const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
+        let content = quill.container.outerHTML ?? null;
         let formData = {
             title: data?.title,
             // backgroundImage: data?.backgroundImage[0],
@@ -62,6 +67,7 @@ export default function EventEdit() {
             sub_des: data?.sub_des,
             meta_content: data?.meta_content,
             schedule: data?.schedule,
+            event_content: content,
             // status: data?.status
         }
         if (id) {
@@ -75,11 +81,11 @@ export default function EventEdit() {
         } else {
             callFetch({
                 url: `/event_action/`,
-                method: 'put',
+                method: 'post',
                 data: formData
             })
         }
-    }, [callFetch, id])
+    }, [callFetch, id, quill])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -113,7 +119,7 @@ export default function EventEdit() {
     }, [callFetch, id, quill])
     React.useEffect(() => {
         if (quill) {
-            if (!isLoading) {
+            if (!isLoading && id) {
                 // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
                 quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
             }
@@ -184,7 +190,7 @@ export default function EventEdit() {
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
                                             <button className='bg-[#ffc78b] text-white  py-1 font-normal px-4 rounded-full text-sm '>
-                                               {moment(data?.response?.schedule).format('MMMM Do YYYY, h:mm:ss a')}
+                                                {moment(data?.response?.schedule).format('MMMM Do YYYY, h:mm:ss a')}
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
@@ -331,7 +337,7 @@ export default function EventEdit() {
                                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
                                                     // isDisabled={!isDirty || !isValid}
                                                     >
-                                                        {'Submit'}
+                                                        {id ? 'UPDATE' : 'POST'}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -352,13 +358,17 @@ export default function EventEdit() {
 
                                 </div>
                                 <div className=''>
-                                    <Button
-                                        isLoading={isLoading}
-                                        onClick={event__action}
-                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
-                                    >
-                                        {'Submit'}
-                                    </Button>
+                                    {
+                                        id && (
+                                            <Button
+                                                isLoading={isLoading}
+                                                onClick={event__action}
+                                                className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
+                                            >
+                                                UPDATE
+                                            </Button>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
