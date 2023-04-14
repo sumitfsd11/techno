@@ -41,6 +41,9 @@ export const applyValidation = yup.object({
   contact_number: yup.string().required('Contact Number is required ! '),
   country_name: yup.string().required('Country is required ! '),
 })
+
+
+
 export {
   loginValidationSchema,
   emailValidationSchema,
@@ -49,7 +52,6 @@ export {
   changePasswordValidationSchema
 
 };
-
 
 
 

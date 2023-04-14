@@ -5,7 +5,13 @@
     --primar-color:#3496e4;
     --primary-hover:#9d9d9d5c;
 }
+.blog_container__  .ql-snow{
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-color: none !important;
 
+}
 /* scrollbar */
 .custome_scroll::-webkit-scrollbar {
     width: 5px;

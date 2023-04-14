@@ -159,7 +159,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/events',
+        path: '/event/:id',
         key: '',
         permissions: [],
         component: (<Events />)
