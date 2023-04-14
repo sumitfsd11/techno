@@ -8,6 +8,7 @@ import CouserBanner from "pages/VisitorPages/components/Banner";
 import { useFetch, useAuth } from "hooks"
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import moment from 'moment';
 
 export default function EventEdit() {
     const { quill, quillRef, editor } = useQuill();
@@ -32,7 +33,8 @@ export default function EventEdit() {
 
     const onSuccess = React.useCallback((response, method) => {
         if (method !== 'get') {
-            navigate('/admin/event-listing')
+            // navigate('/admin/event-listing')
+            toast.success('Updated successfully !')
         }
     }, [navigate])
 
@@ -50,7 +52,7 @@ export default function EventEdit() {
         onFailure
     })
 
-    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
+    const { control, handleSubmit,watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let formData = {
             title: data?.title,
@@ -168,26 +170,30 @@ export default function EventEdit() {
 
     return (
         <React.Fragment>
-            <CouserBanner />
+            <CouserBanner props={{
+                title: data?.response?.title ?? watch('title'),
+                des: data?.response?.sub_des ?? watch('sub_des')
+            }} />
             <div className='lg:px-40 md:px-10 px-2'>
                 <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>
                     <section className='text-center'>
                         <article>
-                            <h2 className='text-3xl font-semibold '>Breaking Into Tech at Islamic Center of Irving</h2>
+                            <h2 className='text-3xl font-semibold '>{data?.response?.title}</h2>
                             <div className='grid mt-4'>
                                 <div className='m-auto'>
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
                                             <button className='bg-[#ffc78b] text-white  py-1 font-normal px-4 rounded-full text-sm '>
-                                                12 Feb 2023
+                                               {moment(data?.response?.schedule).format('MMMM Do YYYY, h:mm:ss a')}
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
-                                            Sunday 12-04-2023 , 03:40AM
+                                            {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
+                                            {/* moment created_on */}
                                         </div>
                                         <div className='mx-2 '>
                                             <button className=' bg-[#8c98a4] text-white  py-1 font-normal px-4 rounded-full text-sm'>
-                                                Room 210 AB, Islamic Center of Irving
+                                                {data?.response?.subtitle}
                                             </button>
                                         </div>
                                     </div>
@@ -289,7 +295,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="status"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <Selector  defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                            <Selector defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
@@ -321,7 +327,7 @@ export default function EventEdit() {
                                                 <div className=''>
                                                     <Button
                                                         type='submit'
-                                                        //  isLoading={isLoading} 
+                                                        isLoading={isLoading}
                                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
                                                     // isDisabled={!isDirty || !isValid}
                                                     >

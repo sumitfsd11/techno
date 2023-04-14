@@ -3,12 +3,17 @@ import React from 'react'
 // import { FaBookReader } from "react-icons/fa";
 // import { FiClock } from "react-icons/fi";
 import { AnimationOnScroll } from 'react-animation-on-scroll';
-import img from "./680343.png"
+import img from "./680343.png";
+import { useNavigate } from 'react-router-dom';
 export default function UpcomingEvent() {
+    const navigate = useNavigate()
 
+    const redirect__ = React.useCallback((path) => {
+        navigate(path)
+    }, [navigate])
     const EventCard = React.memo(() => (
         <React.Fragment>
-            <div className=' card-event  w-ful rounded-md p-3 bg-white'>
+            <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white' onClick={()=>redirect__(`/event/${29}`)}>
                 <div className='flex justify-between'>
                     <div className=''>
                         <div className='flex  items-center'>
@@ -83,7 +88,7 @@ export default function UpcomingEvent() {
                             Array(12, 39, 939, 90, 70, 45, 2004, 4, 5, 7, 748, 37, 340, 404).map((_, index) => (
                                 <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
                                     {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
-                                        <EventCard />
+                                    <EventCard />
                                     {/* </AnimationOnScroll> */}
                                 </div>
                             ))
