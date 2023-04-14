@@ -107,7 +107,7 @@ export default function Events() {
                                                 <React.Fragment key={index}>
                                                     <tbody>
                                                         <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                            <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/event/${1}`)}>
+                                                            <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/event/${i?.id}`)}>
                                                                 <p>{i?.id}</p>
                                                             </td>
                                                             <td className="p-3">

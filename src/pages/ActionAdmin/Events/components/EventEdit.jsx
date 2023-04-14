@@ -5,11 +5,15 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
-
-// import CourseBa
+import { useFetch, useAuth } from "hooks"
+import { useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export default function EventEdit() {
-    const { quill, quillRef } = useQuill();
+    const { quill, quillRef, editor } = useQuill();
+    const { userValue } = useAuth()
+    const { id } = useParams()
+    const navigate = useNavigate();
     const methods = useForm({
         // resolver:,
         defaultValues: {
@@ -21,32 +25,146 @@ export default function EventEdit() {
             event_content: "",
             eventPlace: "",
             schedule: "",
-            status:""
+            status: ""
         }
 
     })
-    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
-    const onSubmit = React.useCallback((data) => {
-        console.log(data, "it is your name ")
-    }, [])
 
-    const event__action = React.useCallback((e) => {
-        e?.preventDefault()
-        let content = quill?.container?.outerHTML;
-        //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
-        console.log(" it is test ", content)
-    }, [])
-    React.useEffect(() => {
-        if (quill) {
-            // data poupulating 
-            // quill.clipboard.dangerouslyPasteHTML(localStorage.getItem('test__'));
+    const onSuccess = React.useCallback((response, method) => {
+        if (method !== 'get') {
+            navigate('/admin/event-listing')
+        }
+    }, [navigate])
+
+    const onFailure = React.useCallback((error) => {
+        if (error) {
+
         }
     }, [])
 
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/event_content_test/${userValue?.id}`,
+        skipOnStart: false,
+        methods: 'get',
+        onSuccess,
+        onFailure
+    })
 
-    const _onFocus = React.useCallback(()=>{
-        document.getElementById("_date_picker").type ="datetime-local"
-    },[])
+    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
+    const onSubmit = React.useCallback((data) => {
+        let formData = {
+            title: data?.title,
+            // backgroundImage: data?.backgroundImage[0],
+            user_id: userValue?.id,
+            subtitle: data?.subtitle,
+            sub_des: data?.sub_des,
+            meta_content: data?.meta_content,
+            schedule: data?.schedule,
+            // status: data?.status
+        }
+        if (id) {
+            callFetch(
+                {
+                    url: `/event_action/${id}`,
+                    method: 'put',
+                    data: formData
+                }
+            )
+        } else {
+            callFetch({
+                url: `/event_action/`,
+                method: 'put',
+                data: formData
+            })
+        }
+    }, [callFetch, id])
+
+    const event__action = React.useCallback((e) => {
+        let content = quill.container.outerHTML ?? null;
+        if (content && quill) {
+            //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
+            if (id) {
+                let data__ = {
+                    event_content: content,
+                    user_id: userValue?.id
+                }
+                callFetch({
+                    url: `/event_action/${id}`,
+                    method: 'put',
+                    data: data__
+                })
+            } else {
+                let data__ = {
+                    title: " --- ",
+                    event_content: content,
+                    user_id: userValue?.id
+                }
+                callFetch({
+                    url: `/event_action/`,
+                    method: 'post',
+                    data: data__
+                })
+            }
+        } else {
+            toast.success('Event describition can not be empty !')
+        }
+    }, [callFetch, id, quill])
+    React.useEffect(() => {
+        if (quill) {
+            if (!isLoading) {
+                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
+            }
+        }
+    }, [isLoading, data, quill])
+
+
+
+    React.useEffect(() => {
+        if (id) {
+            callFetch({ url: `/event_content_test/${id}`, method: 'get' })
+        }
+    }, [callFetch, id])
+
+    React.useEffect(() => {
+        if (!isLoading && id) {
+            let data_ = data?.response
+            setValue('title', data_?.title, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('schedule', data_?.schedule, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('schedule', data_?.schedule, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('meta_content', data_?.meta_content, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('subtitle', data_?.subtitle, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('sub_des', data_?.sub_des, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+        }
+    }, [isLoading])
+
+    const _onFocus = React.useCallback(() => {
+        document.getElementById("_date_picker").type = "datetime-local"
+    }, [])
 
     return (
         <React.Fragment>
@@ -87,6 +205,9 @@ export default function EventEdit() {
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
                                     <div className='lg:col-span-4 md:col-span-12 col-span-12'>
                                         <div className='form-control'>
+                                            <div>
+
+                                            </div>
                                             <div className='w-full'>
                                                 <Controller
                                                     control={control}
@@ -145,7 +266,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="schedule"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text"  onFocus={_onFocus} value={field?.value}  />
+                                                            <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text" onFocus={_onFocus} value={field?.value} />
                                                         )} />
                                                 </div>
                                             </div>
@@ -168,7 +289,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="status"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <Selector type={"text"} defaultValues={field.value??null}  label={"Status"} error={error} selectionOption={["Draft" , "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                            <Selector  defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
@@ -198,10 +319,12 @@ export default function EventEdit() {
 
                                                 </div>
                                                 <div className=''>
-                                                    <Button type='submit'
+                                                    <Button
+                                                        type='submit'
                                                         //  isLoading={isLoading} 
                                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
-                                                        isDisabled={!isDirty || !isValid}>
+                                                    // isDisabled={!isDirty || !isValid}
+                                                    >
                                                         {'Submit'}
                                                     </Button>
                                                 </div>
@@ -215,16 +338,16 @@ export default function EventEdit() {
                     </div>
                     <div>
                         <div className='form-control'>
-                            <div>
-                                <div className='min-h-[360px]  ' ref={quillRef} />
+                            <div style={{ width: '100%', height: 'auto', border: '1px solid lightgray' }}>
+                                <div ref={quillRef} />
                             </div>
                             <div className='flex justify-between mt-2'>
                                 <div className=''>
 
                                 </div>
                                 <div className=''>
-                                    <Button type='submit'
-                                        //  isLoading={isLoading} 
+                                    <Button
+                                        isLoading={isLoading}
                                         onClick={event__action}
                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
                                     >
