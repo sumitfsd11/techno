@@ -1,23 +1,54 @@
 import React from 'react'
-import { TextField, Button, TextArea, Selector } from 'components';
+import { TextField, Button, Selector } from 'components';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import CouserBanner from "pages/VisitorPages/components/Banner";
+import { useFetch } from "hooks";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { applyValidation } from 'utils/validation';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 export default function ApplyForm() {
+    const navigate = useNavigate()
     const methods = useForm({
-        // resolver:
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-            location: "",
-            contact_number: "",
-            enquiry_dec: ""
-        }
+        resolver: yupResolver(applyValidation),
+        mode: 'all',
     })
-
-    const { handleSubmit, control, setError, formState: { isDirty, isValid } } = methods
-    const onSubmit = React.useCallback((data) => {
-        console.log(data, "===")
+    const onSuccess = React.useCallback((response) => {
+        if (response) {
+            toast.success(response?.response?.message)
+            navigate('/')
+        }
     }, [])
+
+    const onFailure = React.useCallback((error) => {
+        if (error?.response) {
+            toast.error(error?.response?.message)
+        }
+    }, [])
+
+    const { isLoading, callFetch } = useFetch({
+        url: '/apply/',
+        skipOnStart: false,
+        onSuccess,
+        onFailure
+    })
+    const { handleSubmit, control , formState: { isDirty, isValid } } = methods
+    const onSubmit = React.useCallback((data) => {
+        let formData = {
+            name: data?.firstName + " " + data?.lastName,
+            postal_code: data?.postal_code,
+            mail_id: data?.mail_id,
+            dob: new Date(),
+            contact_number: data?.contact_number,
+            programme: data?.programme ?? "---",
+            country_name: data?.country_name,
+        }
+        callFetch({
+            url: '/apply/',
+            method: 'post',
+            data: formData
+        })
+    }, [callFetch])
 
     return (
         <div>
@@ -53,9 +84,9 @@ export default function ApplyForm() {
                                             <div className='form-control mb-2 '>
                                                 <Controller
                                                     control={control}
-                                                    name="FristName"
+                                                    name="firstName"
                                                     render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                        <TextField type={"text"} error={error}  {...field} name={"FristName"} placeholder={"Frist Name"} className={"w-full pl-6"} />
+                                                        <TextField type={"text"} error={error}  {...field} name={"firstName"} placeholder={"First Name"} className={"w-full pl-6  "} />
                                                     )}
                                                 />
                                             </div>
@@ -77,9 +108,21 @@ export default function ApplyForm() {
                                             <div className='form-control mb-2 '>
                                                 <Controller
                                                     control={control}
-                                                    name="location"
+                                                    name="mail_id"
                                                     render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                        <TextField type={"text"} error={error}  {...field} name={"location"} placeholder={"Pincode "} className={"w-full pl-6"} />
+                                                        <TextField type={"text"} error={error}  {...field} name={"mail_id"} placeholder={"Mail"} className={"w-full pl-6"} />
+                                                    )}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                            <div className='form-control mb-2 '>
+                                                <Controller
+                                                    control={control}
+                                                    name="postal_code"
+                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                        <TextField type={"text"} error={error}  {...field} name={"postal_code"} placeholder={"Pincode"} className={"w-full pl-6"} />
                                                     )}
                                                 />
                                             </div>
@@ -88,9 +131,9 @@ export default function ApplyForm() {
                                             <div className='form-control mb-2 '>
                                                 <Controller
                                                     control={control}
-                                                    name="country"
+                                                    name="country_name"
                                                     render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                        <Selector type={"text"} defaultValues={field.value ?? null} label={"Country"} error={error} selectionOption={["India", "Pakistan"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                        <Selector {...field} defaultValues={field.value ?? null} label={"Country"} error={error} selectionOption={["India", "Nepal"]} name={"country_name"} placeholder={"Country"} className={"w-full pl-6"} />
                                                     )}
                                                 />
                                             </div>
@@ -106,18 +149,6 @@ export default function ApplyForm() {
                                                 />
                                             </div>
                                         </div>
-                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
-                                            <div className='form-control mb-2 '>
-                                                <Controller
-                                                    control={control}
-                                                    name="email"
-                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                        <TextField type={"email"} error={error}  {...field} name={"email"} placeholder={"Email"} className={"w-full pl-6"} />
-                                                    )}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* contact_number */}
                                     </div>
 
                                     <div className='form-control'>
@@ -127,8 +158,9 @@ export default function ApplyForm() {
                                             </div>
                                             <div className=''>
                                                 <Button type='submit'
-                                                    //  isLoading={isLoading} 
-                                                    className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
+                                                    isLoading={isLoading}
+
+                                                    className={`w-[170px] py-3 leading-6 drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full text-base `}
                                                     isDisabled={!isDirty || !isValid}>
                                                     {'Submit'}
                                                 </Button>

@@ -85,6 +85,13 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/event',
+        key: '',
+        permissions: [],
+        component: (<EventEdit />)
+    },
+    {
+        name: '',
         path: '/admin/profile',
         key: '',
         permissions: [],
@@ -159,7 +166,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/events',
+        path: '/event/:id',
         key: '',
         permissions: [],
         component: (<Events />)

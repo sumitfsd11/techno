@@ -44,12 +44,14 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+
 .nav_bar_user{
   position: fixed;
   z-index: 99;
   width: 100%;
   background: #f6f6f6;
 }
+
 .nav_bar_user .wrapper{
   position: relative;
   max-width: 1300px;
@@ -61,6 +63,7 @@
   align-items: center;
   justify-content: space-between;
 }
+
 .wrapper .logo a{
   color: #f2f2f2;
   font-size: 30px;
