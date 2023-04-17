@@ -32,14 +32,14 @@ export default function EventEdit() {
     })
 
     const onSuccess = React.useCallback((response, method) => {
-        if (method !== 'get') {
+   
             if (method === 'post') {
                 navigate('/admin/event-listing')
                 toast.success('Posted  successfully !')
-            } else {
+            } if (method === 'put') {
                 toast.success('Updated successfully !')
             }
-        }
+    
     }, [navigate])
 
     const onFailure = React.useCallback((error) => {
@@ -49,7 +49,7 @@ export default function EventEdit() {
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/event_content_test/${userValue?.id}`,
+        url: `/blog/${id}`,
         skipOnStart: false,
         methods: 'get',
         onSuccess,
@@ -67,20 +67,20 @@ export default function EventEdit() {
             sub_des: data?.sub_des,
             meta_content: data?.meta_content,
             schedule: data?.schedule,
-            event_content: content,
+            blog_content: content,
             // status: data?.status
         }
         if (id) {
             callFetch(
                 {
-                    url: `/event_action/${id}`,
+                    url: `/blog_action/${id}`,
                     method: 'put',
                     data: formData
                 }
             )
         } else {
             callFetch({
-                url: `/event_action/`,
+                url: `/blog_action/`,
                 method: 'post',
                 data: formData
             })
@@ -93,22 +93,22 @@ export default function EventEdit() {
             //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
             if (id) {
                 let data__ = {
-                    event_content: content,
+                    blog_content: content,
                     user_id: userValue?.id
                 }
                 callFetch({
-                    url: `/event_action/${id}`,
+                    url: `/blog_action/${id}`,
                     method: 'put',
                     data: data__
                 })
             } else {
                 let data__ = {
                     title: " --- ",
-                    event_content: content,
+                    blog_content: content,
                     user_id: userValue?.id
                 }
                 callFetch({
-                    url: `/event_action/`,
+                    url: `/blog_action/`,
                     method: 'post',
                     data: data__
                 })
@@ -120,8 +120,8 @@ export default function EventEdit() {
     React.useEffect(() => {
         if (quill) {
             if (!isLoading && id) {
-                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
-                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
+                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.blog_content);
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.blog_content}`);
             }
         }
     }, [isLoading, data, quill])
@@ -130,7 +130,7 @@ export default function EventEdit() {
 
     React.useEffect(() => {
         if (id) {
-            callFetch({ url: `/event_content_test/${id}`, method: 'get' })
+            callFetch({ url: `/blog/${id}`, method: 'get' })
         }
     }, [callFetch, id])
 
@@ -138,11 +138,6 @@ export default function EventEdit() {
         if (!isLoading && id) {
             let data_ = data?.response
             setValue('title', data_?.title, {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true
-            })
-            setValue('schedule', data_?.schedule, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true
@@ -290,7 +285,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="subtitle"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Host Location"} className={"w-full pl-6"} />
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub Title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
