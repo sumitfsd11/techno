@@ -5,14 +5,16 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { TextField, Button, TextArea, Selector } from 'components';
 import { ImgIcon } from 'icons';
 import CouserBanner from "pages/VisitorPages/components/Banner";
-import { useFetch, useAuth } from 'hooks';
-import { useNavigate } from 'react-router-dom';
+import { useFetch, useAuth } from "hooks"
+import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-export default function BlogEdit() {
-    const { userValue } = useAuth()
-    console.log(userValue?.id, "  === it is user value ")
-    const navigate = useNavigate()
+import moment from 'moment';
+
+export default function EventEdit() {
     const { quill, quillRef } = useQuill();
+    const { userValue } = useAuth()
+    const { id } = useParams()
+    const navigate = useNavigate();
     const methods = useForm({
         // resolver:,
         defaultValues: {
@@ -29,72 +31,144 @@ export default function BlogEdit() {
 
     })
 
-    const onSuccess = React.useCallback((response) => {
-        if (response) {
-            console.log(response, "post response")
+    const onSuccess = React.useCallback((response, method) => {
+        if (method !== 'get') {
+            if (method === 'post') {
+                navigate('/admin/event-listing')
+                toast.success('Posted  successfully !')
+            } else {
+                toast.success('Updated successfully !')
+            }
         }
-    }, [])
+    }, [navigate])
 
     const onFailure = React.useCallback((error) => {
         if (error) {
-            console.log(error)
+
         }
     }, [])
+
     const { isLoading, data, callFetch } = useFetch({
-        initialUrl: "",
-        skipOnStart: true,
-        onFailure,
+        url: `/event_content_test/${userValue?.id}`,
+        skipOnStart: false,
+        methods: 'get',
         onSuccess,
+        onFailure
     })
-    const { control, handleSubmit, setValue, formState: { isDirty, isValid } } = methods
+
+    const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
-        let formData ={
-            user_id:userValue?.id,
-            title:data?.title,
-            // backgroundImage:data?.backgroundImage[0],
+        let content = quill.container.outerHTML ?? null;
+        let formData = {
+            title: data?.title,
+            // backgroundImage: data?.backgroundImage[0],
+            user_id: userValue?.id,
             subtitle: data?.subtitle,
-            sub_des:data?.sub_des,
-            meta_content:data?.meta_content,
-            status: "Published",
-            blog_content:"__"
+            sub_des: data?.sub_des,
+            meta_content: data?.meta_content,
+            schedule: data?.schedule,
+            event_content: content,
+            // status: data?.status
         }
-        // formData.append("", data?.schedule)
-        // formData.append("", data?.status)
-        console.log(data)
-        if (false) {
-            callFetch({
-                url: "/login/",
-                method: "post",
-                data: formData
-            });
+        if (id) {
+            callFetch(
+                {
+                    url: `/event_action/${id}`,
+                    method: 'put',
+                    data: formData
+                }
+            )
         } else {
             callFetch({
-                url: "/blog_action/",
-                method: "post",
+                url: `/event_action/`,
+                method: 'post',
                 data: formData
-            });
+            })
         }
-    }, [callFetch])
+    }, [callFetch, id, quill])
 
     const event__action = React.useCallback((e) => {
-        e?.preventDefault()
-        let content = quill?.container?.outerHTML;
-        //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
-        const formData = new FormData()
-        formData.append("blog_content", content)
-        if (false) {
-
+        let content = quill.container.outerHTML ?? null;
+        if (content && quill) {
+            //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
+            if (id) {
+                let data__ = {
+                    event_content: content,
+                    user_id: userValue?.id
+                }
+                callFetch({
+                    url: `/event_action/${id}`,
+                    method: 'put',
+                    data: data__
+                })
+            } else {
+                let data__ = {
+                    title: " --- ",
+                    event_content: content,
+                    user_id: userValue?.id
+                }
+                callFetch({
+                    url: `/event_action/`,
+                    method: 'post',
+                    data: data__
+                })
+            }
         } else {
-
+            toast.success('Event describition can not be empty !')
         }
-    }, [])
+    }, [callFetch, id, quill])
     React.useEffect(() => {
         if (quill) {
-            // data poupulating 
-            // quill.clipboard.dangerouslyPasteHTML(localStorage.getItem('test__'));
+            if (!isLoading && id) {
+                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
+            }
         }
-    }, [])
+    }, [isLoading, data, quill])
 
+
+
+    React.useEffect(() => {
+        if (id) {
+            callFetch({ url: `/event_content_test/${id}`, method: 'get' })
+        }
+    }, [callFetch, id])
+
+    React.useEffect(() => {
+        if (!isLoading && id) {
+            let data_ = data?.response
+            setValue('title', data_?.title, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('schedule', data_?.schedule, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('schedule', data_?.schedule, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('meta_content', data_?.meta_content, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('subtitle', data_?.subtitle, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('sub_des', data_?.sub_des, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+        }
+    }, [isLoading])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
@@ -102,24 +176,32 @@ export default function BlogEdit() {
 
     return (
         <React.Fragment>
-            <CouserBanner />
+            <CouserBanner props={{
+                title: data?.response?.title ?? watch('title'),
+                des: data?.response?.sub_des ?? watch('sub_des')
+            }} />
             <div className='lg:px-40 md:px-10 px-2'>
-                <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>
+                <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>
                     <section className='text-center'>
                         <article>
-                            <h2 className='text-3xl font-semibold '>Breaking Into Tech at Islamic Center of Irving</h2>
+                            <h2 className='text-3xl font-semibold '>{data?.response?.title}</h2>
                             <div className='grid mt-4'>
                                 <div className='m-auto'>
                                     <div className='flex my-2'>
                                         <div className='mx-2 '>
-                                            <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full text-sm '>
-                                                Andrew Nilson
+                                            <button className='bg-[#ffc78b] text-white  py-1 font-normal px-4 rounded-full text-sm '>
+                                                {moment(data?.response?.schedule).format('MMMM Do YYYY, h:mm:ss a')}
                                             </button>
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
-                                            Sunday 12-04-2023 , 03:40AM
+                                            {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
+                                            {/* moment created_on */}
                                         </div>
-
+                                        <div className='mx-2 '>
+                                            <button className=' bg-[#8c98a4] text-white  py-1 font-normal px-4 rounded-full text-sm'>
+                                                {data?.response?.subtitle}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -129,11 +211,15 @@ export default function BlogEdit() {
 
                 <div className=' mt-10 '>
                     <div>
+
                         <FormProvider {...methods} >
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
                                     <div className='lg:col-span-4 md:col-span-12 col-span-12'>
                                         <div className='form-control'>
+                                            <div>
+
+                                            </div>
                                             <div className='w-full'>
                                                 <Controller
                                                     control={control}
@@ -204,7 +290,7 @@ export default function BlogEdit() {
                                                         control={control}
                                                         name="subtitle"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub title "} className={"w-full pl-6"} />
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Host Location"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
@@ -215,7 +301,7 @@ export default function BlogEdit() {
                                                         control={control}
                                                         name="status"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <Selector type={"text"} defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                            <Selector defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
@@ -245,11 +331,13 @@ export default function BlogEdit() {
 
                                                 </div>
                                                 <div className=''>
-                                                    <Button type='submit'
-                                                        //  isLoading={isLoading} 
+                                                    <Button
+                                                        type='submit'
+                                                        isLoading={isLoading}
                                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
-                                                        isDisabled={!isDirty || !isValid}>
-                                                        {'Submit'}
+                                                    // isDisabled={!isDirty || !isValid}
+                                                    >
+                                                        {id ? 'UPDATE' : 'POST'}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -262,21 +350,25 @@ export default function BlogEdit() {
                     </div>
                     <div>
                         <div className='form-control'>
-                            <div>
-                                <div className='min-h-[360px]  ' ref={quillRef} />
+                            <div style={{ width: '100%', height: 'auto', border: '1px solid lightgray' }}>
+                                <div ref={quillRef} />
                             </div>
                             <div className='flex justify-between mt-2'>
                                 <div className=''>
 
                                 </div>
                                 <div className=''>
-                                    <Button type='submit'
-                                        //  isLoading={isLoading} 
-                                        onClick={event__action}
-                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
-                                    >
-                                        {'Submit'}
-                                    </Button>
+                                    {
+                                        id && (
+                                            <Button
+                                                isLoading={isLoading}
+                                                onClick={event__action}
+                                                className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
+                                            >
+                                                UPDATE
+                                            </Button>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>

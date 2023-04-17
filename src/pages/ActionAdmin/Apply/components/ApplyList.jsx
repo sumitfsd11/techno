@@ -79,7 +79,7 @@ export default function ApplyList() {
                                     <th className="p-3">Issued</th>
                                     <th className="p-3">Due</th>
                                     <th className="p-3 text-right">Amount</th>
-                                    <th className="p-3">Status</th>
+                                <th className="p-3">Status</th>
                                 </tr>
                             </thead>
                             {

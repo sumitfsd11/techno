@@ -1,6 +1,6 @@
 import React from 'react'
 import { Pagination } from 'antd'
-import { PaginationWrapper } from 'components'
+import { PaginationWrapper , Button} from 'components'
 import styled from 'styled-components'
 // import { SearchBarSVG } from 'icons'
 import moment from 'moment'
@@ -86,7 +86,18 @@ export default function Events() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Events#</h2>
+                    <div className='flex justify-between'>
+                        <div className="">
+                            <h2 className="mb-4 text-2xl font-semibold leading-tight">Events#</h2>
+                        </div>
+                        <div className=''>
+                            <Button onClick={()=>redirect__('/admin/event')} className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
+                            >
+                                CREATE NEW
+                            </Button>
+                        </div>
+                    </div>
+
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
@@ -112,23 +123,23 @@ export default function Events() {
                                                             </td>
                                                             <td className="p-3">
                                                                 {
-                                                                    i?.user_id ? ( 
-                                                                    <Tooltip color='black' placement="bottomLeft" title={
-                                                                        (
-                                                                            <React.Fragment>
-                                                                                <ProfileCard props={i?.user_id} />
-                                                                            </React.Fragment>
-                                                                        )
-                                                                    }>
-                                                                        <p className='cursor-pointer'>{i?.user_id?.first_name+' '+ i?.user_id?.last_name}</p>
-                                                                    </Tooltip>
+                                                                    i?.user_id ? (
+                                                                        <Tooltip color='black' placement="bottomLeft" title={
+                                                                            (
+                                                                                <React.Fragment>
+                                                                                    <ProfileCard props={i?.user_id} />
+                                                                                </React.Fragment>
+                                                                            )
+                                                                        }>
+                                                                            <p className='cursor-pointer'>{i?.user_id?.first_name + ' ' + i?.user_id?.last_name}</p>
+                                                                        </Tooltip>
                                                                     ) : (
                                                                         <p className='cursor-pointer font-semibold'>--</p>
                                                                     )
                                                                 }
                                                             </td>
                                                             <td className="p-3">
-                                                             
+
                                                                 <p className="dark:text-gray-400">{i?.title}</p>
                                                             </td>
                                                             <td className="p-3">
