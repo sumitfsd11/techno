@@ -64,6 +64,13 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/blog',
+        key: '',
+        permissions: [],
+        component: (<BlogEdit />)
+    },
+    {
+        name: '',
         path: '/admin/blog/:id',
         key: '',
         permissions: [],
