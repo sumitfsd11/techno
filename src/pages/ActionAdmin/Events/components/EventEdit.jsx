@@ -85,7 +85,7 @@ export default function EventEdit() {
                 data: formData
             })
         }
-    }, [callFetch, id, quill])
+    }, [callFetch, id, quill ,userValue])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -116,7 +116,7 @@ export default function EventEdit() {
         } else {
             toast.success('Event describition can not be empty !')
         }
-    }, [callFetch, id, quill])
+    }, [callFetch, id, quill ,userValue])
     React.useEffect(() => {
         if (quill) {
             if (!isLoading && id) {
@@ -124,7 +124,7 @@ export default function EventEdit() {
                 quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
             }
         }
-    }, [isLoading, data, quill])
+    }, [isLoading, data, quill, id])
 
 
 
@@ -168,7 +168,7 @@ export default function EventEdit() {
                 shouldValidate: true
             })
         }
-    }, [isLoading])
+    }, [isLoading, data, id , setValue])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
@@ -412,3 +412,6 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
 `;
+
+
+
