@@ -163,7 +163,7 @@ export default function EventEdit() {
                 shouldValidate: true
             })
         }
-    }, [isLoading])
+    }, [isLoading , setValue , id , data])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
