@@ -180,7 +180,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/blogs',
+        path: '/blog/:id',
         key: '',
         permissions: [],
         component: (<Blog />)

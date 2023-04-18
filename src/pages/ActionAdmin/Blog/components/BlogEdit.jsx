@@ -68,7 +68,7 @@ export default function EventEdit() {
             meta_content: data?.meta_content,
             schedule: data?.schedule,
             blog_content: content,
-            // status: data?.status
+            status: data?.status
         }
         if (id) {
             callFetch(
@@ -158,6 +158,11 @@ export default function EventEdit() {
                 shouldValidate: true
             })
             setValue('sub_des', data_?.sub_des, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('status', data_?.status, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true

@@ -13,6 +13,12 @@ export default function ApplyForm() {
         resolver: yupResolver(applyValidation),
         mode: 'all',
     })
+    const { data } = useFetch({
+        url: `/landing_apply_section/`,
+        skipOnStart: false,
+        methods: 'get',
+    })
+
     const onSuccess = React.useCallback((response) => {
         if (response) {
             toast.success(response?.response?.message)
@@ -32,7 +38,7 @@ export default function ApplyForm() {
         onSuccess,
         onFailure
     })
-    const { handleSubmit, control , formState: { isDirty, isValid } } = methods
+    const { handleSubmit, control, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let formData = {
             name: data?.firstName + " " + data?.lastName,
@@ -52,7 +58,9 @@ export default function ApplyForm() {
 
     return (
         <div>
-            <CouserBanner />
+            <CouserBanner props={{
+                bg: data?.response?.banner_img_sec
+            }} />
             <div>
                 <div className='lg:px-64 md:px-10 px-2'>
                     <React.Fragment>
@@ -60,12 +68,12 @@ export default function ApplyForm() {
                             <div className='mt-[90px]   bg-white lg:mx-20 py-5   md:mx-4 mx-0  rounded-md '>
                                 <section className='text-center '>
                                     <article>
-                                        <h2 className='text-3xl font-semibold '>Apply Technomatic Academy</h2>
+                                        <h2 className='text-3xl font-semibold '>{data?.response?.sub_title}</h2>
                                         <div className='grid mt-1'>
                                             <div className='m-auto'>
                                                 <div className='flex '>
                                                     <div className='mx-2 text-sm pt-1 '>
-                                                        Note: Your privacy is very important to us. To better serve you, the form information you enter is recorded in real time.
+                                                        {data?.response?.des}
                                                     </div>
                                                 </div>
                                             </div>

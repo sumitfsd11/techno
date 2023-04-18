@@ -3,7 +3,7 @@ import { CURRENCY_SYMBOL } from "constants/common.constants";
 import moment from "moment";
 import toast from 'react-hot-toast';
 import styled from "styled-components";
-
+import no_img_sqr from "assets/free__blog_no_img.jpg"
 
 
 export const isFunction = (fn) => typeof fn === "function";
@@ -11,6 +11,13 @@ export const stringifyError = (errors) => {
   return errors;
 };
 
+export const Img_ = (path) => {
+  if (path) {
+    return path
+  } else {
+    return no_img_sqr
+  }
+}
 export const getLocalStorage = (key, initialValue) => {
   const resource = localStorage.getItem(key);
   return resource ? JSON.parse(resource) : initialValue;
@@ -173,15 +180,15 @@ export const universalRoutes = (isUser, routes) => {
 }
 
 // pagination component 
-function remevoFilterKey(object__){
-  Object.keys(object__).forEach((key)=>((object__[key] === undefined
-    || object__[key] === null 
+function remevoFilterKey(object__) {
+  Object.keys(object__).forEach((key) => ((object__[key] === undefined
+    || object__[key] === null
     || object__[key] === "") && delete object__[key]))
 }
 
-function preparedQuery(object__){
-  Object.keys(object__).map((key)=>{
-    return key+"="+object__[key]
+function preparedQuery(object__) {
+  Object.keys(object__).map((key) => {
+    return key + "=" + object__[key]
   }).join("&")
 }
 
