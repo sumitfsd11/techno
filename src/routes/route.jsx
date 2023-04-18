@@ -64,6 +64,13 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/blog',
+        key: '',
+        permissions: [],
+        component: (<BlogEdit />)
+    },
+    {
+        name: '',
         path: '/admin/blog/:id',
         key: '',
         permissions: [],
@@ -173,7 +180,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/blogs',
+        path: '/blog/:id',
         key: '',
         permissions: [],
         component: (<Blog />)

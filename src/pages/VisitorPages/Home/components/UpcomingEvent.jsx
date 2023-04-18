@@ -2,26 +2,38 @@ import React from 'react'
 // import { IconProvider } from '../../../utils/common.utils';
 // import { FaBookReader } from "react-icons/fa";
 // import { FiClock } from "react-icons/fi";
+import { Img_ } from 'utils/common.utils';
 import { AnimationOnScroll } from 'react-animation-on-scroll';
 import img from "./680343.png";
 import { useNavigate } from 'react-router-dom';
+import { useFetch } from "hooks";
+import Loader from 'components/utilsComponents/Loader';
+import moment from 'moment';
+
 export default function UpcomingEvent() {
     const navigate = useNavigate()
+    const { isLoading, data } = useFetch({
+        url: `/event_list/`,
+        skipOnStart: false,
+        methods: 'get',
+    })
 
     const redirect__ = React.useCallback((path) => {
         navigate(path)
     }, [navigate])
-    const EventCard = React.memo(() => (
+    console.log(data?.response, " it is your events")
+    const EventCard = React.memo(({props}) => (
         <React.Fragment>
-            <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white' onClick={()=>redirect__(`/event/${29}`)}>
+           
+            <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white' onClick={() => redirect__(`/event/${29}`)}>
                 <div className='flex justify-between'>
                     <div className=''>
                         <div className='flex  items-center'>
                             <div className=''>
-                                <img alt='Test Demo image ' className='w-[170px] rounded-md m-auto  h-[140px]' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1pEiLahUshC6pxmaGbdWai34H9KF_bY6rdLBty_svjf_I7exWI4tGPCUXKidSlVUnbH4&usqp=CAU' />
+                                <img alt='Test Demo image ' className='w-[170px] rounded-md m-auto  h-[140px]' src={Img_(props?.backgroundImage)} />
                             </div>
                             <div className='px-3  '>
-                                <h3 className='text-primarybg text-xl font-semibold mb-2 '>Academy Online Software Engineering</h3>
+                                <h3 className='text-primarybg text-xl font-semibold mb-2 '>{props?.title}</h3>
                                 <div className='mt-2'>
                                     <div className='grid grid-cols-12 mt-2 pr-3 '>
                                         <div className='lg:col-span-6 md:col-span-6 col-span-6'>
@@ -31,7 +43,7 @@ export default function UpcomingEvent() {
                                                         <FaBookReader />
                                                     </IconProvider> */}
                                                 </div>
-                                                <div className='text-sm'> Saturday, 4:30 pm to 7.30 pm CST.</div>
+                                                <div className='text-sm'>{moment(props?.created_on).format('MMMM Do YYYY, h:mm:ss a')}</div>
                                             </div>
                                         </div>
                                         <div className='lg:col-span-6 md:col-span-6 col-span-6'>
@@ -42,7 +54,7 @@ export default function UpcomingEvent() {
                                                         <FiClock />
                                                     </IconProvider> */}
                                                 </div>
-                                                <div className='text-sm'> Academy Online Software  </div>
+                                                <div className='text-sm'> {props?.subtitle} </div>
                                             </div>
                                         </div>
                                     </div>
@@ -52,7 +64,7 @@ export default function UpcomingEvent() {
                     </div>
                     <div className='w-[150px] my-2 '>
                         <div className='grid h-full w-full text-center rounded-md bg-primarybg '>
-                            <h2 className='text-2xl font-semibold  m-auto  text-white '>12 Feb 2023</h2>
+                            <h2 className='text-2xl font-semibold  m-auto  text-white '>{moment(props?.created_on).format("MMM Do YY") }</h2>
                         </div>
                     </div>
                 </div>
@@ -85,13 +97,21 @@ export default function UpcomingEvent() {
                     </div>
                     <div className='grid grid-cols-12 gap-10'>
                         {
-                            Array(12, 39, 939, 90, 70, 45, 2004, 4, 5, 7, 748, 37, 340, 404).map((_, index) => (
-                                <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
-                                    {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
-                                    <EventCard />
-                                    {/* </AnimationOnScroll> */}
-                                </div>
-                            ))
+                            isLoading ? (<Loader />) : (
+                                <React.Fragment>
+                                    {
+                                        data.response?.results?.map((i, index) => (
+                                            <React.Fragment key={index}>
+                                                <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
+                                                    {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
+                                                    <EventCard props={i} />
+                                                    {/* </AnimationOnScroll> */}
+                                                </div>
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                </React.Fragment>
+                            )
                         }
                     </div>
                 </div>

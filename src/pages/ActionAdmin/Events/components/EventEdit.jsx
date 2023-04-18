@@ -59,9 +59,10 @@ export default function EventEdit() {
     const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
+        console.log(data?.backgroundImage[0] ," ==== ")
         let formData = {
             title: data?.title,
-            // backgroundImage: data?.backgroundImage[0],
+            backgroundImage: data.backgroundImage[0],
             user_id: userValue?.id,
             subtitle: data?.subtitle,
             sub_des: data?.sub_des,
@@ -85,7 +86,7 @@ export default function EventEdit() {
                 data: formData
             })
         }
-    }, [callFetch, id, quill ,userValue])
+    }, [callFetch, id, quill, userValue])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -116,7 +117,7 @@ export default function EventEdit() {
         } else {
             toast.success('Event describition can not be empty !')
         }
-    }, [callFetch, id, quill ,userValue])
+    }, [callFetch, id, quill, userValue])
     React.useEffect(() => {
         if (quill) {
             if (!isLoading && id) {
@@ -168,7 +169,7 @@ export default function EventEdit() {
                 shouldValidate: true
             })
         }
-    }, [isLoading, data, id , setValue])
+    }, [isLoading, data, id, setValue])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
