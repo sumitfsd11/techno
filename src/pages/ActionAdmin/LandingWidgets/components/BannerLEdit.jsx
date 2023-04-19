@@ -10,7 +10,10 @@ import { useForm, Controller, FormProvider } from "react-hook-form";
 import { EditIcon } from 'icons';
 import TopBanner from "pages/VisitorPages/Home/components/TopBanner";
 import styled from 'styled-components';
-import { ImgIcon , SpinnerIcon} from 'icons';
+import { ImgIcon, SpinnerIcon } from 'icons';
+import { useFetch } from "hooks";
+import { file_base64 } from 'utils/common.utils';
+import { toast } from 'react-hot-toast';
 
 export default function BannerLEdit() {
     const [open, setOpen] = React.useState(false);
@@ -21,18 +24,104 @@ export default function BannerLEdit() {
             title: "",
             sub_title: "",
             des: "",
-            link:"",
+            link: "",
             profileImg: ""
         }
     })
 
+
+
     const { control,
-        handleSubmit,
-         formState: { isDirty, isValid } } = methods
+        handleSubmit, setValue,
+        formState: { isDirty, isValid } } = methods
+
+    const onSuccess = React.useCallback((response, method) => {
+        if (method === 'post') {
+            setOpen(false)
+            toast.success("Updated successfully !")
+        }
+    }, [])
+
+    const onFailure = React.useCallback((error) => {
+        if (error) {
+
+        }
+    }, [])
+
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/landing_banner/`,
+        skipOnStart: false,
+        methods: 'get',
+        onSuccess,
+        onFailure
+    })
+    console.log(data, "==")
+
 
     const onSubmit = React.useCallback((data) => {
-        console.log(data)
-    }, [])
+
+        if (typeof data.profileImg[0] === 'object') {
+            file_base64(data.profileImg[0]).then((response) => {
+                const data__ = {
+                    title: data?.title,
+                    sub_title: data?.sub_title,
+                    des: data?.des,
+                    link: data?.link,
+                    banner_img_sec:response
+                }
+                callFetch({
+                    url: `/landing_banner/`,
+                    method: 'post',
+                    data: data__
+                })
+            })
+        } else {
+            const data__ = {
+                title: data?.title,
+                sub_title: data?.sub_title,
+                des: data?.des,
+                link: data?.link,
+            }
+            callFetch({
+                url: `/landing_banner/`,
+                method: 'post',
+                data: data__
+            })
+        }
+
+    }, [callFetch])
+
+
+    React.useEffect(() => {
+        if (!isLoading) {
+            let data_ = data?.response
+            setValue('title', data_?.title, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('sub_title', data_?.sub_title, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('des', data_?.des, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('link', data_?.link, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('profileImg', data_?.banner_img_sec, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+        }
+    }, [setValue, data, isLoading, callFetch])
 
     const handleOpen = () => setOpen(!open);
     return (
@@ -40,10 +129,10 @@ export default function BannerLEdit() {
             <React.Fragment>
                 <div className='relative'>
                     <div className='absolute top-2 right-2'>
-                        <button  className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false?<span className='spinner '><SpinnerIcon/></span> :( <span onClick={handleOpen}><EditIcon /></span>)} </button>
+                        <button className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? <span className='spinner '><SpinnerIcon /></span> : (<span onClick={handleOpen}><EditIcon /></span>)} </button>
                     </div>
                 </div>
-                <TopBanner />
+                <TopBanner props={data?.response} />
             </React.Fragment>
             {/* model */}
             <React.Fragment>
@@ -159,6 +248,7 @@ export default function BannerLEdit() {
 
                                             <div className="form-control mt-6">
                                                 <Button type={'submit'}
+                                                    isLoading={isLoading}
                                                     className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                                                     isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
                                             </div>

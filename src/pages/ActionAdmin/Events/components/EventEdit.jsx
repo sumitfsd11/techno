@@ -9,6 +9,7 @@ import { useFetch, useAuth } from "hooks"
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { file_base64 } from 'utils/common.utils';
 
 export default function EventEdit() {
     const { quill, quillRef } = useQuill();
@@ -59,34 +60,67 @@ export default function EventEdit() {
     const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
-        console.log(data?.backgroundImage[0] ," ==== ")
-        let formData = {
-            title: data?.title,
-            backgroundImage: data.backgroundImage[0],
-            user_id: userValue?.id,
-            subtitle: data?.subtitle,
-            sub_des: data?.sub_des,
-            meta_content: data?.meta_content,
-            schedule: data?.schedule,
-            event_content: content,
-            // status: data?.status
-        }
-        if (id) {
-            callFetch(
-                {
-                    url: `/event_action/${id}`,
-                    method: 'put',
-                    data: formData
+
+        if (typeof data?.backgroundImage[0] === 'object') {
+            file_base64( data?.backgroundImage[0]).then((response)=>{
+                let formData = {
+                    title: data?.title,
+                    backgroundImage: response,
+                    user_id: userValue?.id,
+                    subtitle: data?.subtitle,
+                    sub_des: data?.sub_des,
+                    meta_content: data?.meta_content,
+                    schedule: data?.schedule,
+                    event_content: content,
+                    status: data?.status
                 }
-            )
-        } else {
-            callFetch({
-                url: `/event_action/`,
-                method: 'post',
-                data: formData
+    
+                if (id) {
+                    callFetch(
+                        {
+                            url: `/event_action/${id}`,
+                            method: 'put',
+                            data: formData
+                        }
+                    )
+                } else {
+                    callFetch({
+                        url: `/event_action/`,
+                        method: 'post',
+                        data: formData
+                    })
+                }
             })
+        } else {
+            let formData = {
+                title: data?.title,
+                backgroundImage: data?.backgroundImage,
+                user_id: userValue?.id,
+                subtitle: data?.subtitle,
+                sub_des: data?.sub_des,
+                meta_content: data?.meta_content,
+                schedule: data?.schedule,
+                event_content: content,
+                status: data?.status
+            }
+
+            if (id) {
+                callFetch(
+                    {
+                        url: `/event_action/${id}`,
+                        method: 'put',
+                        data: formData
+                    }
+                )
+            } else {
+                callFetch({
+                    url: `/event_action/`,
+                    method: 'post',
+                    data: formData
+                })
+            }
         }
-    }, [callFetch, id, quill, userValue])
+    }, [callFetch, id, quill, userValue ])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -164,6 +198,16 @@ export default function EventEdit() {
                 shouldValidate: true
             })
             setValue('sub_des', data_?.sub_des, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('backgroundImage', data_?.backgroundImage, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('status', data_?.status, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true

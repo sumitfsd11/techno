@@ -9,6 +9,7 @@ import { useFetch, useAuth } from "hooks"
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { file_base64 } from 'utils/common.utils';
 
 export default function EventEdit() {
     const { quill, quillRef } = useQuill();
@@ -32,14 +33,14 @@ export default function EventEdit() {
     })
 
     const onSuccess = React.useCallback((response, method) => {
-   
-            if (method === 'post') {
-                navigate('/admin/event-listing')
-                toast.success('Posted  successfully !')
-            } if (method === 'put') {
-                toast.success('Updated successfully !')
-            }
-    
+
+        if (method === 'post') {
+            navigate('/admin/event-listing')
+            toast.success('Posted  successfully !')
+        } if (method === 'put') {
+            toast.success('Updated successfully !')
+        }
+
     }, [navigate])
 
     const onFailure = React.useCallback((error) => {
@@ -59,33 +60,68 @@ export default function EventEdit() {
     const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
-        let formData = {
-            title: data?.title,
-            // backgroundImage: data?.backgroundImage[0],
-            user_id: userValue?.id,
-            subtitle: data?.subtitle,
-            sub_des: data?.sub_des,
-            meta_content: data?.meta_content,
-            schedule: data?.schedule,
-            blog_content: content,
-            status: data?.status
-        }
-        if (id) {
-            callFetch(
-                {
-                    url: `/blog_action/${id}`,
-                    method: 'put',
-                    data: formData
+
+
+        if (typeof data?.backgroundImage[0] === 'object') {
+            file_base64( data?.backgroundImage[0]).then((response)=>{
+                let formData = {
+                    title: data?.title,
+                    backgroundImage: response,
+                    user_id: userValue?.id,
+                    subtitle: data?.subtitle,
+                    sub_des: data?.sub_des,
+                    meta_content: data?.meta_content,
+                    schedule: data?.schedule,
+                    blog_content: content,
+                    status: data?.status
                 }
-            )
-        } else {
-            callFetch({
-                url: `/blog_action/`,
-                method: 'post',
-                data: formData
+    
+                if (id) {
+                    callFetch(
+                        {
+                            url: `/blog_action/${id}`,
+                            method: 'put',
+                            data: formData
+                        }
+                    )
+                } else {
+                    callFetch({
+                        url: `/blog_action/`,
+                        method: 'post',
+                        data: formData
+                    })
+                }
             })
+        } else {
+            let formData = {
+                title: data?.title,
+                backgroundImage: data?.backgroundImage,
+                user_id: userValue?.id,
+                subtitle: data?.subtitle,
+                sub_des: data?.sub_des,
+                meta_content: data?.meta_content,
+                schedule: data?.schedule,
+                blog_content: content,
+                status: data?.status
+            }
+
+            if (id) {
+                callFetch(
+                    {
+                        url: `/blog_action/${id}`,
+                        method: 'put',
+                        data: formData
+                    }
+                )
+            } else {
+                callFetch({
+                    url: `/blog_action/`,
+                    method: 'post',
+                    data: formData
+                })
+            }
         }
-    }, [callFetch, id, quill])
+    }, [callFetch, id, quill , file_base64])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -167,8 +203,13 @@ export default function EventEdit() {
                 shouldDirty: true,
                 shouldValidate: true
             })
+            setValue('backgroundImage', data_?.backgroundImage, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
         }
-    }, [isLoading , setValue , id , data])
+    }, [isLoading, setValue, id, data])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
