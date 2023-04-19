@@ -192,6 +192,19 @@ function preparedQuery(object__) {
   }).join("&")
 }
 
+export function getBase64 (file) {
+  let x;
+  let reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = function () {
+      x=  reader?.result
+  };
+  reader.onerror = function (error) {
+      console.log('Error: ', error);
+  };
+console.log(x ," === ")
+}
+
 export {
   preparedQuery,
   remevoFilterKey

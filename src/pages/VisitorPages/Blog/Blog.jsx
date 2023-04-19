@@ -47,7 +47,6 @@ export default function Blog() {
                                                     <div className='mx-2 text-sm pt-1 '>
                                                     {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
