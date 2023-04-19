@@ -192,19 +192,24 @@ function preparedQuery(object__) {
   }).join("&")
 }
 
-export function getBase64 (file) {
-  let x;
-  let reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = function () {
-      x=  reader?.result
-  };
-  reader.onerror = function (error) {
-      console.log('Error: ', error);
-  };
-console.log(x ," === ")
-}
+export const convertBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
 
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
+export const file_base64 = async (file) => {
+  const base64 = await convertBase64(file)
+  return base64;
+};
 export {
   preparedQuery,
   remevoFilterKey

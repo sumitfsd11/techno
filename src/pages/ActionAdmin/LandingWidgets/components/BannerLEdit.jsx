@@ -12,7 +12,7 @@ import TopBanner from "pages/VisitorPages/Home/components/TopBanner";
 import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
 import { useFetch } from "hooks";
-import { getBase64 } from 'utils/common.utils';
+import { file_base64 } from 'utils/common.utils';
 import { toast } from 'react-hot-toast';
 
 export default function BannerLEdit() {
@@ -37,7 +37,7 @@ export default function BannerLEdit() {
 
     const onSuccess = React.useCallback((response, method) => {
         if (method === 'post') {
-            setOpen(!open)
+            setOpen(false)
             toast.success("Updated successfully !")
         }
     }, [])
@@ -59,18 +59,37 @@ export default function BannerLEdit() {
 
 
     const onSubmit = React.useCallback((data) => {
-        const data__ = {
-            title: data?.title,
-            sub_title: data?.sub_title,
-            des: data?.des,
-            link: data?.link
+
+        if (typeof data.profileImg[0] === 'object') {
+            file_base64(data.profileImg[0]).then((response) => {
+                const data__ = {
+                    title: data?.title,
+                    sub_title: data?.sub_title,
+                    des: data?.des,
+                    link: data?.link,
+                    banner_img_sec:response
+                }
+                callFetch({
+                    url: `/landing_banner/`,
+                    method: 'post',
+                    data: data__
+                })
+            })
+        } else {
+            const data__ = {
+                title: data?.title,
+                sub_title: data?.sub_title,
+                des: data?.des,
+                link: data?.link,
+            }
+            callFetch({
+                url: `/landing_banner/`,
+                method: 'post',
+                data: data__
+            })
         }
-        callFetch({
-            url: `/landing_banner/`,
-            method: 'post',
-            data: data__
-        })
-    }, [getBase64, callFetch])
+
+    }, [callFetch])
 
 
     React.useEffect(() => {
