@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Button, TextField, TextArea } from "components";
 import {
@@ -9,7 +8,8 @@ import {
 } from "@material-tailwind/react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { EditIcon } from 'icons';
-import ApplyBanner from 'pages/VisitorPages/Home/components/ApplyBanner';
+// import UpcomingEvent from 'pages/VisitorPages/Home/components/UpcomingEvent';
+import BlogList from 'pages/VisitorPages/Home/components/BlogList';
 import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
 import { useFetch } from 'hooks';
@@ -32,7 +32,8 @@ export default function BannerLEdit() {
 
     const { control,
         handleSubmit, setValue,
-        formState: { isDirty, isValid } } = methods
+        // formState: { isDirty, isValid } 
+    } = methods
 
     const onSuccess = React.useCallback((response , method) => {
         if (method === 'post') {
@@ -46,7 +47,7 @@ export default function BannerLEdit() {
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/landing_apply_section/`,
+        url: `/blog_layout/`,
         skipOnStart: false,
         methods: 'get',
         onSuccess,
@@ -54,17 +55,17 @@ export default function BannerLEdit() {
     })
 
     const onSubmit = React.useCallback((data) => {
-        if (typeof data?.profileImg[0] === 'object') {
+        if (data?.profileImg && typeof data?.profileImg[0] === 'object') {
             file_base64(data?.profileImg[0]).then((response) => {
                 let formData__ = {
                     title: data?.title,
                     des: data?.des,
-                    banner_img_sec: response,
+                    bg: response,
                     btn_name: data?.btn_name,
-                    btn_link: data?.link
+                    link: data?.link
                 }
                 callFetch({
-                    url: `/landing_apply_section/`,
+                    url: `/blog_layout/`,
                     method: 'post',
                     data: formData__
                 })
@@ -74,12 +75,12 @@ export default function BannerLEdit() {
             let formData__ = {
                 title: data?.title,
                 des: data?.des,
-                banner_img_sec: data?.profileImg,
+                bg: data?.profileImg,
                 btn_name: data?.btn_name,
-                btn_link: data?.link
+                link: data?.link
             }
             callFetch({
-                url: `/landing_apply_section/`,
+                url: `/blog_layout/`,
                 method: 'post',
                 data: formData__
             })
@@ -102,7 +103,7 @@ export default function BannerLEdit() {
                 shouldValidate: true
             })
 
-            setValue('profileImg', data_?.banner_img_sec, {
+            setValue('profileImg', data_?.bg, {
                 shouldDirty: true,
                 shouldTouch: true,
                 shouldValidate: true
@@ -112,7 +113,7 @@ export default function BannerLEdit() {
                 shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('link', data_?.btn_link, {
+            setValue('link', data_?.link, {
                 shouldDirty: true,
                 shouldTouch: true,
                 shouldValidate: true
@@ -129,12 +130,12 @@ export default function BannerLEdit() {
                         <button className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? <span className='spinner '><SpinnerIcon /></span> : (<span onClick={handleOpen}><EditIcon /></span>)} </button>
                     </div>
                 </div>
-                <ApplyBanner props={data?.response} />
+                <BlogList props={data?.response} />
             </React.Fragment>
             {/* model */}
             <React.Fragment>
                 <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-                    <DialogHeader className='text-base py-1 my-0'>Banner Edit </DialogHeader>
+                    <DialogHeader className='text-base py-1 my-0'>Blog Layout Edit </DialogHeader>
                     <DialogBody className='h-[81vh] py-1 my-0' >
                         <div className="grid h-full">
                             <div className="m-auto">

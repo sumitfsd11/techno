@@ -2,7 +2,10 @@ import React from 'react'
 import AccordionComponent from './Accordion'
 import TabsComponent from './Tabs'
 import CourseCard from './Card'
+
+
 export default function CourseDetailBase({props}) {
+
     return (
         <div>
             <div className='lg:px-32 md:px-4 px-0'>

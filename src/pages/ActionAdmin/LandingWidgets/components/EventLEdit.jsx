@@ -10,29 +10,114 @@ import { useForm, Controller, FormProvider } from "react-hook-form";
 import { EditIcon } from 'icons';
 import UpcomingEvent from 'pages/VisitorPages/Home/components/UpcomingEvent';
 import styled from 'styled-components';
-import { ImgIcon , SpinnerIcon} from 'icons';
+import { ImgIcon, SpinnerIcon } from 'icons';
+import { useFetch } from 'hooks';
+import { file_base64 } from 'utils/common.utils';
+import { toast } from 'react-hot-toast';
 
-export default function EventLEdit() {
+export default function BannerLEdit() {
     const [open, setOpen] = React.useState(false);
     const methods = useForm({
         // resolver:joiResolver
         mode: "all",
         defaultValues: {
             title: "",
-            sub_title: "",
+            btn_name: "",
             des: "",
-            link:"",
+            link: "",
             profileImg: ""
         }
     })
 
     const { control,
-        handleSubmit,
-         formState: { isDirty, isValid } } = methods
+        handleSubmit, setValue,
+        formState: { isDirty, isValid } } = methods
+
+    const onSuccess = React.useCallback((response , method) => {
+        if (method === 'post') {
+            setOpen(false)
+            toast.success('Updated successfully !')
+        }
+    }, [])
+
+    const onFailure = React.useCallback((response) => {
+
+    }, [])
+
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/landing_event_layout/`,
+        skipOnStart: false,
+        methods: 'get',
+        onSuccess,
+        onFailure
+    })
 
     const onSubmit = React.useCallback((data) => {
-        console.log(data)
-    }, [])
+        if (typeof data?.profileImg[0] === 'object') {
+            file_base64(data?.profileImg[0]).then((response) => {
+                let formData__ = {
+                    title: data?.title,
+                    des: data?.des,
+                    bg: response,
+                    btn_name: data?.btn_name,
+                    link: data?.link
+                }
+                callFetch({
+                    url: `/landing_event_layout/`,
+                    method: 'post',
+                    data: formData__
+                })
+            })
+        } else {
+
+            let formData__ = {
+                title: data?.title,
+                des: data?.des,
+                bg: data?.profileImg,
+                btn_name: data?.btn_name,
+                link: data?.link
+            }
+            callFetch({
+                url: `/landing_event_layout/`,
+                method: 'post',
+                data: formData__
+            })
+        }
+    }, [callFetch])
+
+
+    React.useEffect(() => {
+        if (!isLoading) {
+            let data_ = data?.response
+
+            setValue('title', data_?.title, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+            setValue('des', data_?.des, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+
+            setValue('profileImg', data_?.bg, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+            setValue('btn_name', data_?.btn_name, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+            setValue('link', data_?.link, {
+                shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+        }
+    }, [setValue, data, isLoading])
 
     const handleOpen = () => setOpen(!open);
     return (
@@ -40,10 +125,10 @@ export default function EventLEdit() {
             <React.Fragment>
                 <div className='relative'>
                     <div className='absolute top-2 right-2'>
-                        <button  className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false?<span className='spinner '><SpinnerIcon/></span> :( <span onClick={handleOpen}><EditIcon /></span>)} </button>
+                        <button className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? <span className='spinner '><SpinnerIcon /></span> : (<span onClick={handleOpen}><EditIcon /></span>)} </button>
                     </div>
                 </div>
-                <UpcomingEvent />
+                <UpcomingEvent props={data?.response} />
             </React.Fragment>
             {/* model */}
             <React.Fragment>
@@ -71,20 +156,7 @@ export default function EventLEdit() {
                                                                     className={"w-full pl-6"} />
                                                             )} />
                                                     </div>
-                                                    <div className="mb-3">
-                                                        <Controller
-                                                            control={control}
-                                                            name="sub_title"
-                                                            render={({ field,
-                                                                fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                <TextField type={"text"}
-                                                                    error={error}
-                                                                    {...field}
-                                                                    name="sub_title"
-                                                                    placeholder={"Sub Title"}
-                                                                    className={"w-full pl-6"} />
-                                                            )} />
-                                                    </div>
+
                                                     <div className="mb-3">
                                                         <Controller
                                                             control={control}
@@ -96,6 +168,20 @@ export default function EventLEdit() {
                                                                     name={"des"}
                                                                     // icon={<MailSVG />}
                                                                     placeholder={"Description"} className={"w-full pl-6"} />
+                                                            )} />
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <Controller
+                                                            control={control}
+                                                            name="btn_name"
+                                                            render={({ field,
+                                                                fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                <TextField type={"text"}
+                                                                    error={error}
+                                                                    {...field}
+                                                                    name="btn_name"
+                                                                    placeholder={"Button Name"}
+                                                                    className={"w-full pl-6"} />
                                                             )} />
                                                     </div>
                                                     <div className="mb-3">
@@ -159,8 +245,9 @@ export default function EventLEdit() {
 
                                             <div className="form-control mt-6">
                                                 <Button type={'submit'}
+                                                    isLoading={isLoading}
                                                     className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
-                                                    isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
+                                                >{`SUBMIT`}</Button>
                                             </div>
                                         </form>
                                     </FormProvider>

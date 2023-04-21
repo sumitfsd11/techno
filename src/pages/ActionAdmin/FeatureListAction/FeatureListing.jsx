@@ -3,14 +3,15 @@ import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom'
 import { useFetch } from "hooks";
+import {   Button} from 'components'
+import Loader from 'components/utilsComponents/Loader';
 
-
-export default function FeedBacks() {
+export default function FeatureList() {
     const navigate = useNavigate()
-    // const [filter_values, setFilterValues] = React.useState()
+    const [filter_values, setFilterValues] = React.useState()
 
-    const {isLoading , data } = useFetch({
-        url: `/feedback_list/`,
+    const { isLoading, data } = useFetch({
+        url: `/landing_feature_lc/`,
         skipOnStart: false,
     })
 
@@ -18,24 +19,33 @@ export default function FeedBacks() {
         if (path) {
             navigate(path)
         }
-    }, [navigate])
+    }, [])
 
 
     const Table = React.memo(() => {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">FeedBacks#</h2>
+
+                    <div className='flex justify-between'>
+                        <div className="">
+                        <h2 className="mb-4 text-2xl font-semibold leading-tight">Feature Articles#</h2>
+                        </div>
+                        <div className=''>
+                            <Button onClick={()=>redirect__('/admin/feature/')} className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
+                            >
+                                CREATE NEW
+                            </Button>
+                        </div>
+                    </div>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
                                     <th className="p-3">Id #</th>
-                                    <th className="p-3">Name</th>
-                                    <th className="p-3">Roll</th>
-                                    <th className="p-3 w-[50%]">feedback</th>
-                                    <th className="p-3 text-right">Created At</th>
-                                    <th className="p-3">Status</th>
+                                    <th className="p-3 ">Details</th>
+                             
+                                    <th className="p-3 text-center">Status</th>
                                 </tr>
                             </thead>
                             <React.Fragment>
@@ -43,22 +53,22 @@ export default function FeedBacks() {
                                     isLoading ? (<div>loading...</div>) : data?.response?.map((i, index, arr) => (
                                         <tbody>
                                             <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/feedback/${i?.id}`)}>
+                                                <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/feature/${i?.id}`)}>
                                                     <p >{i?.id}</p>
                                                 </td>
-                                                <td className="p-3">
-                                                    <p>{i?.first_name}</p>
-                                                </td>
-                                                <td className="p-3">
-                                                    <p>{i?.roll}</p>
-                                                </td>
                                                 <td className="p-3 w-[50%]">
-                                                    <p className="dark:text-gray-400 ">{i?.feedback}</p>
+                                                    <div className='flex justify-between gap-3'>
+                                                        <div>
+
+                                                        </div>
+                                                        <div>
+                                                            <p className='font-semibold text-[18px]'>{i?.title}</p>
+                                                            <p>{i?.des}</p>
+                                                        </div>
+                                                    </div>
+
                                                 </td>
-                                                <td className="p-3 text-right">
-                                                    <p>{i?.created_on}</p>
-                                                </td>
-                                                <td className="p-3 text-left">
+                                                <td className="p-3 text-center">
                                                     <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
                                                         <span>{i?.status}</span>
                                                     </span>

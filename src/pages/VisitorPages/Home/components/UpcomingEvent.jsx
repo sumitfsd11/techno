@@ -1,27 +1,28 @@
 import React from 'react'
-// import { IconProvider } from '../../../utils/common.utils';
-// import { FaBookReader } from "react-icons/fa";
-// import { FiClock } from "react-icons/fi";
 import { Img_ } from 'utils/common.utils';
 import { AnimationOnScroll } from 'react-animation-on-scroll';
-import img from "./680343.png";
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from "hooks";
 import Loader from 'components/utilsComponents/Loader';
 import moment from 'moment';
 
-export default function UpcomingEvent() {
+export default function UpcomingEvent({props}) {
     const navigate = useNavigate()
-    const { isLoading, data } = useFetch({
-        url: `/event_list/`,
+    const {  data } = useFetch({
+        url: `/landing_event_layout/`,
         skipOnStart: false,
         methods: 'get',
     })
 
+    const { isLoading, data:dataRes } = useFetch({
+        url: `/event_list/`,
+        skipOnStart: false,
+        methods: 'get',
+    })
     const redirect__ = React.useCallback((path) => {
         navigate(path)
     }, [navigate])
-    console.log(data?.response, " it is your events")
+
     const EventCard = React.memo(({props}) => (
         <React.Fragment>
            
@@ -33,7 +34,7 @@ export default function UpcomingEvent() {
                                 <img alt='Test Demo image ' className='w-[170px] rounded-md m-auto  h-[140px]' src={Img_(props?.backgroundImage)} />
                             </div>
                             <div className='px-3  '>
-                                <h3 className='text-primarybg text-xl font-semibold mb-2 '>{props?.title}</h3>
+                                <h3 className='text-primarybg text-xl font-semibold mb-2 '>{props?.title ?? data?.response?.title}</h3>
                                 <div className='mt-2'>
                                     <div className='grid grid-cols-12 mt-2 pr-3 '>
                                         <div className='lg:col-span-6 md:col-span-6 col-span-6'>
@@ -71,18 +72,19 @@ export default function UpcomingEvent() {
             </div>
         </React.Fragment>
     ))
+
     return (
         <div>
             <div>
-                <div style={{ background: `url(${img})`, backgroundPosition: "center", height: "auto ", backgroundSize: "cover" }} className=' lg:px-10 md:px-11 px-2 mt-12 pb-12  '>
+                <div style={{ background: `url(${props?.bg??data?.response?.bg})`, backgroundPosition: "center", height: "auto ", backgroundSize: "cover" }} className=' lg:px-10 md:px-11 px-2 mt-12 pb-12  '>
                     <div className=''>
                         <br />
                         <div className='my-9'>
                             <section className='text-center  mb-4 '>
                                 <h2 className='text-3xl text-white font-semibold '>
-                                    Upcoming Events
+                                {props?.title ?? data?.response?.title}
                                 </h2>
-                                <p className='text-white mt-2 '>Keep an eye on what we do from time to time</p>
+                                <p className='text-white mt-2 '>{props?.des ?? data?.response?.des}</p>
                             </section>
                         </div>
                         <div className='flex  justify-between'>
@@ -90,7 +92,7 @@ export default function UpcomingEvent() {
 
                             </div>
                             <div className='text-lg text-white cursor-pointer'>
-                                Browse All {">"}
+                                {props?.btn_name ?? data?.response?.btn_name} {">"}
                             </div>
                         </div>
                         <br />
@@ -100,7 +102,7 @@ export default function UpcomingEvent() {
                             isLoading ? (<Loader />) : (
                                 <React.Fragment>
                                     {
-                                        data.response?.results?.map((i, index) => (
+                                        dataRes?.response?.results?.map((i, index) => (
                                             <React.Fragment key={index}>
                                                 <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
                                                     {/* <AnimationOnScroll animateIn="animate__slideInUp nimate__delay-4s"> */}
