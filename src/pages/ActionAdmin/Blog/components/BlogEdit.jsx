@@ -62,7 +62,7 @@ export default function EventEdit() {
         let content = quill.container.outerHTML ?? null;
 
 
-        if (typeof data?.backgroundImage[0] === 'object') {
+        if (  data?.backgroundImage && typeof data?.backgroundImage[0] === 'object') {
             file_base64( data?.backgroundImage[0]).then((response)=>{
                 let formData = {
                     title: data?.title,

@@ -1,6 +1,5 @@
 import React from 'react';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
-import img from './mr-eshan.png';
+// import { AnimationOnScroll } from 'react-animation-on-scroll';
 import { useFetch } from 'hooks';
 export default function DatailBanner({ props }) {
 
@@ -9,6 +8,12 @@ export default function DatailBanner({ props }) {
         skipOnStart: false,
         methods: 'get',
     })
+// landing_feature_lc
+const { data:resData } = useFetch({
+    url: `/landing_feature_lc/?status=Published`,
+    skipOnStart: false,
+    methods: 'get',
+})
 
     return (
         <div>
@@ -21,16 +26,22 @@ export default function DatailBanner({ props }) {
                 </section>
                 <div className='grid grid-cols-12 gap-7 '>
                     {
-                        Array(3, 4, 4).map((i, index) => (
+                        resData?.response?.map((i, index) => (
                             <div className='col-span-4 lg:px-12 py-6 ' key={index}>
                                 {/* <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s"> */}
                                 <div className=' text-center'>
-                                    <div className="grid my-3 ">
-                                        <img src={img} className=" w-[130px] h-auto  m-auto" alt="loading..." />
-                                    </div>
-                                    <h4 className="text-primarybg font-semibold">Flexible Learning</h4>
+                                    {
+                                        i?.feature_img_sec && (
+                                            <div className="grid my-3 ">
+                                            <img src={i?.feature_img_sec} className=" w-[130px] h-auto  m-auto" alt="loading..." />
+                                        </div>
+                                        )
+                                    }
+                              
+                                <h4 className="text-primarybg font-semibold">{i?.title}</h4>
                                     <section className='mt-4'>
-                                        <p className='text-[#77838f]  '> Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae tempore laboriosam unde nam labore similique iste iure neque voluptate repudiandae..
+                                        <p className='text-[#77838f]  '> 
+                                        {i?.des}
                                         </p>
                                     </section>
                                 </div>

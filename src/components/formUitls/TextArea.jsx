@@ -13,7 +13,7 @@ error,
   return (
     <div>
       <div>
-        <Textarea {...props} name={name} required={isRequired} className={`textarea textarea-bordered ${className}`} label={placeholder}/>
+        <Textarea {...props} name={name} required={isRequired} className={`textarea textarea-bordered min-h-[150px] py-1 h-auto ${className}`} label={placeholder}/>
         <p className=" px-2 mb-0 pt-1 text-xs text-[#f5594e]">{error?.message}</p>
       </div>
     </div>

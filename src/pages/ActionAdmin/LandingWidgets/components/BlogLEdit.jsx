@@ -1,6 +1,3 @@
-
-
-
 import React from 'react'
 import { Button, TextField, TextArea } from "components";
 import {
@@ -11,72 +8,79 @@ import {
 } from "@material-tailwind/react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { EditIcon } from 'icons';
-import Feedback from 'pages/VisitorPages/Home/components/Feedback';
+// import UpcomingEvent from 'pages/VisitorPages/Home/components/UpcomingEvent';
+import BlogList from 'pages/VisitorPages/Home/components/BlogList';
 import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
-import { useFetch } from "hooks"
-import { toast } from 'react-hot-toast';
+import { useFetch } from 'hooks';
 import { file_base64 } from 'utils/common.utils';
-export default function FeatureLEdit() {
+import { toast } from 'react-hot-toast';
+
+export default function BannerLEdit() {
     const [open, setOpen] = React.useState(false);
     const methods = useForm({
         // resolver:joiResolver
         mode: "all",
         defaultValues: {
             title: "",
-            sub_title: "",
+            btn_name: "",
             des: "",
-            bg: ""
+            link: "",
+            profileImg: ""
         }
     })
 
     const { control,
         handleSubmit, setValue,
-        // formState: { isDirty, isValid }
-     } = methods
+        // formState: { isDirty, isValid } 
+    } = methods
 
-    const onSuccess = React.useCallback((response, method) => {
+    const onSuccess = React.useCallback((response , method) => {
         if (method === 'post') {
-            toast.success("Updated successfully !")
-            handleOpen(false)
+            setOpen(false)
+            toast.success('Updated successfully !')
         }
-    }, [handleOpen])
+    }, [])
 
-    const onFailure = React.useCallback((error) => {
+    const onFailure = React.useCallback((response) => {
 
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/feedback_layout/`,
+        url: `/blog_layout/`,
         skipOnStart: false,
+        methods: 'get',
         onSuccess,
-        onFailure,
+        onFailure
     })
+
     const onSubmit = React.useCallback((data) => {
-        if (typeof data.bg[0] === 'object') {
-            file_base64(data?.bg[0]).then((response) => {
+        if (data?.profileImg && typeof data?.profileImg[0] === 'object') {
+            file_base64(data?.profileImg[0]).then((response) => {
                 let formData__ = {
                     title: data?.title,
-                    sub_title: data?.sub_title,
                     des: data?.des,
-                    bg: response
+                    bg: response,
+                    btn_name: data?.btn_name,
+                    link: data?.link
                 }
                 callFetch({
-                    url: `/feedback_layout/`,
+                    url: `/blog_layout/`,
                     method: 'post',
                     data: formData__
                 })
             })
-
         } else {
+
             let formData__ = {
                 title: data?.title,
-                sub_title: data?.sub_title,
                 des: data?.des,
-                bg: data?.bg
+                bg: data?.profileImg,
+                btn_name: data?.btn_name,
+                link: data?.link
             }
             callFetch({
-                url: `/feedback_layout/`,
+                url: `/blog_layout/`,
                 method: 'post',
                 data: formData__
             })
@@ -86,33 +90,38 @@ export default function FeatureLEdit() {
 
     React.useEffect(() => {
         if (!isLoading) {
-            let data__ = data.response
-            setValue('title', data__?.title, {
-                shouldTouch: true,
+            let data_ = data?.response
+
+            setValue('title', data_?.title, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('sub_title', data__?.sub_title, {
-                shouldTouch: true,
+            setValue('des', data_?.des, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('des', data__?.des, {
-                shouldTouch: true,
+
+            setValue('profileImg', data_?.bg, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('bg', data__?.bg, {
-                shouldTouch: true,
+            setValue('btn_name', data_?.btn_name, {
                 shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+            setValue('link', data_?.link, {
+                shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
         }
-    }, [isLoading, setValue, data])
+    }, [setValue, data, isLoading])
 
-    const handleOpen =React.useCallback(()=>{
-        setOpen(!open)
-    },[open])
+    const handleOpen = () => setOpen(!open);
     return (
         <div>
             <React.Fragment>
@@ -121,12 +130,12 @@ export default function FeatureLEdit() {
                         <button className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? <span className='spinner '><SpinnerIcon /></span> : (<span onClick={handleOpen}><EditIcon /></span>)} </button>
                     </div>
                 </div>
-                <Feedback props={data?.response} />
+                <BlogList props={data?.response} />
             </React.Fragment>
             {/* model */}
             <React.Fragment>
                 <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-                    <DialogHeader className='text-base py-1 my-0'>Feedback Edit </DialogHeader>
+                    <DialogHeader className='text-base py-1 my-0'>Blog Layout Edit </DialogHeader>
                     <DialogBody className='h-[81vh] py-1 my-0' >
                         <div className="grid h-full">
                             <div className="m-auto">
@@ -149,20 +158,7 @@ export default function FeatureLEdit() {
                                                                     className={"w-full pl-6"} />
                                                             )} />
                                                     </div>
-                                                    <div className="mb-3">
-                                                        <Controller
-                                                            control={control}
-                                                            name="sub_title"
-                                                            render={({ field,
-                                                                fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                <TextField type={"text"}
-                                                                    error={error}
-                                                                    {...field}
-                                                                    name="sub_title"
-                                                                    placeholder={"Sub Title"}
-                                                                    className={"w-full pl-6"} />
-                                                            )} />
-                                                    </div>
+
                                                     <div className="mb-3">
                                                         <Controller
                                                             control={control}
@@ -176,14 +172,41 @@ export default function FeatureLEdit() {
                                                                     placeholder={"Description"} className={"w-full pl-6"} />
                                                             )} />
                                                     </div>
-
+                                                    <div className="mb-3">
+                                                        <Controller
+                                                            control={control}
+                                                            name="btn_name"
+                                                            render={({ field,
+                                                                fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                <TextField type={"text"}
+                                                                    error={error}
+                                                                    {...field}
+                                                                    name="btn_name"
+                                                                    placeholder={"Button Name"}
+                                                                    className={"w-full pl-6"} />
+                                                            )} />
+                                                    </div>
+                                                    <div className="mb-3">
+                                                        <Controller
+                                                            control={control}
+                                                            name="link"
+                                                            render={({ field,
+                                                                fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                <TextField type={"text"}
+                                                                    error={error}
+                                                                    {...field}
+                                                                    name="link"
+                                                                    placeholder={"Link"}
+                                                                    className={"w-full pl-6"} />
+                                                            )} />
+                                                    </div>
                                                 </div>
                                                 <div className=' col-span-4'>
                                                     <div className='form-control'>
                                                         <div className='w-full'>
                                                             <Controller
                                                                 control={control}
-                                                                name="bg"
+                                                                name="profileImg"
                                                                 render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
                                                                     let src = field.value ?? null;
                                                                     if (
@@ -224,9 +247,9 @@ export default function FeatureLEdit() {
 
                                             <div className="form-control mt-6">
                                                 <Button type={'submit'}
-                                                isLoading={isLoading}
+                                                    isLoading={isLoading}
                                                     className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
-                                              >{`SUBMIT`}</Button>
+                                                >{`SUBMIT`}</Button>
                                             </div>
                                         </form>
                                     </FormProvider>
