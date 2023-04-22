@@ -3,7 +3,7 @@ import SocialiconDist from '../SocialiconDist/SocialiconDist';
 import { useFetch } from 'hooks';
 import { toast } from 'react-hot-toast';
 export default function Footer({ props }) {
-    const [email, setEmail] = React.useCallback('')
+    const [email, setEmail] = React.useState('')
     const { data } = useFetch({
         url: `/social_media/`,
         skipOnStart: false,
@@ -39,11 +39,12 @@ export default function Footer({ props }) {
             method: 'post',
             data: formData
         })
+        setEmail('')
     }, [callFetch, email])
 
     let data__ = props ?? responseData?.response
 
-
+    console.log(email)
     const LeftSideFooter = React.memo(() => {
         return (
             <React.Fragment>
@@ -66,34 +67,6 @@ export default function Footer({ props }) {
         )
     }, []);
 
-    const RightSideFooter = React.memo(() => {
-        return (
-            <React.Fragment>
-                <div className=' lg:px-3 md:px-2 px-4'>
-                    <section className={` text-3xl my-2 text-white`}>
-                        {data__?.title_two}
-                    </section>
-                    <section className='my-2 text-white text-sm'>
-                        {data__?.address_line_2}
-                    </section>
-                    <section className='my-2 text-white'>
-                        {data__?.footer_phone}
-                    </section>
-                    <section className='my-2 text-white'>
-                        {data__?.footer_email}
-                    </section>
-
-                    <section className='my-2 '>
-                        <form onSubmit={subscribeFunction} >
-                            <div className=' flex'>
-                                <input required type="email" onChange={(e) => setEmail(e?.target?.value)} className='peer h-12  w-full rounded-l-lg bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all text-[#6b6a6a] duration-200 ease-in-out focus:bg-white focus:ring-2 text-sm ' /><button type="submit" className=' bg-[#fdc25e] px-3 py-2 text-sm rounded-r-lg h-12 '>{isLoading ? 'Loading...' : 'Subscribe'}</button>
-                            </div>
-                        </form>
-                    </section>
-                </div >
-            </React.Fragment>
-        )
-    }, []);
 
     return (
         <React.Fragment>
@@ -149,7 +122,32 @@ export default function Footer({ props }) {
                             </div>
                         </div>
                         <div className='col-span-4'>
-                            <RightSideFooter />
+                            <React.Fragment>
+                                <React.Fragment>
+                                    <div className=' lg:px-3 md:px-2 px-4'>
+                                        <section className={` text-3xl my-2 text-white`}>
+                                            {data__?.title_two}
+                                        </section>
+                                        <section className='my-2 text-white text-sm'>
+                                            {data__?.address_line_2}
+                                        </section>
+                                        <section className='my-2 text-white'>
+                                            {data__?.footer_phone}
+                                        </section>
+                                        <section className='my-2 text-white'>
+                                            {data__?.footer_email}
+                                        </section>
+
+                                        <section className='my-2 '>
+                                            <form onSubmit={subscribeFunction} >
+                                                <div className=' flex'>
+                                                    <input required type="email" value={email} onChange={(e) => setEmail(e?.target?.value)} className='peer h-12  w-full rounded-l-lg bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all text-[#6b6a6a] duration-200 ease-in-out focus:bg-white focus:ring-2 text-sm ' /><button type="submit" className=' bg-[#fdc25e] px-3 py-2 text-sm rounded-r-lg h-12 '>{isLoading ? 'Loading...' : 'Subscribe'}</button>
+                                                </div>
+                                            </form>
+                                        </section>
+                                    </div >
+                                </React.Fragment>
+                            </React.Fragment>
                         </div>
                     </footer>
 
