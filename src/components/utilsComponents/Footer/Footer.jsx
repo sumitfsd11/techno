@@ -1,65 +1,99 @@
 import React from 'react'
 import SocialiconDist from '../SocialiconDist/SocialiconDist';
 import { useFetch } from 'hooks';
-export default function Footer() {
-
+import { toast } from 'react-hot-toast';
+export default function Footer({ props }) {
+    const [email, setEmail] = React.useCallback('')
     const { data } = useFetch({
         url: `/social_media/`,
         skipOnStart: false,
     })
-console.log(data ," it is footer data =- social ")
+    const { data: responseData } = useFetch({
+        url: `/footer/`,
+        skipOnStart: false,
+    })
+
+    const onSuccess = React.useCallback((response) => {
+        toast.success("Subscribed Successfully !")
+    }, [])
+
+    const onFailure = React.useCallback((response) => {
+
+    }, [])
+
+    const { isLoading, callFetch } = useFetch({
+        url: `/footer/`,
+        skipOnStart: true,
+        method: 'post',
+        onSuccess,
+        onFailure
+    })
+
+    const subscribeFunction = React.useCallback((e) => {
+        e.preventDefault()
+        let formData = {
+            email: email
+        }
+        callFetch({
+            url: '/subscriber/',
+            method: 'post',
+            data: formData
+        })
+    }, [callFetch, email])
+
+    let data__ = props ?? responseData?.response
+
+
     const LeftSideFooter = React.memo(() => {
         return (
             <React.Fragment>
                 <div className=' lg:px-3 md:px-2 px-4'>
                     <section className={` text-3xl my-2 text-white`}>
-                        Technomatic Academy
+                        {data__?.title_one}
                     </section>
                     <section className='my-2 text-white text-sm'>
-                        6600 Chase Oaks Boulevard,Suite 150
-                        Plano, Texas 75023, United States of America
+                        {data__?.address_line_1}
                     </section>
                     <section className='my-2 text-white'>
-                        +1 469 606-9699
+                        {data__?.footer_phone}
                     </section>
                     <section className='my-2 text-white'>
-                        info@technoacademy.com
+                        {data__?.footer_email}
                     </section>
 
                 </div >
             </React.Fragment>
         )
-    });
+    }, []);
 
     const RightSideFooter = React.memo(() => {
         return (
             <React.Fragment>
                 <div className=' lg:px-3 md:px-2 px-4'>
                     <section className={` text-3xl my-2 text-white`}>
-                        Technomatic Academy
+                        {data__?.title_two}
                     </section>
                     <section className='my-2 text-white text-sm'>
-                        6600 Chase Oaks Boulevard,Suite 150
-                        Plano, Texas 75023, United States of America
+                        {data__?.address_line_2}
                     </section>
                     <section className='my-2 text-white'>
-                        +1 469 606-9699
+                        {data__?.footer_phone}
                     </section>
                     <section className='my-2 text-white'>
-                        info@technoacademy.com
+                        {data__?.footer_email}
                     </section>
 
                     <section className='my-2 '>
-                        <form  >
+                        <form onSubmit={subscribeFunction} >
                             <div className=' flex'>
-                                <input required type="text" className='peer h-12  w-full rounded-l-lg bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all text-[#6b6a6a] duration-200 ease-in-out focus:bg-white focus:ring-2 text-sm ' /><button type="submit" className=' bg-[#fdc25e] px-3 py-2 text-sm rounded-r-lg h-12 '>Subscribe</button>
+                                <input required type="email" onChange={(e) => setEmail(e?.target?.value)} className='peer h-12  w-full rounded-l-lg bg-gray-50 px-4 font-thin outline-none drop-shadow-sm transition-all text-[#6b6a6a] duration-200 ease-in-out focus:bg-white focus:ring-2 text-sm ' /><button type="submit" className=' bg-[#fdc25e] px-3 py-2 text-sm rounded-r-lg h-12 '>{isLoading ? 'Loading...' : 'Subscribe'}</button>
                             </div>
                         </form>
                     </section>
                 </div >
             </React.Fragment>
         )
-    },[]);
+    }, []);
 
     return (
         <React.Fragment>
@@ -79,14 +113,14 @@ console.log(data ," it is footer data =- social ")
                                 <section className='lg:col-span-6 md:col-span-6 col-span-12'>
                                     <div className=''>
                                         <strong className='text-white text-lg '>
-                                            Our Company
+                                            {data__?.columns_one}
                                         </strong>
                                         <section>
                                             {
-                                                Array(5).fill().map((_, index) => (
+                                                data__?.column_one_field.map((i, index) => (
                                                     <li key={index} className="list-none text-sm my-2">
-                                                        <a className=' text-white decoration-none '>
-                                                            Our Company
+                                                        <a href={i?.link} className=' text-white decoration-none '>
+                                                            {i?.title}
                                                         </a>
                                                     </li>
                                                 ))
@@ -97,14 +131,14 @@ console.log(data ," it is footer data =- social ")
                                 <section className='lg:col-span-6 md:col-span-6 col-span-12'>
                                     <div className=''>
                                         <strong className='text-white text-lg '>
-                                            Our Company
+                                            {data__?.columns_two}
                                         </strong>
                                         <section>
                                             {
-                                                Array(5).fill().map((_, index) => (
+                                                data__?.column_two_field.map((i, index) => (
                                                     <li key={index} className="list-none text-sm my-2">
-                                                        <a className=' text-white decoration-none '>
-                                                            Our Company
+                                                        <a href={i?.link} className=' text-white decoration-none '>
+                                                            {i?.title}
                                                         </a>
                                                     </li>
                                                 ))
@@ -122,7 +156,7 @@ console.log(data ," it is footer data =- social ")
                     <footer className=' mt-4 inner-section border-t border-white'>
                         <div className='lg:flex md:flex block lg:justify-between md:justify-between'>
                             <div className='text-white text-sm lg:mt-4 mt-2 '>
-                                Copyright © 2023 Technomatic Academy . All Rights Reserved.
+                                {data__?.right_reserved}
                             </div>
                             <div className='text-white text-sm lg:mt-4 mt-2 '>
                                 <SocialiconDist props={data?.response?.message} />
