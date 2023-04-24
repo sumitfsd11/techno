@@ -193,6 +193,7 @@ export default function EventEdit() {
                 shouldDirty: true,
                 shouldValidate: true
             })
+            
             setValue('sub_des', data_?.sub_des, {
                 shouldTouch: true,
                 shouldDirty: true,

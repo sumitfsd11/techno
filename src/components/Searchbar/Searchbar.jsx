@@ -10,8 +10,8 @@ const SearchBar = () => {
   const [value, setValue] = React.useState('')
   const search_options = [
     {
-      value: "Dashboard",
-      label: 'Dashboard',
+      value: "Apply",
+      label: 'Apply',
       link: '/'
     },
     {
