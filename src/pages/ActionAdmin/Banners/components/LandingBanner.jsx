@@ -16,7 +16,7 @@ import {
 import { notification } from 'antd'
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'
-
+import { file_base64 } from 'utils/common.utils';
 
 export default function LandingBanner() {
     const { userValue } = useAuth()
@@ -59,7 +59,7 @@ export default function LandingBanner() {
         onFailure
     })
 
-    const { control, handleSubmit, setValue,
+    const { control, handleSubmit, setValue, watch,
         formState: { isDirty, isValid }
     } = methods;
 
@@ -178,8 +178,9 @@ export default function LandingBanner() {
                                                                                 <FileInput
                                                                                     type="file"
                                                                                     onChange={(e) => {
-                                                                                        field.onChange();
-                                                                                        console.log(e.target.files)
+                                                                                        file_base64(e.target.files[0]).then((response) => {
+                                                                                            field.onChange(response);
+                                                                                        })
                                                                                     }}
                                                                                 />
                                                                             </ProfileImage>
@@ -265,7 +266,9 @@ export default function LandingBanner() {
                                                                                 <FileInput
                                                                                     type="file"
                                                                                     onChange={(e) => {
-                                                                                        field.onChange(e.target.files);
+                                                                                        file_base64(e.target.files[0]).then((response) => {
+                                                                                            field.onChange(response);
+                                                                                        })
                                                                                     }}
                                                                                 />
                                                                             </ProfileImage>
