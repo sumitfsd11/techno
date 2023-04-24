@@ -19,6 +19,10 @@ import { toast } from 'react-hot-toast';
 import { file_base64 } from 'utils/common.utils';
 export default function FeatureLEdit() {
     const [open, setOpen] = React.useState(false);
+    const handleOpen =React.useCallback(()=>{
+        setOpen(!open)
+    },[open])
+    
     const methods = useForm({
         // resolver:joiResolver
         mode: "all",
@@ -110,9 +114,7 @@ export default function FeatureLEdit() {
         }
     }, [isLoading, setValue, data])
 
-    const handleOpen =React.useCallback(()=>{
-        setOpen(!open)
-    },[open])
+
     return (
         <div>
             <React.Fragment>
