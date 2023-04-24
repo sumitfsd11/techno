@@ -16,44 +16,34 @@ import {
 import { notification } from 'antd'
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'
-
+import { file_base64 } from 'utils/common.utils';
 
 export default function LandingBanner() {
     const { userValue } = useAuth()
     const { id } = useParams()
     const [open, setOpen] = React.useState(1);
-    const [field_, setField] = React.useState('');
     const [api, contextHolder] = notification.useNotification();
     const { quill, quillRef } = useQuill();
-    // console.log(id)
+
     const navigate = useNavigate();
     const methods = useForm({
         mode: "all",
         defaultValues: {
-            profileImg: '',
-            title: '',
-            des: ''
+            // 
+            bannerImg: '',
+            bannerTitle: '',
+            bannerDes: '',
+            // 
+            cardImg: '',
+            cardTitle: '',
+            cardDes: '',
+            cardRating: '',
+            cardButton: '',
+            // 
         }
     });
 
-    const methodsCard = useForm({
-        mode: "all",
-        defaultValues: {
-            cardImg: '',
-            cardtitle: '',
-            cardDes: '',
-            rating: '',
-            btnText: ''
-        }
-    });
-    const methodfaqs = useForm({
-        mode: "all",
-        defaultValues: {
-            title_faqs: '',
-            des_faqs: ''
-        }
-    });
-    // api action 
+
     const onSuccess = React.useCallback((response) => {
 
     }, [])
@@ -64,76 +54,77 @@ export default function LandingBanner() {
 
     const { isLoading, data, callFetch } = useFetch({
         url: `/course/${id}`,
-        skipOnStart: false,
+        skipOnStart: true,
         onSuccess,
         onFailure
     })
 
-    console.log(data ,"--")
-
-
-    const { control, handleSubmit, setValue,
+    const { control, handleSubmit, setValue, watch,
         formState: { isDirty, isValid }
     } = methods;
 
-    const { control: controlcard, handleSubmit: cardhandleSubmit, setError: cardsetError, setValue: cardsetValue,
-        formState: { isDirty: cardisDirty, isValid: cardisValid }
-    } = methodsCard;
-    const { control: controlfaqs, handleSubmit: handleSubmitfaqs, setError: setErrorfaqs, setValue: setValuefaqs,
-        formState: { isDirty: isDirtyfaqs, isValid: isValidfaqs }
-    } = methodfaqs;
-
-    const { fields: fieldsfaqs, append: appendfaqs, prepend: prependfaqs, remove: removefaqs } = useFieldArray({
-        control: controlfaqs,
-        name: "faqs",
-    });
     const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
         control,
-        name: "test",
+        name: "fieldsfaqs",
     });
     const onSubmit = React.useCallback((data) => {
         console.warn(data)
     }, []);
 
-    const onSubmitCard = React.useCallback((data) => {
-        console.warn(data)
-    }, []);
-
-    const onSubmitfaqs = React.useCallback((data) => {
-        appendfaqs({ title: data?.title_faqs, content: data?.des_faqs })
-    }, []);
 
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
 
-    console.log(fieldsfaqs, "===")
+    const faqshold = React.useCallback((data) => {
+        if (data?.des_faqs && data?.title_faqs) {
+            append({ content: data?.des_faqs, title: data?.title_faqs })
+        } else {
+            api.error({
+                message: `Notification `,
+                description: 'Please provide all value ',
+                placement: 'topLeft'
+            });
+        }
+    }, [])
+
+    const delete_ = React.useCallback((data, index) => {
+        remove(index)
+    }, [remove])
+
+    const event__action = React.useCallback((e) => {
+        let content = quill.container.outerHTML ?? null;
+        if (content && quill) {
+            if (id) {
+
+                // callFetch({
+                //     url: `/blog_action/${id}`,
+                //     method: 'put',
+                //     data: data__
+                // })
+            }
+        } else {
+            // toast.success('Event describition can not be empty !')
+        }
+    }, [callFetch, id, quill])
 
     React.useEffect(() => {
         if (quill) {
-            // data poupulating 
-            // quill.clipboard.dangerouslyPasteHTML(localStorage.getItem('test__'));
-        }
-    }, [fields])
-
-    function add() {
-        if (quill) {
-            if (quill?.container?.outerHTML && field_) {
-                append({ content: quill?.container?.outerHTML, title: field_ })
-                quill.clipboard.dangerouslyPasteHTML('');
-                setField('')
-            } else {
-                api.error({
-                    message: `Notification `,
-                    description: 'Both field are required so please make sure you ptutting data in both field !',
-                    placement: 'topLeft'
-                })
+            if (!isLoading && id) {
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.blog_content}`);
             }
         }
-    }
+    }, [isLoading, data, quill])
 
 
-
+    React.useEffect(() => {
+        if (id) {
+            callFetch({
+                url: `/course/${id}`,
+                method: 'get'
+            })
+        }
+    }, [callFetch])
     return (
         <div>
             {contextHolder}
@@ -143,363 +134,346 @@ export default function LandingBanner() {
                 </div>
                 <div className='col-span-3  custome_scroll'>
                     <React.Fragment>
-                        <React.Fragment>
-                            <Accordion open={open === 1}>
-                                <AccordionHeader onClick={() => handleOpen(1)}>
-                                    <div className='text-sm'>
-                                        Banner
-                                    </div>
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    <BoxContainer>
-                                        <div className=''>
+                        <FormProvider {...methods}>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+
+                                <Accordion open={open === 1}>
+                                    <AccordionHeader onClick={() => handleOpen(1)}>
+                                        <div className='text-sm'>
                                             Banner
-                                            <section className=''>
-                                                <FormProvider {...methods}>
-                                                    <form onSubmit={cardhandleSubmit(onSubmit)}>
-                                                        <div className='form-control mt-3 '>
-                                                            <div className='w-full'>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="profileImg"
-                                                                    render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
-                                                                        let src = field.value ?? null;
-                                                                        if (
-                                                                            field.value &&
-                                                                            field.value.length > 0 &&
-                                                                            typeof field.value !== "string"
-                                                                        ) {
-                                                                            const objectUrl = URL.createObjectURL(field.value[0]);
-                                                                            src = objectUrl;
-                                                                        }
-
-                                                                        return (
-                                                                            <React.Fragment>
-                                                                                <ProfileImage>
-                                                                                    {src ? (
-                                                                                        <Image src={src} />
-                                                                                    ) : (
-                                                                                        <UploadText>
-                                                                                            <ImgIcon className={'w-20 h-20 '} />
-                                                                                        </UploadText>
-                                                                                    )}
-                                                                                    <FileInput
-                                                                                        type="file"
-                                                                                        onChange={(e) => {
-                                                                                            field.onChange(e.target.files);
-                                                                                        }}
-                                                                                    />
-                                                                                </ProfileImage>
-                                                                                <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
-                                                                            </React.Fragment>
-                                                                        );
-                                                                    }} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="title"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextField type={"text"} error={error}  {...field} name={"title"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="des"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextArea type={"text"} error={error}  {...field} name={"des"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control pl-1">
-                                                            <div className="flex  justify-between">
-                                                            </div>
-                                                        </div>
-                                                        <div className="form-control mt-3">
-                                                            <Button is={false} className={`w-full gradient rounded-full `} type={'submit'}
-                                                                isDisabled={!isDirty || !isValid}
-                                                            >{'SUBMIT'}</Button>
-                                                        </div>
-
-                                                    </form>
-                                                </FormProvider>
-                                            </section>
                                         </div>
-                                    </BoxContainer>
-                                </AccordionBody>
-                            </Accordion>
-                            <Accordion open={open === 2}>
-                                <AccordionHeader onClick={() => handleOpen(2)}>
-                                    <div className='text-sm'>
-                                        Card
-                                    </div>
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    <BoxContainer>
-                                        <div className=''>
-                                            Card
-                                            <section className=''>
-                                                <FormProvider {...methodsCard}>
-                                                    <form onSubmit={cardhandleSubmit(onSubmitCard)}>
-                                                        <div className='form-control mt-3 '>
-                                                            <div className='w-full'>
+                                    </AccordionHeader>
+                                    <AccordionBody>
+                                        <BoxContainer>
+                                            <div className=''>
+                                                Banner
+                                                <section className=''>
 
-                                                                <Controller
-                                                                    control={controlcard}
-                                                                    name="cardImg"
-                                                                    render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
-                                                                        let src = field.value ?? null;
-                                                                        if (
-                                                                            field.value &&
-                                                                            field.value.length > 0 &&
-                                                                            typeof field.value !== "string"
-                                                                        ) {
-                                                                            const objectUrl = URL.createObjectURL(field.value[0]);
-                                                                            src = objectUrl;
-                                                                        }
+                                                    <div className='form-control mt-3 '>
+                                                        <div className='w-full'>
+                                                            <Controller
+                                                                control={control}
+                                                                name="bannerImg"
+                                                                render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
+                                                                    let src = field.value ?? null;
+                                                                    if (
+                                                                        field.value &&
+                                                                        field.value.length > 0 &&
+                                                                        typeof field.value !== "string"
+                                                                    ) {
+                                                                        const objectUrl = URL.createObjectURL(field.value[0]);
+                                                                        src = objectUrl;
+                                                                    }
 
-                                                                        return (
-                                                                            <React.Fragment>
-                                                                                <ProfileImage>
-                                                                                    {src ? (
-                                                                                        <Image src={src} />
-                                                                                    ) : (
-                                                                                        <UploadText>
-                                                                                            <ImgIcon className={'w-20 h-20 '} />
-                                                                                        </UploadText>
-                                                                                    )}
-                                                                                    <FileInput
-                                                                                        type="file"
-                                                                                        onChange={(e) => {
-                                                                                            field.onChange(e.target.files);
-                                                                                        }}
-                                                                                    />
-                                                                                </ProfileImage>
-                                                                                <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
-                                                                            </React.Fragment>
-                                                                        );
-                                                                    }} />
-                                                            </div>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={controlcard}
-                                                                    name="cardtitle"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextField type={"text"} error={error}  {...field} name={"cardtitle"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={controlcard}
-                                                                    name="cardDes"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextArea type={"text"} error={error}  {...field} name={"cardDes"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={controlcard}
-                                                                    name="rating"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextField type={"number"} error={error}  {...field} name={"rating"} icon={''} placeholder={"Rating"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="card_txt_btn"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextField type={"text"} error={error}  {...field} name={"card_txt_btn"} icon={''} placeholder={"Button Text"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
-                                                        <div className="form-control pl-1">
-                                                            <div className="flex  justify-between">
-                                                            </div>
-                                                        </div>
-                                                        <div className="form-control mt-3">
-                                                            <Button is={false} className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
-                                                                isDisabled={!cardisDirty || !cardisValid}
-                                                            >{'SUBMIT'}</Button>
-                                                        </div>
-
-                                                    </form>
-                                                </FormProvider>
-                                            </section>
-                                        </div>
-                                    </BoxContainer>
-                                </AccordionBody>
-                            </Accordion>
-                            <Accordion open={open === 3}>
-                                <AccordionHeader onClick={() => handleOpen(3)}>
-                                    <div className='text-sm'>
-                                        Tabs
-                                    </div>
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    <div className='my-2'>
-                                        {
-                                            fields?.map((i, index) => {
-                                                return (
-                                                    <React.Fragment>
-                                                        <section key={index} className="border rounded-md p-2 my-3 border-[#e8e5e5]">
-                                                            <div dangerouslySetInnerHTML={{ __html: i.title }} className="font-semibold  my-2 "></div>
-                                                            <article dangerouslySetInnerHTML={{ __html: i.content }} />
-                                                        </section>
-                                                    </React.Fragment>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <BoxContainer>
-                                        <div className=''>
-                                            Tabs
-                                            <section className=''>
-                                                <div className='form-control mt-3 '>
-                                                    <div className='w-full'>
-                                                        <div className=' border  outline-none border-[#eae9e9]'>
-                                                            <div ref={quillRef} />
+                                                                    return (
+                                                                        <React.Fragment>
+                                                                            <ProfileImage>
+                                                                                {src ? (
+                                                                                    <Image src={src} />
+                                                                                ) : (
+                                                                                    <UploadText>
+                                                                                        <ImgIcon className={'w-20 h-20 '} />
+                                                                                    </UploadText>
+                                                                                )}
+                                                                                <FileInput
+                                                                                    type="file"
+                                                                                    onChange={(e) => {
+                                                                                        file_base64(e.target.files[0]).then((response) => {
+                                                                                            field.onChange(response);
+                                                                                        })
+                                                                                    }}
+                                                                                />
+                                                                            </ProfileImage>
+                                                                            <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
+                                                                        </React.Fragment>
+                                                                    );
+                                                                }} />
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="form-control mt-3 ">
-                                                    <span>
-                                                        <TextField type={"text"} onChange={(e) => setField(e.target.value)} value={field_} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
-                                                    </span>
-                                                </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="bannerTitle"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextField type={"text"} error={error}  {...field} name={"title"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="bannerDes"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextArea type={"text"} error={error}  {...field} name={"des"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
 
-                                                <div className="form-control mt-3">
-                                                    <Button className={`w-full bg-[#7150e9] rounded-full cursor-pointer `} onClick={add} type={'button'}
-                                                    >{'SUBMIT'}</Button>
-                                                </div>
-                                            </section>
+                                                </section>
+                                            </div>
+                                        </BoxContainer>
+                                    </AccordionBody>
+                                </Accordion>
+                                <Accordion open={open === 2}>
+                                    <AccordionHeader onClick={() => handleOpen(2)}>
+                                        <div className='text-sm'>
+                                            Card
                                         </div>
-                                    </BoxContainer>
-                                </AccordionBody>
-                            </Accordion>
+                                    </AccordionHeader>
+                                    <AccordionBody>
+                                        <BoxContainer>
+                                            <div className=''>
+                                                Card
+                                                <section className=''>
 
-                            {/* fqs */}
-                            <Accordion open={open === 4}>
-                                <AccordionHeader onClick={() => handleOpen(4)}>
-                                    <div className='text-sm'>
-                                        Faqs
+                                                    <div className='form-control mt-3 '>
+                                                        <div className='w-full'>
+
+                                                            <Controller
+                                                                control={control}
+                                                                name="cardImg"
+                                                                render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
+                                                                    let src = field.value ?? null;
+                                                                    if (
+                                                                        field.value &&
+                                                                        field.value.length > 0 &&
+                                                                        typeof field.value !== "string"
+                                                                    ) {
+                                                                        const objectUrl = URL.createObjectURL(field.value[0]);
+                                                                        src = objectUrl;
+                                                                    }
+
+                                                                    return (
+                                                                        <React.Fragment>
+                                                                            <ProfileImage>
+                                                                                {src ? (
+                                                                                    <Image src={src} />
+                                                                                ) : (
+                                                                                    <UploadText>
+                                                                                        <ImgIcon className={'w-20 h-20 '} />
+                                                                                    </UploadText>
+                                                                                )}
+                                                                                <FileInput
+                                                                                    type="file"
+                                                                                    onChange={(e) => {
+                                                                                        file_base64(e.target.files[0]).then((response) => {
+                                                                                            field.onChange(response);
+                                                                                        })
+                                                                                    }}
+                                                                                />
+                                                                            </ProfileImage>
+                                                                            <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
+                                                                        </React.Fragment>
+                                                                    );
+                                                                }} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="cardTitle"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextField type={"text"} error={error}  {...field} name={"cardtitle"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="cardDes"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextArea type={"text"} error={error}  {...field} name={"cardDes"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="cardRating"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextField type={"number"} error={error}  {...field} name={"rating"} icon={''} placeholder={"Rating"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="cardButton"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextField type={"text"} error={error}  {...field} name={"card_txt_btn"} icon={''} placeholder={"Button Text"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control pl-1">
+                                                        <div className="flex  justify-between">
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </BoxContainer>
+                                    </AccordionBody>
+                                </Accordion>
+
+                            </form>
+                        </FormProvider>
+
+                        <Accordion open={open === 3}>
+                            <AccordionHeader onClick={() => handleOpen(3)}>
+                                <div className='text-sm'>
+                                    Describition
+                                </div>
+                            </AccordionHeader>
+                            <AccordionBody>
+                                <div className='my-2'>
+
+                                </div>
+                                <BoxContainer>
+                                    <div className=''>
+                                        Tabs
+                                        <section className=''>
+                                            <div className='form-control mt-3 '>
+                                                <div className='w-full'>
+                                                    <div className=' border  outline-none border-[#eae9e9]'>
+                                                        <div ref={quillRef} />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="form-control mt-3 ">
+
+                                            </div>
+
+                                            <div className="form-control mt-3">
+                                                <Button className={`w-full bg-[#7150e9] rounded-full cursor-pointer `} onClick={event__action} type={'button'}
+                                                >{'SUBMIT'}</Button>
+                                            </div>
+                                        </section>
                                     </div>
-                                </AccordionHeader>
-                                <AccordionBody>
-                                    <div className='my-2'>
-                                        {
-                                            fieldsfaqs?.map((i, index) => {
-                                                return (
-                                                    <React.Fragment>
-                                                        <section key={index} className=" relative border rounded-md p-2 my-3 border-[#e8e5e5]">
-                                                            <div className=' flex-row absolute top-1 right-2'>
-                                                                <div className=' '>
-                                                                    <EditIcon />
-                                                                </div>
-                                                                <div className=' '>
-                                                                    <DeleteIcon />
-                                                                </div>
+                                </BoxContainer>
+                            </AccordionBody>
+                        </Accordion>
+                        {/* fqs */}
+                        <Accordion open={open === 4}>
+                            <AccordionHeader onClick={() => handleOpen(4)}>
+                                <div className='text-sm'>
+                                    Faqs
+                                </div>
+                            </AccordionHeader>
+                            <AccordionBody>
+                                <div className='my-2'>
+                                    {
+                                        fields?.map((i, index) => {
+                                            return (
+                                                <React.Fragment>
+                                                    <section key={index} className=" relative border rounded-md p-2 my-3 border-[#e8e5e5]">
+                                                        <div className=' flex-row absolute top-1 right-2'>
+                                                            <div className=' text-sm cursor-pointer' onClick={() => delete_(i, index)}>
+                                                                <DeleteIcon style={{ fontSize: "13px" }} />
                                                             </div>
-                                                            <div className="font-semibold  my-2 ">{i?.title}</div>
-                                                            <article  >{i?.content}</article>
-                                                        </section>
-                                                    </React.Fragment>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <BoxContainer>
-                                        <div className=''>
-                                            Faqs
-                                            <section className=''>
-                                                <FormProvider {...methodfaqs}>
-                                                    <form onSubmit={handleSubmitfaqs(onSubmitfaqs)}>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={controlfaqs}
-                                                                    name="title_faqs"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextField type={"text"} error={error}  {...field} name={"title_faqs"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
                                                         </div>
-                                                        <div className="form-control mt-3 ">
-                                                            <span>
-                                                                <Controller
-                                                                    control={controlfaqs}
-                                                                    name="des_faqs"
-                                                                    render={({
-                                                                        field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error },
-                                                                    }) => (
-                                                                        <TextArea type={"text"} error={error}  {...field} name={"des_faqs"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
-                                                                    )}
-                                                                />
-                                                            </span>
-                                                        </div>
+                                                        <div className="font-semibold  my-2 ">{i?.title}</div>
+                                                        <article  >{i?.content}</article>
+                                                    </section>
+                                                </React.Fragment>
+                                            )
+                                        })
+                                    }
+                                </div>
+                                <FormProvider {...methods}>
+                                    <form onSubmit={handleSubmit(faqshold)}>
+                                        <BoxContainer>
+                                            <div className=''>
+                                                Faqs
+                                                <section className=''>
 
-                                                        <div className="form-control mt-3">
-                                                            <Button is={false}
-                                                                className={`w-full bg-[#7150e9] rounded-full `} type={'submit'}
-                                                                isDisabled={!isDirtyfaqs || !isValidfaqs}
-                                                            >{'SUBMIT'}</Button>
-                                                        </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="title_faqs"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextField type={"text"} error={error}  {...field} name={"title_faqs"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
+                                                    <div className="form-control mt-3 ">
+                                                        <span>
+                                                            <Controller
+                                                                control={control}
+                                                                name="des_faqs"
+                                                                render={({
+                                                                    field,
+                                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                                }) => (
+                                                                    <TextArea type={"text"} error={error}  {...field} name={"des_faqs"} icon={''} placeholder={"Description"} className={"w-full pl-6"} />
+                                                                )}
+                                                            />
+                                                        </span>
+                                                    </div>
 
-                                                    </form>
-                                                </FormProvider>
-                                            </section>
-                                        </div>
-                                    </BoxContainer>
-                                </AccordionBody>
-                            </Accordion>
-                        </React.Fragment>
+                                                    <div className="form-control mt-3">
+                                                        <Button
+                                                            className={`w-full bg-[#7150e9] rounded-full `}
+                                                            type='submit'
+                                                        // isDisabled={!isDirtyfaqs || !isValidfaqs}
+                                                        >{'SUBMIT'}</Button>
+                                                    </div>
+
+
+                                                </section>
+
+                                            </div>
+                                        </BoxContainer>
+                                    </form>
+                                </FormProvider>
+                            </AccordionBody>
+                        </Accordion>
+                        <div className=' p-3'>
+                            <Button
+                                className={`w-full bg-[#7150e9] rounded-full `}
+                                onClick={handleSubmit(onSubmit)}
+                                type='submit'
+                            // isDisabled={!isDirtyfaqs || !isValidfaqs}
+                            >{'SUBMIT'}</Button>
+                        </div>
 
                     </React.Fragment>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

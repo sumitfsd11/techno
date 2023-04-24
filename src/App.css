@@ -52,6 +52,11 @@
   background: #f6f6f6;
 }
 
+.active_navbar_{
+  background: #0e0e0eb7;
+  color: #f6f6f6 !important;
+}
+
 .nav_bar_user .wrapper{
   position: relative;
   max-width: 1300px;

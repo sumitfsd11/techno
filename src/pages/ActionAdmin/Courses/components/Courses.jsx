@@ -19,7 +19,7 @@ export default function Courses() {
     const [currentPage, setCurrentPage] = React.useState(1)
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/course/?page=${currentPage}`,
+        url: `/course_get/?page=${currentPage}`,
         skipOnStart: false,
     })
 
@@ -92,7 +92,7 @@ export default function Courses() {
                                 isLoading ? (<Loader />) : (
                                     <React.Fragment>
                                         {
-                                            data?.response?.message?.map((i, index) => (
+                                            data?.response?.results?.map((i, index) => (
                                                 <React.Fragment>
                                                     <tbody>
                                                         <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
@@ -117,7 +117,7 @@ export default function Courses() {
                                                                 }
                                                             </td>
                                                             <td className="p-3">
-                                                                <p className='font-semibold text-sm'>{i?.title}</p>
+                                                                <p className='font-semibold text-sm'>{i?.banner_title}</p>
                                                                 <p className="dark:text-gray-400">{i?.des}</p>
                                                             </td>
                                                             <td className="p-3">
@@ -129,7 +129,7 @@ export default function Courses() {
                                                             </td>
                                                             <td className="p-3 ">
                                                                 <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                                                    <span>Pending</span>
+                                                                    <span>{i?.status}</span>
                                                                 </span>
                                                             </td>
                                                         </tr>
