@@ -1,7 +1,7 @@
 import React from 'react'
 import CourseDetail from "pages/VisitorPages/Courses/CourseDetail";
 import styled from 'styled-components';
-import { TextField, TextArea, Button } from 'components';
+import { TextField, TextArea, Button, Selector } from 'components';
 import { FormProvider, useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate, Link, useLocation, useParams } from 'react-router-dom';
@@ -24,7 +24,6 @@ export default function LandingBanner() {
     const [open, setOpen] = React.useState(1);
     const [api, contextHolder] = notification.useNotification();
     const { quill, quillRef } = useQuill();
-
     const navigate = useNavigate();
     const methods = useForm({
         mode: "all",
@@ -33,12 +32,14 @@ export default function LandingBanner() {
             bannerImg: '',
             bannerTitle: '',
             bannerDes: '',
+            status: '',
             // 
             cardImg: '',
             cardTitle: '',
             cardDes: '',
             cardRating: '',
             cardButton: '',
+            fieldsfaqs: ''
             // 
         }
     });
@@ -53,7 +54,7 @@ export default function LandingBanner() {
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/course/${id}`,
+        url: `/course_get/${id}`,
         skipOnStart: true,
         onSuccess,
         onFailure
@@ -68,8 +69,26 @@ export default function LandingBanner() {
         name: "fieldsfaqs",
     });
     const onSubmit = React.useCallback((data) => {
-        console.warn(data)
-    }, []);
+        let content = quill.container.outerHTML ?? null;
+        console.log(data)
+        let _formData = {
+            banner_title:data?.bannerTitle,
+            banner_des:data?.bannerDes,
+            status:data?.status,
+            user_id:'',
+            banner_background_image:data?.bannerImg,
+            card_img:data?.cardImg,
+            card_title:data?.cardTitle,
+            card_des:data?.cardDes,
+            card_link:'',
+            card_btn_text:data?.cardButton,
+            card_pricing:'',
+            card_enrolled:'',
+            course_des:content,
+            faqs:[]
+        }
+        
+    }, [quill]);
 
 
     const handleOpen = (value) => {
@@ -78,7 +97,7 @@ export default function LandingBanner() {
 
     const faqshold = React.useCallback((data) => {
         if (data?.des_faqs && data?.title_faqs) {
-            append({ content: data?.des_faqs, title: data?.title_faqs })
+            append({ des: data?.des_faqs, title: data?.title_faqs })
         } else {
             api.error({
                 message: `Notification `,
@@ -96,7 +115,6 @@ export default function LandingBanner() {
         let content = quill.container.outerHTML ?? null;
         if (content && quill) {
             if (id) {
-
                 // callFetch({
                 //     url: `/blog_action/${id}`,
                 //     method: 'put',
@@ -106,12 +124,13 @@ export default function LandingBanner() {
         } else {
             // toast.success('Event describition can not be empty !')
         }
+        console.log(data, " it is your name ")
     }, [callFetch, id, quill])
 
     React.useEffect(() => {
         if (quill) {
             if (!isLoading && id) {
-                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.blog_content}`);
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.course_des}`);
             }
         }
     }, [isLoading, data, quill])
@@ -120,17 +139,71 @@ export default function LandingBanner() {
     React.useEffect(() => {
         if (id) {
             callFetch({
-                url: `/course/${id}`,
+                url: `/course_get/${id}`,
                 method: 'get'
             })
         }
     }, [callFetch])
+
+    React.useEffect(() => {
+        if (id && !isLoading) {
+            let data__ = data?.response
+            setValue('bannerImg', data__?.banner_background_image, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('bannerTitle', data__?.banner_title, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('bannerDes', data__?.banner_des, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('status', data__?.status, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('cardImg', data__?.card_img, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('cardTitle', data__?.card_title, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('cardDes', data__?.card_des, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+
+            setValue('cardButton', data__?.card_btn_text, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('fieldsfaqs', data__?.faqs ?? [], {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+        }
+    }, [setValue, data, isLoading])
     return (
         <div>
             {contextHolder}
             <div className='grid lg:grid-cols-12 gap-3 '>
                 <div className='col-span-9 overflow-y-auto h-[91vh] custome_scroll '>
-                    <CourseDetail props={data?.response?.messsage} />
+                    <CourseDetail props={data?.response} >
+                        <div dangerouslySetInnerHTML={{ __html: data?.response?.course_des }}></div>
+                    </CourseDetail>
                 </div>
                 <div className='col-span-3  custome_scroll'>
                     <React.Fragment>
@@ -202,6 +275,19 @@ export default function LandingBanner() {
                                                                     <TextField type={"text"} error={error}  {...field} name={"title"} icon={''} placeholder={"Title"} className={"w-full pl-6"} />
                                                                 )}
                                                             />
+                                                        </span>
+                                                    </div>
+                                                    <div className='form-control mt-3'>
+                                                        <span>
+                                                            <div className='form-control mb-2 '>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="status"
+                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                        <Selector defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                                    )}
+                                                                />
+                                                            </div>
                                                         </span>
                                                     </div>
                                                     <div className="form-control mt-3 ">
@@ -306,20 +392,7 @@ export default function LandingBanner() {
                                                             />
                                                         </span>
                                                     </div>
-                                                    <div className="form-control mt-3 ">
-                                                        <span>
-                                                            <Controller
-                                                                control={control}
-                                                                name="cardRating"
-                                                                render={({
-                                                                    field,
-                                                                    fieldState: { invalid, isTouched, isDirty, error },
-                                                                }) => (
-                                                                    <TextField type={"number"} error={error}  {...field} name={"rating"} icon={''} placeholder={"Rating"} className={"w-full pl-6"} />
-                                                                )}
-                                                            />
-                                                        </span>
-                                                    </div>
+
                                                     <div className="form-control mt-3 ">
                                                         <span>
                                                             <Controller
@@ -357,28 +430,26 @@ export default function LandingBanner() {
                                 <div className='my-2'>
 
                                 </div>
-                                <BoxContainer>
-                                    <div className=''>
-                                        Tabs
-                                        <section className=''>
-                                            <div className='form-control mt-3 '>
-                                                <div className='w-full'>
-                                                    <div className=' border  outline-none border-[#eae9e9]'>
-                                                        <div ref={quillRef} />
-                                                    </div>
+                                <div className=''>
+                                    Course Describition
+                                    <section className=''>
+                                        <div className='form-control mt-3 '>
+                                            <div className='w-full'>
+                                                <div className='w-full min-h-min'>
+                                                    <div ref={quillRef} />
                                                 </div>
                                             </div>
-                                            <div className="form-control mt-3 ">
+                                        </div>
+                                        <div className="form-control mt-3 ">
 
-                                            </div>
+                                        </div>
 
-                                            <div className="form-control mt-3">
-                                                <Button className={`w-full bg-[#7150e9] rounded-full cursor-pointer `} onClick={event__action} type={'button'}
-                                                >{'SUBMIT'}</Button>
-                                            </div>
-                                        </section>
-                                    </div>
-                                </BoxContainer>
+                                        <div className="form-control mt-3">
+                                            <Button className={`w-full bg-[#7150e9] rounded-full cursor-pointer `} onClick={event__action} type={'button'}
+                                            >{'SUBMIT'}</Button>
+                                        </div>
+                                    </section>
+                                </div>
                             </AccordionBody>
                         </Accordion>
                         {/* fqs */}
@@ -401,7 +472,7 @@ export default function LandingBanner() {
                                                             </div>
                                                         </div>
                                                         <div className="font-semibold  my-2 ">{i?.title}</div>
-                                                        <article  >{i?.content}</article>
+                                                        <article  >{i?.des}</article>
                                                     </section>
                                                 </React.Fragment>
                                             )
