@@ -17,7 +17,7 @@ import { notification } from 'antd'
 import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'
 import { file_base64 } from 'utils/common.utils';
-
+import { courseValidation } from 'utils/validation';
 export default function LandingBanner() {
     const { userValue } = useAuth()
     const { id } = useParams()
@@ -26,6 +26,7 @@ export default function LandingBanner() {
     const { quill, quillRef } = useQuill();
     const navigate = useNavigate();
     const methods = useForm({
+        resolver:yupResolver(courseValidation),
         mode: "all",
         defaultValues: {
             // 
@@ -45,12 +46,16 @@ export default function LandingBanner() {
     });
 
 
-    const onSuccess = React.useCallback((response) => {
+    const onSuccess = React.useCallback((response, method) => {
 
     }, [])
 
     const onFailure = React.useCallback((error) => {
-
+        api.error({
+            message: `Errors ! `,
+            description: error?.response?.message,
+            placement: 'topLeft'
+        });
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
@@ -70,24 +75,34 @@ export default function LandingBanner() {
     });
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
-        console.log(data)
         let _formData = {
-            banner_title:data?.bannerTitle,
-            banner_des:data?.bannerDes,
-            status:data?.status,
-            user_id:'',
-            banner_background_image:data?.bannerImg,
-            card_img:data?.cardImg,
-            card_title:data?.cardTitle,
-            card_des:data?.cardDes,
-            card_link:'',
-            card_btn_text:data?.cardButton,
-            card_pricing:'',
-            card_enrolled:'',
-            course_des:content,
-            faqs:[]
+            banner_title: data?.bannerTitle,
+            banner_des: data?.bannerDes,
+            status: data?.status,
+            user_id: userValue?.id,
+            banner_background_image: data?.bannerImg,
+            card_img: data?.cardImg,
+            card_title: data?.cardTitle,
+            card_des: data?.cardDes,
+            card_btn_text: data?.cardButton,
+            course_des: content,
+            faqs:[ ...fields?.map((i) =>  JSON.stringify({ title: i?.title, des: i?.des }))]
         }
-        
+       
+        if (id) {
+            callFetch({
+                url: `/course/${id}`,
+                method: 'put',
+                data: _formData
+            })
+        } else {
+            callFetch({
+                url: `/course/${userValue?.id}`,
+                method: 'put',
+                data: _formData
+            })
+        }
+
     }, [quill]);
 
 
@@ -143,7 +158,7 @@ export default function LandingBanner() {
                 method: 'get'
             })
         }
-    }, [callFetch])
+    }, [callFetch , id])
 
     React.useEffect(() => {
         if (id && !isLoading) {
@@ -200,12 +215,23 @@ export default function LandingBanner() {
         <div>
             {contextHolder}
             <div className='grid lg:grid-cols-12 gap-3 '>
-                <div className='col-span-9 overflow-y-auto h-[91vh] custome_scroll '>
-                    <CourseDetail props={data?.response} >
-                        <div dangerouslySetInnerHTML={{ __html: data?.response?.course_des }}></div>
+                <div className='col-span-9  overflow-y-auto h-[95vh] custome_scroll '>
+                    <CourseDetail props={{
+                        banner_title: watch('bannerTitle'),
+                        banner_des: watch('bannerDes'),
+                        status: watch('status'),
+                        user_id: userValue?.id,
+                        banner_background_image: watch('bannerImg'),
+                        card_img: watch('cardImg'),
+                        card_title: watch('cardTitle'),
+                        card_des: watch('cardDes'),
+                        card_btn_text: watch('cardButton'),
+                        faqs: watch('fieldsfaqs')
+                    }} >
+                        <div dangerouslySetInnerHTML={{ __html: data?.response?.course_des ?? quill?.container?.outerHTML }}></div>
                     </CourseDetail>
                 </div>
-                <div className='col-span-3  custome_scroll'>
+                <div className='col-span-3 overflow-y-auto h-[95vh]  custome_scroll'>
                     <React.Fragment>
                         <FormProvider {...methods}>
                             <form onSubmit={handleSubmit(onSubmit)}>
@@ -221,7 +247,6 @@ export default function LandingBanner() {
                                             <div className=''>
                                                 Banner
                                                 <section className=''>
-
                                                     <div className='form-control mt-3 '>
                                                         <div className='w-full'>
                                                             <Controller
@@ -304,7 +329,6 @@ export default function LandingBanner() {
                                                             />
                                                         </span>
                                                     </div>
-
                                                 </section>
                                             </div>
                                         </BoxContainer>
@@ -392,7 +416,6 @@ export default function LandingBanner() {
                                                             />
                                                         </span>
                                                     </div>
-
                                                     <div className="form-control mt-3 ">
                                                         <span>
                                                             <Controller
@@ -416,10 +439,8 @@ export default function LandingBanner() {
                                         </BoxContainer>
                                     </AccordionBody>
                                 </Accordion>
-
                             </form>
                         </FormProvider>
-
                         <Accordion open={open === 3}>
                             <AccordionHeader onClick={() => handleOpen(3)}>
                                 <div className='text-sm'>
@@ -428,7 +449,6 @@ export default function LandingBanner() {
                             </AccordionHeader>
                             <AccordionBody>
                                 <div className='my-2'>
-
                                 </div>
                                 <div className=''>
                                     Course Describition
@@ -485,7 +505,6 @@ export default function LandingBanner() {
                                             <div className=''>
                                                 Faqs
                                                 <section className=''>
-
                                                     <div className="form-control mt-3 ">
                                                         <span>
                                                             <Controller
@@ -514,7 +533,6 @@ export default function LandingBanner() {
                                                             />
                                                         </span>
                                                     </div>
-
                                                     <div className="form-control mt-3">
                                                         <Button
                                                             className={`w-full bg-[#7150e9] rounded-full `}
@@ -522,10 +540,7 @@ export default function LandingBanner() {
                                                         // isDisabled={!isDirtyfaqs || !isValidfaqs}
                                                         >{'SUBMIT'}</Button>
                                                     </div>
-
-
                                                 </section>
-
                                             </div>
                                         </BoxContainer>
                                     </form>
@@ -537,7 +552,6 @@ export default function LandingBanner() {
                                 className={`w-full bg-[#7150e9] rounded-full `}
                                 onClick={handleSubmit(onSubmit)}
                                 type='submit'
-                            // isDisabled={!isDirtyfaqs || !isValidfaqs}
                             >{'SUBMIT'}</Button>
                         </div>
 

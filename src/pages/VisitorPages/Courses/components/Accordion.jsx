@@ -29,11 +29,10 @@ export default function AccordionComponent({ props }) {
   };
 
 
-
   return (
     <Fragment>
       {
-        props?.faqs?.map((i, index, arr) => (
+        props?.map((i, index, arr) => (
           <Accordion key={index} className="drop-shadow-lg my-4 py-1 px-3 border-[#e7e7ec] rounded-md border  " style={{ boxShadow: "0px 4px 6px 0px rgba(50,50,93,0.11) , 0px 1px 3px 0px rgba(0,0,0,0.08)" }} open={open === index+1} icon={<Icon id={1} open={open} />}>
             <AccordionHeader className="border-0" onClick={() => handleOpen(index + 1)}>
               {i?.title}

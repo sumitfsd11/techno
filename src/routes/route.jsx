@@ -59,6 +59,13 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/course',
+        key: '',
+        permissions: [],
+        component: (<LandingBanner />)
+    },
+    {
+        name: '',
         path: '/admin/blogs-listing',
         key: '',
         permissions: [],
@@ -192,7 +199,7 @@ const private_routes = [
     },
 ]
 
-
+// first have to compelte  this one 
 const public_routes_user = [
     {
         name: '',
