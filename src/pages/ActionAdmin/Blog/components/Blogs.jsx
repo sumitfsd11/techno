@@ -18,7 +18,7 @@ export default function Blogs() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
     const [filter_values, setFilterValues] = React.useState()
-    console.log(filter_values, " it is your name ")
+
     const onSuccess = React.useCallback((response) => {
 
     }, [])

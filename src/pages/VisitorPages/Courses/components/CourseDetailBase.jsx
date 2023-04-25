@@ -13,10 +13,12 @@ export default function CourseDetailBase({ props, children }) {
                         {children}
                     </div>
                     <div className='lg:col-span-4 md:grid-cols-12 grid-cols-12'>
-                        <CourseCard props={props } />
+                        <CourseCard props={props} />
                     </div>
                 </div>
-                {/* <AccordionComponent props={props} /> */}
+                <div className='mt-3'>
+                    {props?.faqs && (<AccordionComponent props={props?.faqs} />)}
+                </div>
             </div>
         </div>
     )

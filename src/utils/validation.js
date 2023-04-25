@@ -43,6 +43,10 @@ export const applyValidation = yup.object({
 })
 
 
+export const courseValidation= yup.object({
+  bannerTitle: yup.string().required('Title is required ! '),
+  bannerDes: yup.string().required('Describition is required ! '),
+})
 
 export {
   loginValidationSchema,
