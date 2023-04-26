@@ -18,6 +18,7 @@ import { useQuill } from 'react-quilljs';
 import 'quill/dist/quill.snow.css'
 import { file_base64 } from 'utils/common.utils';
 import { courseValidation } from 'utils/validation';
+import { toast } from 'react-hot-toast';
 export default function LandingBanner() {
     const { userValue } = useAuth()
     const { id } = useParams()
@@ -26,7 +27,7 @@ export default function LandingBanner() {
     const { quill, quillRef } = useQuill();
     const navigate = useNavigate();
     const methods = useForm({
-        resolver:yupResolver(courseValidation),
+        resolver: yupResolver(courseValidation),
         mode: "all",
         defaultValues: {
             // 
@@ -47,8 +48,14 @@ export default function LandingBanner() {
 
 
     const onSuccess = React.useCallback((response, method) => {
-
-    }, [])
+        if (method === 'put') {
+            toast.success('Updated succesfully !')
+            navigate('/admin/course-listing')
+        }
+        if (method === 'post') {
+            toast.success('Posted succesfully !')
+        }
+    }, [navigate])
 
     const onFailure = React.useCallback((error) => {
         api.error({
@@ -73,6 +80,7 @@ export default function LandingBanner() {
         control,
         name: "fieldsfaqs",
     });
+
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
         let _formData = {
@@ -86,9 +94,9 @@ export default function LandingBanner() {
             card_des: data?.cardDes,
             card_btn_text: data?.cardButton,
             course_des: content,
-            faqs:[ ...fields?.map((i) =>  JSON.stringify({ title: i?.title, des: i?.des }))]
+            faqs: JSON.stringify([...fields])
         }
-       
+
         if (id) {
             callFetch({
                 url: `/course/${id}`,
@@ -97,13 +105,13 @@ export default function LandingBanner() {
             })
         } else {
             callFetch({
-                url: `/course/${userValue?.id}`,
-                method: 'put',
+                url: `/course/`,
+                method: 'post',
                 data: _formData
             })
         }
 
-    }, [quill]);
+    }, [quill, fields, id, callFetch]);
 
 
     const handleOpen = (value) => {
@@ -158,7 +166,7 @@ export default function LandingBanner() {
                 method: 'get'
             })
         }
-    }, [callFetch , id])
+    }, [callFetch, id])
 
     React.useEffect(() => {
         if (id && !isLoading) {

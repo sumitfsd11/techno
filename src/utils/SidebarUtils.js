@@ -10,15 +10,6 @@ const sidebar_utils = [
         query: '',
         SubMenu: [
             {
-                title: 'DashBoard',
-                permissions: [],
-                key_: '',
-                link: null,
-                icon: '',
-                subtitle: '',
-                query: '',
-            },
-            {
                 title: 'Applied',
                 permissions: [],
                 key_: '',
@@ -107,10 +98,10 @@ const sidebar_utils = [
                 query: '',
             },
             {
-                title: 'Apply',
+                title: 'Navbar',
                 permissions: [],
                 key_: '',
-                link: '/admin/blogs-listing',
+                link: '',
                 icon: '',
                 subtitle: '',
                 query: '',
@@ -119,7 +110,7 @@ const sidebar_utils = [
                 title: 'Footer',
                 permissions: [],
                 key_: '',
-                link: '/admin/event-listing',
+                link: '',
                 icon: '',
                 subtitle: '',
                 query: '',
