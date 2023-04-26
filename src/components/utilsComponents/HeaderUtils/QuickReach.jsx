@@ -79,14 +79,14 @@ export default function QuickReach() {
                 </Icon> */}
                 </div>
                 <div>
-                    <Icon>
+                    {/* <Icon>
                         <div className='m-auto'>
                             <IconBanner />
                         </div>
-                    </Icon>
+                    </Icon> */}
                 </div>
                 <div>
-                    <ProfileIcon />
+                    {/* <ProfileIcon /> */}
                 </div>
 
                 <Dropdown menu={{ items }} placement="bottomRight" arrow>

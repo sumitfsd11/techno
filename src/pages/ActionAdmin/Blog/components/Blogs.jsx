@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'antd'
-import Loader from 'components/utilsComponents/Loader'
+import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { useFetch } from "hooks"
 import {
     Card,
@@ -97,23 +97,26 @@ export default function Blogs() {
                             </Button>
                         </div>
                     </div>
-
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs">
+                        <table className="min-w-full text-xs relative h-[60vh] ">
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
                                     <th className="p-3">ID #</th>
-                                    <th className="p-3">User</th>
+                                    <th className="p-3">Posted By</th>
                                     <th className="p-3">Title</th>
                                     <th className="p-3">Created At</th>
-                                    <th className="p-3 text-right">Amount</th>
                                     <th className="p-3">Status</th>
                                 </tr>
                             </thead>
                             {
-                                isLoading ? <Loader /> : (
+                                isLoading ? <GridLoader /> : (
                                     <React.Fragment>
                                         {
+                                              data?.response?.results?.length === 0 ? (
+                                                <React.Fragment>
+                                                    <EmptyData />
+                                                </React.Fragment>
+                                            ) :
                                             data?.response?.results.map((i, index) => (
                                                 <React.Fragment key={index}>
                                                     <tbody>
@@ -122,21 +125,9 @@ export default function Blogs() {
                                                                 <p>{i?.id}</p>
                                                             </td>
                                                             <td className="p-3">
-                                                                {
-                                                                    i?.user_id ? (
-                                                                        <Tooltip color='black' placement="bottomLeft" title={
-                                                                            (
-                                                                                <React.Fragment>
-                                                                                    <ProfileCard props={i?.user_id} />
-                                                                                </React.Fragment>
-                                                                            )
-                                                                        }>
+                                                              
                                                                             <p className='cursor-pointer'>{i?.user_id?.first_name + ' ' + i?.user_id?.last_name}</p>
-                                                                        </Tooltip>
-                                                                    ) : (
-                                                                        <p className='cursor-pointer font-semibold'>--</p>
-                                                                    )
-                                                                }
+                                                           
                                                             </td>
                                                             <td className="p-3">
 

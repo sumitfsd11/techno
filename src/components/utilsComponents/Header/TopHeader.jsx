@@ -54,71 +54,75 @@ export const Navbar = ({ props }) => {
         <React.Fragment>
             <nav className='nav_bar_user drop-shadow-2xl'>
                 <div className="wrapper">
-                    <div className="logo">{data__?.logo && (<Link to={data__?.link}><span className="text-[#070707c4] font-semibold">Technomatic</span></Link>)}</div>
+                    <div className="logo">{data__?.logo && (<Link to={data__?.link}>
+                        <div className="gird">
+                            <img src={data__?.logo} className="w-[190px]   h-auto m-auto" alt="loading..." />
+                        </div>
+                    </Link>)}</div>
                     <input type="radio" name="slider" id="menu-btn" />
                     <input type="radio" name="slider" id="close-btn" />
                     <ul className="nav-links">
                         <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /><Times /></label>
                         <li>
-                            <a onClick={() => redirect_it(data__?.columns_1[0]?.link)} className={`desktop-item ${location?.pathname === data__?.columns_1[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_1[0]?.title}</a>
+                            <a  onClick={() => redirect_it(data__?.columns_1[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_1[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_1[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_1[0]?.title}</label>
                             <ul className="drop-menu">
                                 {
                                     data__?.columns_1?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li><Link to="/course/2">{i?.title}</Link></li>
+                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
                                     ))
                                 }
                             </ul>
                         </li>
 
                         <li>
-                            <a onClick={() => redirect_it(data__?.columns_2[0]?.link)} className={`desktop-item ${location?.pathname === data__?.columns_2[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_2[0]?.title}</a>
+                            <a onClick={() => redirect_it(data__?.columns_2[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_2[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_2[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_2[0]?.title}</label>
                             <ul className="drop-menu">
                                 {
                                     data__?.columns_2?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li><Link to="/course/2">{i?.title}</Link></li>
+                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
                                     ))
                                 }
                             </ul>
                         </li>
 
                         <li>
-                            <a onClick={() => redirect_it(data__?.columns_3[0]?.link)} className={`desktop-item ${location?.pathname === data__?.columns_3[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_3[0]?.title}</a>
+                            <a onClick={() => redirect_it(data__?.columns_3[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_3[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_3[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_3[0]?.title}</label>
                             <ul className="drop-menu">
                                 {
                                     data__?.columns_3?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li><Link to="/course/2">{i?.title}</Link></li>
+                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
                                     ))
                                 }
                             </ul>
                         </li>
 
                         <li>
-                            <a onClick={() => redirect_it(data__?.columns_4[0]?.link)} className={`desktop-item ${location?.pathname === data__?.columns_4[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_4[0]?.title}</a>
+                            <a onClick={() => redirect_it(data__?.columns_4[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_4[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_4[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_4[0]?.title}</label>
                             <ul className="drop-menu">
                                 {
                                     data__?.columns_4?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li><Link to="/course/2">{i?.title}</Link></li>
+                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
                                     ))
                                 }
                             </ul>
                         </li>
 
                         <li>
-                            <a onClick={() => redirect_it(data__?.columns_5[0]?.link)} className={`desktop-item ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_5[0]?.title}</a>
+                            <a onClick={() => redirect_it(data__?.columns_5[0]?.link)} className={`cursor-pointer desktop-item ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_5[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_5[0]?.title}</label>
                             <ul className="drop-menu">
                                 {
                                     data__?.columns_5?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li><Link to="/course/2">{i?.title}</Link></li>
+                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
                                     ))
                                 }
                             </ul>

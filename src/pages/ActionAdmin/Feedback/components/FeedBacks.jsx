@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom'
 import { useFetch } from "hooks";
-
+import {Button} from "components"
 
 export default function FeedBacks() {
     const navigate = useNavigate()
     // const [filter_values, setFilterValues] = React.useState()
 
-    const {isLoading , data } = useFetch({
+    const { isLoading, data } = useFetch({
         url: `/feedback_list/`,
         skipOnStart: false,
     })
@@ -25,7 +25,18 @@ export default function FeedBacks() {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">FeedBacks#</h2>
+
+                    <div className='flex justify-between'>
+                        <div className="">
+                            <h2 className="mb-4 text-2xl font-semibold leading-tight">FeedBacks#</h2>
+                        </div>
+                        <div className=''>
+                            <Button onClick={() => redirect__('/admin/feedback')} className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
+                            >
+                                CREATE NEW
+                            </Button>
+                        </div>
+                    </div>
                     <div className="overflow-x-auto">
                         <table className="min-w-full text-xs">
                             <thead className="dark:bg-gray-700">
@@ -34,7 +45,6 @@ export default function FeedBacks() {
                                     <th className="p-3">Name</th>
                                     <th className="p-3">Roll</th>
                                     <th className="p-3 w-[50%]">feedback</th>
-                                    <th className="p-3 text-right">Created At</th>
                                     <th className="p-3">Status</th>
                                 </tr>
                             </thead>
@@ -54,9 +64,6 @@ export default function FeedBacks() {
                                                 </td>
                                                 <td className="p-3 w-[50%]">
                                                     <p className="dark:text-gray-400 ">{i?.feedback}</p>
-                                                </td>
-                                                <td className="p-3 text-right">
-                                                    <p>{i?.created_on}</p>
                                                 </td>
                                                 <td className="p-3 text-left">
                                                     <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
@@ -86,12 +93,12 @@ export default function FeedBacks() {
 
                         </div>
                         <div>
-                            <div className='relative ml-1'>
+                            {/* <div className='relative ml-1'>
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
                                 <SearchInput className="searchbar" type="search" placeholder={'By Blog Name , Date  '} />
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 

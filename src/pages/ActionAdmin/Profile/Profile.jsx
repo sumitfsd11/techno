@@ -12,7 +12,7 @@ import { MailSVG, PhoneNumber, PhotoIcon } from "icons";
 import styled from "styled-components";
 import { useAuth, useFetch } from "hooks";
 import { toast } from "react-hot-toast";
-import { file_base64 } from "utils/common.utils";
+import { Img_, file_base64 } from "utils/common.utils";
 
 export default function Profile(props) {
   const [open, setOpen] = React.useState(false);
@@ -23,17 +23,19 @@ export default function Profile(props) {
     defaultValues: {
       mobile_num: "",
       bio: "",
+      lastName:"",
+      firstName:"",
       profileImg: ""
     }
   })
 
 
   const { control,
-    handleSubmit,
+    handleSubmit, setValue,
     setError, formState: { isDirty, isValid } } = methods
 
-  const onSuccess = React.useCallback((response , method) => {
-    if ( method === 'put') {
+  const onSuccess = React.useCallback((response, method) => {
+    if (method === 'put') {
       setOpen(false)
       toast.success("Profile updated  successfully !")
     }
@@ -42,7 +44,7 @@ export default function Profile(props) {
     toast.error(error?.response?.message)
   }, [])
 
-  const { isLoading, data ,callFetch} = useFetch({
+  const { isLoading, data, callFetch } = useFetch({
     url: `/profile_update/${userValue?.id}`,
     skipOnStart: true,
     method: 'post',
@@ -50,22 +52,54 @@ export default function Profile(props) {
     onFailure
   });
 
+
+
   const onSubmit = React.useCallback((data) => {
-    let formData__ ={
-        first_name:data?.firstName,
-        last_name:data?.lastName,
-        mobile_no:data?.mobile_num,
-        detail:data?.bio
+    let formData__ = {
+      first_name: data?.firstName,
+      last_name: data?.lastName,
+      mobile_no: data?.mobile_num,
+      detail: data?.bio,
+      profile_picture:data?.profileImg
     }
     callFetch({
       url: `/profile_update/${userValue?.id}`,
-      method:'put',
-      data:formData__
+      method: 'put',
+      data: formData__
     })
   }, [callFetch])
 
   const handleOpen = () => setOpen(!open);
-  // edit profile 
+
+  React.useEffect(() => {
+    if (userValue) {
+      setValue('mobile_num', userValue?.mobile_no, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('bio',  userValue?.detail, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('lastName',userValue?.firstName, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('firstName', userValue?.lastName, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('profileImg',  userValue?.profile_picture, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+    }
+  }, [setValue, userValue])
 
   return (
     <React.Fragment>
@@ -107,7 +141,7 @@ export default function Profile(props) {
                                             onChange={(e) => {
                                               file_base64(e.target.files[0]).then((response) => {
                                                 field.onChange(response);
-                                            })
+                                              })
                                             }}
                                           />
                                           <PhotoIcon />
@@ -198,10 +232,10 @@ export default function Profile(props) {
         <div className=" p-2 border rounded-lg border-[#c0c0c05e]">
           <div className="p-6 sm:p-12 dark:bg-gray-900 dark:text-gray-100">
             <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
-              <img src="https://source.unsplash.com/75x75/?portrait" alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
+              <img src={Img_(userValue?.profile_picture)} alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
               <div className="flex flex-col">
-                <h4 className="text-lg font-semibold text-center md:text-left">Leroy Jenkins</h4>
-                <p className="dark:text-gray-400">Sed non nibh iaculis, posuere diam vitae, consectetur neque. Integer velit ligula, semper sed nisl in, cursus commodo elit. Pellentesque sit amet mi luctus ligula euismod lobortis ultricies et nibh.</p>
+                <h4 className="text-lg font-semibold text-center md:text-left">{userValue?.first_name}</h4>
+                <p className="dark:text-gray-400">{userValue?.detail}</p>
                 <Button onClick={handleOpen}
                   className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black drop-shadow-none box-shadow-none rounded-full `} type={'submit'}
                 >{'EDIT'}</Button>

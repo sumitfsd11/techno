@@ -22,7 +22,7 @@ export default function SidebarC({ children }) {
     }
 
     const IconWrapper = React.memo(({ children }) => (
-        <div className='p-2 rounded-md icon text-[#38bdf8] text-lg mr-2  '>
+        <div className='p-2 rounded-md icon text-[#7f002a] text-lg mr-2  '>
             {children}
         </div>
     ));
@@ -34,8 +34,8 @@ export default function SidebarC({ children }) {
                     <header className='mx-5 mt-5 mb-7 rounded-lg'>
                         <div className='flex'>
                             <img src={img} alt={"loading..."} className={collapsed ? ` hidden` : ''} />
-                            <div className=''>
-                                <button onClick={() => collapseSidebar()} className={'mr-1 '}>{collapsed ? <ArrowRight /> : <ArrowLeft />}</button>
+                            <div className='pt-[8px]'>
+                                <button onClick={() => collapseSidebar()} className={'mr-1 mt-4'}>{collapsed ? <ArrowRight /> : <ArrowLeft />}</button>
                             </div>
                         </div>
                     </header>
@@ -85,8 +85,8 @@ export default function SidebarC({ children }) {
                 }
                 <React.Fragment>
                     <footer className='mx-5 mt-5 mb-7 rounded-lg'>
-                        <div className=''>
-                            <img src={icons} alt={"loading..."} />
+                        <div className=' border border-1 rounded-lg border-[#dcdada]'>
+                            <img src={icons} className='border border-1 rounded-lg border-[#dcdada]' alt={"loading..."} />
                         </div>
                     </footer>
                 </React.Fragment>

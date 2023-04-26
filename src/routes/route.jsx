@@ -136,6 +136,13 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/feedback',
+        key: '',
+        permissions: [],
+        component: (<FeedBackAction />)
+    },
+    {
+        name: '',
         path: '/admin/feature-listing',
         key: '',
         permissions: [],

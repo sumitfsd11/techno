@@ -10,34 +10,34 @@ const SearchBar = () => {
   const [value, setValue] = React.useState('')
   const search_options = [
     {
-      value: "Apply",
-      label: 'Apply',
-      link: '/'
+      value: "Applied",
+      label: 'Applied',
+      link: '/admin/home'
     },
     {
-      value: "Dashboard Revenue",
-      label: 'Dashboard Revenue',
-      link: '/dashboard-revenue'
+      value: "Couses",
+      label: 'Couses',
+      link: '/admin/course-listing'
     },
     {
-      value: "Profile",
-      label: 'Profile',
-      link: '/profile'
+      value: "Blogs",
+      label: 'Blogs',
+      link: '/admin/blogs-listing'
     },
     {
-      value: "Agents",
-      label: "Agents",
-      link: '/agents'
+      value: "Events",
+      label: "Events",
+      link: '/admin/event-listing'
     },
     {
-      value: "Unappoved Agesnts",
-      label: "Unappoved Agesnts",
-      link: '/agents'
+      value: "FeedBacks",
+      label: "FeedBacks",
+      link: '/admin/feedback-list'
     },
     {
-      value: "Users",
-      label: "Users",
-      link: '/users'
+      value: "About Us",
+      label: "About Us",
+      link: '/admin/about-us-edit'
     },
     {
       value: "Support",
@@ -45,40 +45,27 @@ const SearchBar = () => {
       link: '/support'
     },
     {
-      value: "Add Listing",
-      label: "Add Staff",
-      link: '/add-staff'
+      value: "Socials",
+      label: "Socials",
+      link: '/admin/social-media'
     },
     {
-      value: "Notification Listing",
-      label: " Add Notification",
-      link: '/notification'
-    },
+      value: "Navbar",
+      label: "Navbar",
+      link: '/admin/social-media'
+    }
+    ,
     {
-      value: "Support Ticket listing",
-      label: "Support Ticket listing",
-      link: '/supprot/ticket-list'
-    },
+      value: "Footer",
+      label: "Footer",
+      link: '/admin/social-media'
+    }
+    ,
     {
-      value: "Document Term & condition ",
-      label: "Document Term & condition ",
-      link: '/term-condition'
-    },
-    {
-      value: "Document Policy ",
-      label: "Document Policy ",
-      link: '/privacy'
-    },
-    {
-      value: "Document Fqs ",
-      label: "Document Fqs  ",
-      link: '/document/fqs'
-    },
-    {
-      value: "Feeback ",
-      label: "Feeback    ",
-      link: '/feedback'
-    },
+      value: "Profile",
+      label: "Profile",
+      link: '/admin/social-media'
+    }
 
   ];
 
