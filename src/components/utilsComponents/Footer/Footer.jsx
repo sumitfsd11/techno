@@ -50,6 +50,7 @@ export default function Footer({ props }) {
             <React.Fragment>
                 <div className=' lg:px-3 md:px-2 px-4'>
                     <section className={` text-3xl my-2 text-white`}>
+                    <img src={data__?.logo} className="w-[150px]  mb-5 h-auto " alt="loading..." />
                         {data__?.title_one}
                     </section>
                     <section className='my-2 text-white text-sm'>
