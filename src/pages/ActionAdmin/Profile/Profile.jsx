@@ -1,6 +1,6 @@
 import React from "react";
 // import { Button, Textfield as TextField, TextArea } from "../Index";
-import { Button , TextField,TextArea} from "components";
+import { Button, TextField, TextArea } from "components";
 import {
   Dialog,
   DialogHeader,
@@ -8,154 +8,234 @@ import {
   DialogFooter
 } from "@material-tailwind/react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
-import { MailSVG , PhoneNumber , PhotoIcon} from "icons";
+import { MailSVG, PhoneNumber, PhotoIcon } from "icons";
 import styled from "styled-components";
-// import { joiResolver } from "@hookform/resolvers/joi";
+import { useAuth, useFetch } from "hooks";
+import { toast } from "react-hot-toast";
+import { Img_, file_base64 } from "utils/common.utils";
 
 export default function Profile(props) {
   const [open, setOpen] = React.useState(false);
+  const { userValue } = useAuth()
   const methods = useForm({
     // resolver:joiResolver
     mode: "all",
     defaultValues: {
-      email: "",
       mobile_num: "",
       bio: "",
+      lastName:"",
+      firstName:"",
       profileImg: ""
     }
   })
 
+
   const { control,
-    handleSubmit,
+    handleSubmit, setValue,
     setError, formState: { isDirty, isValid } } = methods
 
-  const onSubmit = React.useCallback((data) => {
-    console.log(data)
+  const onSuccess = React.useCallback((response, method) => {
+    if (method === 'put') {
+      setOpen(false)
+      toast.success("Profile updated  successfully !")
+    }
   }, [])
+  const onFailure = React.useCallback((error) => {
+    toast.error(error?.response?.message)
+  }, [])
+
+  const { isLoading, data, callFetch } = useFetch({
+    url: `/profile_update/${userValue?.id}`,
+    skipOnStart: true,
+    method: 'post',
+    onSuccess,
+    onFailure
+  });
+
+
+
+  const onSubmit = React.useCallback((data) => {
+    let formData__ = {
+      first_name: data?.firstName,
+      last_name: data?.lastName,
+      mobile_no: data?.mobile_num,
+      detail: data?.bio,
+      profile_picture:data?.profileImg
+    }
+    callFetch({
+      url: `/profile_update/${userValue?.id}`,
+      method: 'put',
+      data: formData__
+    })
+  }, [callFetch])
 
   const handleOpen = () => setOpen(!open);
-  // edit profile 
-  const EditProfile = React.memo(() => {
-    return (
-      <React.Fragment>
-        <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-          <DialogHeader className='text-base py-1 my-0'>Profile Edit </DialogHeader>
-          <DialogBody className='h-[81vh] py-1 my-0' >
-            <div className="grid">
-              <div className="m-auto">
-                <div className=" lg:w-[450px] md:w-[450px] w-full ">
-                  <FormProvider {...methods}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="grid">
-                        <div className="m-auto">
-                          <Controller
-                            control={control}
-                            name="profileImg"
-                            render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
-                              let src = field.value ?? null;
-                              if (
-                                field.value &&
-                                field.value.length > 0 &&
-                                typeof field.value !== "string"
-                              ) {
-                                const objectUrl = URL.createObjectURL(field.value[0]);
-                                src = objectUrl;
 
-                              }
-                              return (
-                                <React.Fragment>
-                                  <div className=" border border-[#c0c0c08a] relative overflow-hidden w-[90px] my-6 bg-transparent rounded-full h-[90px]">
-                                    {src && (<img src={src} className="w-full h-full" alt="loading..." />)}
-                                    <div className="grid absolute profile_upload  bottom-0 w-full h-[38%] bg-transparent hover:bg-[#0f0f0f83] ">
-                                      <div className="m-auto  cursor-pointer text-white ">
-                                        <input
-                                          type="file"
-                                          className="w-full cursor-pointer h-full"
-                                          onChange={(e) => {
-                                            field.onChange(e.target.files);
-                                          }}
-                                        />
-                                        <PhotoIcon />
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
-                                </React.Fragment>
-                              );
-                            }} />
-                        </div>
-                      </div>
-                      <div className="mb-3">
-                        <Controller
-                          control={control}
-                          name="email"
-                          render={({ field,
-                            fieldState: { invalid, isTouched, isDirty, error } }) => (
-                            <TextField type={"text"}
-                              error={error}
-                              {...field}
-                              placeholder={"Email"}
-                              name="email"
-                              icon={<MailSVG />}
-                              className={"w-full pl-6"} />
-                          )} />
-                      </div>
-                      <div className="mb-3">
-                        <Controller
-                          control={control}
-                          name="mobile_num"
-                          render={({ field,
-                            fieldState: { invalid, isTouched, isDirty, error } }) => (
-                            <TextField type={"text"}
-                              error={error}
-                              {...field}
-                              name="mobile_num"
-                              placeholder={"Phone Number"}
-                              icon={<PhoneNumber />}
-                              className={"w-full pl-6"} />
-                          )} />
-                      </div>
-                      <div className="mb-6">
-                        <Controller
-                          control={control}
-                          name="bio"
-                          render={({ field,
-                            fieldState: { invalid, isTouched, isDirty, error } }) => (
-                            <TextArea type={"text"}
-                              error={error}  {...field}
-                              name={"bio"}
-                              // icon={<MailSVG />}
-                              placeholder={"Address"} className={"w-full pl-6"} />
-                          )} />
-                      </div>
-                      <div className="form-control mt-6">
-                        <Button type={'submit'}
-                          className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
-                          isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
-                      </div>
-                    </form>
-                  </FormProvider>
-                </div>
-              </div>
-            </div>
-          </DialogBody>
-          <DialogFooter className='py-1 my-1 '>
-          </DialogFooter>
-        </Dialog>
-      </React.Fragment>
-    )
-  }, [])
+  React.useEffect(() => {
+    if (userValue) {
+      setValue('mobile_num', userValue?.mobile_no, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('bio',  userValue?.detail, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('lastName',userValue?.firstName, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('firstName', userValue?.lastName, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+      setValue('profileImg',  userValue?.profile_picture, {
+        shouldTouch: true,
+        shouldDirty: true,
+        shouldValidate: true
+      })
+    }
+  }, [setValue, userValue])
+
   return (
     <React.Fragment>
-      <EditProfile />
+      <React.Fragment>
+        <React.Fragment>
+          <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
+            <DialogHeader className='text-base py-1 my-0'>Profile Edit </DialogHeader>
+            <DialogBody className='h-[81vh] py-1 my-0' >
+              <div className="grid">
+                <div className="m-auto">
+                  <div className=" lg:w-[450px] md:w-[450px] w-full ">
+                    <FormProvider {...methods}>
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="grid">
+                          <div className="m-auto">
+                            <Controller
+                              control={control}
+                              name="profileImg"
+                              render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
+                                let src = field.value ?? null;
+                                if (
+                                  field.value &&
+                                  field.value.length > 0 &&
+                                  typeof field.value !== "string"
+                                ) {
+                                  const objectUrl = URL.createObjectURL(field.value[0]);
+                                  src = objectUrl;
+
+                                }
+                                return (
+                                  <React.Fragment>
+                                    <div className=" border border-[#c0c0c08a] relative overflow-hidden w-[90px] my-6 bg-transparent rounded-full h-[90px]">
+                                      {src && (<img src={src} className="w-full h-full" alt="loading..." />)}
+                                      <div className="grid absolute profile_upload  bottom-0 w-full h-[38%] bg-transparent hover:bg-[#0f0f0f83] ">
+                                        <div className="m-auto  cursor-pointer text-white ">
+                                          <input
+                                            type="file"
+                                            className="w-full cursor-pointer h-full"
+                                            onChange={(e) => {
+                                              file_base64(e.target.files[0]).then((response) => {
+                                                field.onChange(response);
+                                              })
+                                            }}
+                                          />
+                                          <PhotoIcon />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
+                                  </React.Fragment>
+                                );
+                              }} />
+                          </div>
+                        </div>
+                        <div className="mb-3">
+                          <Controller
+                            control={control}
+                            name="firstName"
+                            render={({ field,
+                              fieldState: { invalid, isTouched, isDirty, error } }) => (
+                              <TextField type={"text"}
+                                error={error}
+                                {...field}
+                                placeholder={"First Name"}
+                                name="firstName"
+                                icon={<MailSVG />}
+                                className={"w-full pl-6"} />
+                            )} />
+                        </div>
+                        <div className="mb-3">
+                          <Controller
+                            control={control}
+                            name="lastName"
+                            render={({ field,
+                              fieldState: { invalid, isTouched, isDirty, error } }) => (
+                              <TextField type={"text"}
+                                error={error}
+                                {...field}
+                                placeholder={"Last Name"}
+                                name="lastName"
+                                icon={<MailSVG />}
+                                className={"w-full pl-6"} />
+                            )} />
+                        </div>
+                        <div className="mb-3">
+                          <Controller
+                            control={control}
+                            name="mobile_num"
+                            render={({ field,
+                              fieldState: { invalid, isTouched, isDirty, error } }) => (
+                              <TextField type={"text"}
+                                error={error}
+                                {...field}
+                                name="mobile_num"
+                                placeholder={"Phone Number"}
+                                icon={<PhoneNumber />}
+                                className={"w-full pl-6"} />
+                            )} />
+                        </div>
+                        <div className="mb-6">
+                          <Controller
+                            control={control}
+                            name="bio"
+                            render={({ field,
+                              fieldState: { invalid, isTouched, isDirty, error } }) => (
+                              <TextArea type={"text"}
+                                error={error}  {...field}
+                                name={"bio"}
+                                // icon={<MailSVG />}
+                                placeholder={"Address"} className={"w-full pl-6"} />
+                            )} />
+                        </div>
+                        <div className="form-control mt-6">
+                          <Button type={'submit'}
+                            className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
+                            isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
+                        </div>
+                      </form>
+                    </FormProvider>
+                  </div>
+                </div>
+              </div>
+            </DialogBody>
+            <DialogFooter className='py-1 my-1 '>
+            </DialogFooter>
+          </Dialog>
+        </React.Fragment>
+      </React.Fragment>
       <div className="lg:px-36 md:px-10 px-2 mt-8 ">
         <div className=" p-2 border rounded-lg border-[#c0c0c05e]">
           <div className="p-6 sm:p-12 dark:bg-gray-900 dark:text-gray-100">
             <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
-              <img src="https://source.unsplash.com/75x75/?portrait" alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
+              <img src={Img_(userValue?.profile_picture)} alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
               <div className="flex flex-col">
-                <h4 className="text-lg font-semibold text-center md:text-left">Leroy Jenkins</h4>
-                <p className="dark:text-gray-400">Sed non nibh iaculis, posuere diam vitae, consectetur neque. Integer velit ligula, semper sed nisl in, cursus commodo elit. Pellentesque sit amet mi luctus ligula euismod lobortis ultricies et nibh.</p>
+                <h4 className="text-lg font-semibold text-center md:text-left">{userValue?.first_name}</h4>
+                <p className="dark:text-gray-400">{userValue?.detail}</p>
                 <Button onClick={handleOpen}
                   className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black drop-shadow-none box-shadow-none rounded-full `} type={'submit'}
                 >{'EDIT'}</Button>

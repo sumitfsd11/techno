@@ -9,6 +9,7 @@ import { useFetch, useAuth } from "hooks"
 import { useNavigate, useParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { file_base64 } from 'utils/common.utils';
 
 export default function EventEdit() {
     const { quill, quillRef } = useQuill();
@@ -32,14 +33,14 @@ export default function EventEdit() {
     })
 
     const onSuccess = React.useCallback((response, method) => {
-        if (method !== 'get') {
-            if (method === 'post') {
-                navigate('/admin/event-listing')
-                toast.success('Posted  successfully !')
-            } else {
-                toast.success('Updated successfully !')
-            }
+
+        if (method === 'post') {
+            navigate('/admin/event-listing')
+            toast.success('Posted  successfully !')
+        } if (method === 'put') {
+            toast.success('Updated successfully !')
         }
+
     }, [navigate])
 
     const onFailure = React.useCallback((error) => {
@@ -49,7 +50,7 @@ export default function EventEdit() {
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/event_content_test/${userValue?.id}`,
+        url: `/blog/${id}`,
         skipOnStart: false,
         methods: 'get',
         onSuccess,
@@ -59,33 +60,68 @@ export default function EventEdit() {
     const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let content = quill.container.outerHTML ?? null;
-        let formData = {
-            title: data?.title,
-            // backgroundImage: data?.backgroundImage[0],
-            user_id: userValue?.id,
-            subtitle: data?.subtitle,
-            sub_des: data?.sub_des,
-            meta_content: data?.meta_content,
-            schedule: data?.schedule,
-            event_content: content,
-            // status: data?.status
-        }
-        if (id) {
-            callFetch(
-                {
-                    url: `/event_action/${id}`,
-                    method: 'put',
-                    data: formData
+
+
+        if (  data?.backgroundImage && typeof data?.backgroundImage[0] === 'object') {
+            file_base64( data?.backgroundImage[0]).then((response)=>{
+                let formData = {
+                    title: data?.title,
+                    backgroundImage: response,
+                    user_id: userValue?.id,
+                    subtitle: data?.subtitle,
+                    sub_des: data?.sub_des,
+                    meta_content: data?.meta_content,
+                    schedule: data?.schedule,
+                    blog_content: content,
+                    status: data?.status
                 }
-            )
-        } else {
-            callFetch({
-                url: `/event_action/`,
-                method: 'post',
-                data: formData
+    
+                if (id) {
+                    callFetch(
+                        {
+                            url: `/blog_action/${id}`,
+                            method: 'put',
+                            data: formData
+                        }
+                    )
+                } else {
+                    callFetch({
+                        url: `/blog_action/`,
+                        method: 'post',
+                        data: formData
+                    })
+                }
             })
+        } else {
+            let formData = {
+                title: data?.title,
+                backgroundImage: data?.backgroundImage,
+                user_id: userValue?.id,
+                subtitle: data?.subtitle,
+                sub_des: data?.sub_des,
+                meta_content: data?.meta_content,
+                schedule: data?.schedule,
+                blog_content: content,
+                status: data?.status
+            }
+
+            if (id) {
+                callFetch(
+                    {
+                        url: `/blog_action/${id}`,
+                        method: 'put',
+                        data: formData
+                    }
+                )
+            } else {
+                callFetch({
+                    url: `/blog_action/`,
+                    method: 'post',
+                    data: formData
+                })
+            }
         }
-    }, [callFetch, id, quill])
+    }, [callFetch, id, quill , file_base64])
 
     const event__action = React.useCallback((e) => {
         let content = quill.container.outerHTML ?? null;
@@ -93,22 +129,22 @@ export default function EventEdit() {
             //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
             if (id) {
                 let data__ = {
-                    event_content: content,
+                    blog_content: content,
                     user_id: userValue?.id
                 }
                 callFetch({
-                    url: `/event_action/${id}`,
+                    url: `/blog_action/${id}`,
                     method: 'put',
                     data: data__
                 })
             } else {
                 let data__ = {
                     title: " --- ",
-                    event_content: content,
+                    blog_content: content,
                     user_id: userValue?.id
                 }
                 callFetch({
-                    url: `/event_action/`,
+                    url: `/blog_action/`,
                     method: 'post',
                     data: data__
                 })
@@ -120,8 +156,8 @@ export default function EventEdit() {
     React.useEffect(() => {
         if (quill) {
             if (!isLoading && id) {
-                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
-                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.event_content}`);
+                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.blog_content);
+                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.blog_content}`);
             }
         }
     }, [isLoading, data, quill])
@@ -130,7 +166,7 @@ export default function EventEdit() {
 
     React.useEffect(() => {
         if (id) {
-            callFetch({ url: `/event_content_test/${id}`, method: 'get' })
+            callFetch({ url: `/blog/${id}`, method: 'get' })
         }
     }, [callFetch, id])
 
@@ -138,11 +174,6 @@ export default function EventEdit() {
         if (!isLoading && id) {
             let data_ = data?.response
             setValue('title', data_?.title, {
-                shouldTouch: true,
-                shouldDirty: true,
-                shouldValidate: true
-            })
-            setValue('schedule', data_?.schedule, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true
@@ -162,13 +193,24 @@ export default function EventEdit() {
                 shouldDirty: true,
                 shouldValidate: true
             })
+            
             setValue('sub_des', data_?.sub_des, {
                 shouldTouch: true,
                 shouldDirty: true,
                 shouldValidate: true
             })
+            setValue('status', data_?.status, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
+            setValue('backgroundImage', data_?.backgroundImage, {
+                shouldTouch: true,
+                shouldDirty: true,
+                shouldValidate: true
+            })
         }
-    }, [isLoading])
+    }, [isLoading, setValue, id, data])
 
     const _onFocus = React.useCallback(() => {
         document.getElementById("_date_picker").type = "datetime-local"
@@ -290,7 +332,7 @@ export default function EventEdit() {
                                                         control={control}
                                                         name="subtitle"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Host Location"} className={"w-full pl-6"} />
+                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub Title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>

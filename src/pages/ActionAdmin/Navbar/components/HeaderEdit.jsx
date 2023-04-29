@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
 import { Navbar } from 'components/utilsComponents/Header/TopHeader';
 import { DeleteIcon } from 'icons';
-export default function HeaderEdit() {
+export default function HeaderEdit({props}) {
     const [open, setOpen] = React.useState(false);
     const methods = useForm({
         // resolver:joiResolver

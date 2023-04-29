@@ -1,11 +1,11 @@
 import React from 'react'
 import { Pagination } from 'antd'
-import { PaginationWrapper } from 'components'
+import { PaginationWrapper, Button } from 'components'
 import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from "hooks";
-import Loader from 'components/utilsComponents/Loader'
+import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { Tooltip } from 'antd'
 import {
     Card,
@@ -14,128 +14,157 @@ import {
     Avatar,
 } from "@material-tailwind/react";
 import moment from 'moment'
+import { Img_ } from 'utils/common.utils'
 export default function Courses() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
-
+    const [search_query, SetSearchQuery] = React.useState('')
     const { isLoading, data, callFetch } = useFetch({
-        url: `/course/?page=${currentPage}`,
+        url: `/course_get/?page=${currentPage}`,
         skipOnStart: false,
     })
-
 
     const paginationAction = React.useCallback((a, p) => {
         setCurrentPage(a)
         callFetch({
-            url: `/event_list/?page=${a}`,
+            url: `/course_get/?page=${a}`,
             method: 'get'
         })
     }, [callFetch])
-    
+
+    React.useEffect(() => {
+        if (!isLoading) {
+            setTimeout(() => {
+                callFetch({
+                    url: `/course_get/?page=${currentPage}&search=${search_query}`,
+                    method: 'get'
+                })
+            }, [600])
+        }
+    }, [search_query, currentPage, callFetch])
+
     const redirect__ = React.useCallback((path) => {
         if (path) {
             navigate(path)
         }
     }, [navigate])
 
-    const ProfileCard = React.memo(({ props }) => {
-        return (
-            <React.Fragment>
-                <Card color="transparent" shadow={false} className="w-full max-w-[26rem] pt-1">
-                    <CardHeader
-                        color="transparent"
-                        floated={false}
-                        shadow={false}
-                        className="mx-0 flex items-center gap-4 pt-0 pb-1 "
-                    >
-                        <Avatar
-                            size="lg"
-                            variant="circular"
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                            alt="candice wu"
-                        />
-                        <div className="flex w-full flex-col gap-0.5">
-                            <div className="flex items-center justify-between">
-                                <Typography variant="" color="blue-gray  " className="text-sm font-normal">
-                                    Candice Wu
-                                </Typography>
-                                <div className="5 flex items-center gap-0">
-                                    ⭐⭐⭐⭐
-                                </div>
-                            </div>
-                            <Typography color="blue-white" className="text-xs text-white">Frontend Lead @ Google</Typography>
-                        </div>
-                    </CardHeader>
-                </Card>
-            </React.Fragment>
-        )
-    }, [])
+
+
 
     const Table = React.memo(() => {
         return (
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
-                    <h2 className="mb-4 text-2xl font-semibold leading-tight">Courses#</h2>
+
+                    <div className='flex justify-between'>
+                        <div className="">
+                            <h2 className="mb-4 text-2xl font-semibold leading-tight">Courses#</h2>
+                        </div>
+                        <div className=''>
+                            <Button onClick={() => redirect__('/admin/course/')} className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
+                            >
+                                CREATE NEW
+                            </Button>
+                        </div>
+                    </div>
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs">
+                        <table className="min-w-full text-xs relative h-[60vh] ">
                             <thead className="dark:bg-gray-700" >
                                 <tr className="text-left">
                                     <th className="p-3">ID #</th>
                                     <th className="p-3">Created By</th>
-                                    <th className="p-3">Post</th>
+                                    <th className="p-3 w-[30%]">Post</th>
                                     <th className="p-3">Last Updated</th>
                                     <th className="p-3 text-right">Created At</th>
                                     <th className="p-3">Status</th>
                                 </tr>
                             </thead>
                             {
-                                isLoading ? (<Loader />) : (
+                                isLoading ? (
+                                    <React.Fragment>
+                                        <GridLoader />
+                                    </React.Fragment>
+                                ) : (
                                     <React.Fragment>
                                         {
-                                            data?.response?.message?.map((i, index) => (
+                                            data?.response?.results?.length === 0 ? (
                                                 <React.Fragment>
-                                                    <tbody>
-                                                        <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                            <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/course/${i?.id}`)}>
-                                                                <p>{i?.id}</p>
-                                                            </td>
-                                                            <td className="p-3">
-                                                            {
-                                                                    i?.user_id ? ( 
-                                                                    <Tooltip color='black' placement="bottomLeft" title={
-                                                                        (
-                                                                            <React.Fragment>
-                                                                                <ProfileCard props={i?.user_id} />
-                                                                            </React.Fragment>
-                                                                        )
-                                                                    }>
-                                                                        <p className='cursor-pointer'>{i?.user_id?.first_name+' '+ i?.user_id?.last_name}</p>
-                                                                    </Tooltip>
-                                                                    ) : (
-                                                                        <p className='cursor-pointer font-semibold'>--</p>
-                                                                    )
-                                                                }
-                                                            </td>
-                                                            <td className="p-3">
-                                                                <p className='font-semibold text-sm'>{i?.title}</p>
-                                                                <p className="dark:text-gray-400">{i?.des}</p>
-                                                            </td>
-                                                            <td className="p-3">
-                                                                <p>01 Feb 2022</p>
-                                                                <p className="dark:text-gray-400">Tuesday</p>
-                                                            </td>
-                                                            <td className="p-3 text-right">
-                                                               {moment(i?.created_at).format('MMMM Do YYYY, h:mm:ss a')}
-                                                            </td>
-                                                            <td className="p-3 ">
-                                                                <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                                                    <span>Pending</span>
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
+                                                    <EmptyData />
                                                 </React.Fragment>
-                                            ))
+                                            ) :
+                                                data?.response?.results?.map((i, index, arr) => (
+                                                    <React.Fragment>
+                                                        <React.Fragment>
+                                                            <tbody>
+                                                                <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+                                                                    <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/course/${i?.id}`)}>
+                                                                        <p>{i?.id}</p>
+                                                                    </td>
+                                                                    <td className="p-3">
+                                                                        {
+                                                                            i?.user_id ? (
+                                                                                <Tooltip color='black' placement="bottomLeft" title={
+                                                                                    (
+                                                                                        <React.Fragment>
+                                                                                            <React.Fragment>
+                                                                                                <Card color="transparent" shadow={false} className="w-full max-w-[26rem] pt-1">
+                                                                                                    <CardHeader
+                                                                                                        color="transparent"
+                                                                                                        floated={false}
+                                                                                                        shadow={false}
+                                                                                                        className="mx-0 flex items-center gap-4 pt-0 pb-1 "
+                                                                                                    >
+                                                                                                        <Avatar
+                                                                                                            size="lg"
+                                                                                                            variant="circular"
+                                                                                                            src={Img_(i?.user_id?.profile_picture)}
+                                                                                                            alt="candice wu"
+                                                                                                        />
+                                                                                                        <div className="flex w-full flex-col gap-0.5">
+                                                                                                            <div className="flex items-center justify-between">
+                                                                                                                <Typography variant="" color="blue-gray  " className="text-sm font-normal">
+                                                                                                                  {i?.user_id?.first_name}
+                                                                                                                </Typography>
+                                                                                                                <div className="5 flex items-center gap-0">
+                                                                                                                  
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </CardHeader>
+                                                                                                </Card>
+                                                                                            </React.Fragment>
+                                                                                        </React.Fragment>
+                                                                                    )
+                                                                                }>
+                                                                                    <p className='cursor-pointer'>{i?.user_id?.first_name + ' ' + i?.user_id?.last_name}</p>
+                                                                                </Tooltip>
+                                                                            ) : (
+                                                                                <p className='cursor-pointer font-semibold'>--</p>
+                                                                            )
+                                                                        }
+                                                                    </td>
+                                                                    <td className="p-3">
+                                                                        <p className='font-semibold text-sm'>{i?.banner_title}</p>
+                                                                        <p className="dark:text-gray-400">{i?.banner_des}</p>
+                                                                    </td>
+                                                                    <td className="p-3">
+                                                                        <p>01 Feb 2022</p>
+                                                                        <p className="dark:text-gray-400">Tuesday</p>
+                                                                    </td>
+                                                                    <td className="p-3 text-right">
+                                                                        {moment(i?.created_at).format('MMMM Do YYYY, h:mm:ss a')}
+                                                                    </td>
+                                                                    <td className="p-3 ">
+                                                                        <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+                                                                            <span>{i?.status}</span>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </React.Fragment>
+                                                    </React.Fragment>
+                                                ))
                                         }
                                     </React.Fragment>
                                 )
@@ -161,7 +190,7 @@ export default function Courses() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput className="searchbar" type="search" placeholder={'By Event Name , Date  '} />
+                                <SearchInput onChange={(e) => SetSearchQuery(e.target.value)} className="searchbar" type="search" placeholder={'By title , status etc...   '} />
                             </div>
                         </div>
                     </div>

@@ -1,39 +1,41 @@
 import React from 'react'
-import styled from 'styled-components';
-import { useQuill } from 'react-quilljs';
 import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { TextField, Button, TextArea, Selector } from 'components';
+import styled from 'styled-components';
+import { Rate } from 'antd';
 import { ImgIcon } from 'icons';
-import CouserBanner from "pages/VisitorPages/components/Banner";
-import { useFetch, useAuth } from "hooks"
-import { useNavigate, useParams } from 'react-router-dom';
+import { file_base64 } from 'utils/common.utils';
+import { useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import moment from 'moment';
+import { useFetch } from "hooks"
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
-export default function EventEdit() {
-    const { quill, quillRef } = useQuill();
-    const { userValue } = useAuth()
+
+export default function FeatureAction() {
     const { id } = useParams()
     const navigate = useNavigate();
     const methods = useForm({
         // resolver:,
         defaultValues: {
             title: "",
-            backgroundImage: "",
-            subtitle: "",
-            sub_des: "",
-            meta_content: "",
-            event_content: "",
-            eventPlace: "",
+            sub_title: "",
+            des: "",
+            img: "",
             status: ""
         }
-
     })
 
+    const { control, handleSubmit, setValue, watch, formState: { isDirty, isValid } } = methods
+
     const onSuccess = React.useCallback((response, method) => {
+
         if (method === 'post') {
-                toast.success('Posted  successfully !')
+            navigate('/admin/feedback-list')
+            toast.success('Posted  successfully !')
+        } if (method === 'put') {
+            toast.success('Updated successfully !')
         }
+
     }, [navigate])
 
     const onFailure = React.useCallback((error) => {
@@ -43,140 +45,142 @@ export default function EventEdit() {
     }, [])
 
     const { isLoading, data, callFetch } = useFetch({
-        url: `/about_us/`,
-        skipOnStart: false,
+        url: `/landing_featurerud/${id}`,
+        skipOnStart: true,
         methods: 'get',
         onSuccess,
         onFailure
     })
-
-    const { control, handleSubmit, watch, setValue, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
-        let content = quill.container.outerHTML ?? null;
-        let formData = {
-            title: data?.title,
-            // backgroundImage: data?.backgroundImage[0],
-            user_id: userValue?.id,
-            subtitle: data?.subtitle,
-            sub_des: data?.sub_des,
-            meta_content: data?.meta_content,
-            aboutus_content: content,
-            // status: data?.status
-        }
-        callFetch({
-            url: `/about_us/`,
-            method: 'post',
-            data: formData
-        })
-    }, [callFetch, id, quill])
-
-    const event__action = React.useCallback((e) => {
-        let content = quill.container.outerHTML ?? null;
-        if (content && quill) {
-            //    quill.clipboard.dangerouslyPasteHTML(''); to clearn 
-                let data__ = {
-                    event_content: content,
-                    user_id: userValue?.id
+        if ( data?.img !== null && typeof data?.img[0] === 'object'  ) {
+            file_base64(data?.img[0]).then((response) => {
+                let formData = {
+                    title: data?.title,
+                    sub_title: data?.sub_title,
+                    feature_img_sec: response,
+                    des: data?.des,
+                    status: data?.status,
                 }
-                callFetch({
-                    url: `/about_us/`,
-                    method: 'post',
-                    data: data__
-                })
+                if (id) {
+                    callFetch(
+                        {
+                            url: `/landing_featurerud/${id}`,
+                            method: 'put',
+                            data: formData
+                        }
+                    )
+                } else {
+                    callFetch({
+                        url: `/landing_feature_lc/`,
+                        method: 'post',
+                        data: formData
+                    })
+                }
+            })
         } else {
-            toast.success('About us describition can not be empty !')
-        }
-    }, [callFetch, quill])
-    React.useEffect(() => {
-        if (quill) {
-            if (!isLoading) {
-                // quill?.clipboard?.dangerouslyPasteHTML(data?.response?.event_content);
-                quill.clipboard.dangerouslyPasteHTML(`${data?.response?.aboutus_content}`);
+            let formData = {
+                title: data?.title,
+                sub_title: data?.sub_title,
+                feature_img_sec: data?.img,
+                des: data?.des,
+                status: data?.status,
+            }
+
+            if (id) {
+                callFetch(
+                    {
+                        url: `/landing_featurerud/${id}`,
+                        method: 'put',
+                        data: formData
+                    }
+                )
+            } else {
+                callFetch({
+                    url: `/landing_feature_lc/`,
+                    method: 'post',
+                    data: formData
+                })
             }
         }
-    }, [isLoading, data, quill])
-
-
-
+    }, [callFetch, id, , file_base64])
 
     React.useEffect(() => {
-        if (!isLoading) {
-            let data_ = data?.response
-            setValue('title', data_?.title, {
-                shouldTouch: true,
+        if (id) {
+            callFetch({
+                url: `/landing_featurerud/${id}`,
+                skipOnStart: false,
+                methods: 'get',
+            })
+        }
+    }, [callFetch, id])
+
+    React.useEffect(() => {
+        if (!isLoading && id) {
+            let data__ = data?.response
+            setValue('title', data__?.title, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('meta_content', data_?.meta_content, {
-                shouldTouch: true,
+            setValue('sub_title', data__?.sub_title, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('subtitle', data_?.subtitle, {
-                shouldTouch: true,
+            setValue('img', data__?.feature_img_sec, {
                 shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
-            setValue('sub_des', data_?.sub_des, {
-                shouldTouch: true,
+            setValue('des', data__?.des, {
                 shouldDirty: true,
+                shouldTouch: true,
+                shouldValidate: true
+            })
+            setValue('status', data__?.status, {
+                shouldDirty: true,
+                shouldTouch: true,
                 shouldValidate: true
             })
         }
-    }, [isLoading])
-
+    }, [setValue, data, isLoading, id])
 
     return (
         <React.Fragment>
-            <CouserBanner props={{
-                title: data?.response?.title ?? watch('title'),
-                des: data?.response?.sub_des ?? watch('sub_des')
-            }} />
-            <div className='lg:px-40 md:px-10 px-2'>
-                <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>
-                    <section className='text-center'>
-                        <article>
-                            <h2 className='text-3xl font-semibold '>{data?.response?.title}</h2>
-                            <div className='grid mt-4'>
-                                <div className='m-auto'>
-                                    <div className='flex my-2'>
-                                        <div className='mx-2 '>
-                                            <button className='bg-[#ffc78b] text-white  py-1 font-normal px-4 rounded-full text-sm '>
-                                                {/* {moment(data?.response?.schedule).format('MMMM Do YYYY, h:mm:ss a')} */}
-                                                {data?.response?.user_id?.first_name ??'--'+" "+data?.response?.user_id?.last_name}
-                                            </button>
+            <div className='lg:px-36 md:px-5 px-2 mt-6 grid grid-cols-12 gap-4 '>
+                <div className='lg:col-span-4 md:col-span-4 col-span-12'>
+                    <div className=' border bg-white border-[#e7e7ec] animation-all   rounded-md '  >
+                        <div className=' p-3 pb-4' >
+                            <div className=' text-center'>
+                                {
+                                    watch("img") && (
+                                        <div className="grid my-3 ">
+                                            <img className=" w-[130px] h-auto  m-auto" alt="loading..." src={typeof watch("img")[0] === 'object' ? URL.createObjectURL(watch("img")[0]) : watch("img")} />
                                         </div>
-                                        <div className='mx-2 text-sm pt-1 '>
-                                            {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
-                                            {/* moment created_on */}
-                                        </div>
-                                        <div className='mx-2 '>
-                                            <button className=' bg-[#8c98a4] text-white  py-1 font-normal px-4 rounded-full text-sm'>
-                                                {data?.response?.subtitle}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                    )
+                                }
+                                <h4 className="text-primarybg font-semibold">{watch("title")}</h4>
+                                <p className='text-primarybg'>{watch("sub_title")} </p>
+                                <section className='mt-4'>
+                                    <p className='text-[#77838f]  '>
+                                        {watch("des")}
+                                    </p>
+                                </section>
                             </div>
-                        </article>
-                    </section>
+                        </div>
+                    </div>
                 </div>
-
-                <div className=' mt-10 '>
-                    <div>
-
+                <div className='lg:col-span-8 md:col-span-8 col-span-12 '>
+                    <div className=''>
                         <FormProvider {...methods} >
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='grid grid-cols-12 gap-3 mb-4'>
                                     <div className='lg:col-span-4 md:col-span-12 col-span-12'>
                                         <div className='form-control'>
-                                            <div>
-
-                                            </div>
                                             <div className='w-full'>
                                                 <Controller
                                                     control={control}
-                                                    name="backgroundImage"
+                                                    name="img"
                                                     render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
                                                         let src = field.value ?? null;
                                                         if (
@@ -184,7 +188,7 @@ export default function EventEdit() {
                                                             field.value.length > 0 &&
                                                             typeof field.value !== "string"
                                                         ) {
-                                                            const objectUrl = URL.createObjectURL(field.value[0]);
+                                                            const objectUrl = URL.createObjectURL(field?.value[0]);
                                                             src = objectUrl;
                                                         }
 
@@ -214,7 +218,7 @@ export default function EventEdit() {
                                     </div>
                                     <div className='lg:col-span-8 md:col-span-12 col-span-12'>
                                         <div className=' grid grid-cols-12 gap-3'>
-                                            <div className='col-span-6'>
+                                            <div className='col-span-12'>
                                                 <div className='form-control mb-2 '>
                                                     <Controller
                                                         control={control}
@@ -225,34 +229,38 @@ export default function EventEdit() {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='col-span-6'>
+
+                                            <div className='col-span-12'>
                                                 <div className='form-control mb-2 '>
                                                     <Controller
                                                         control={control}
-                                                        name="subtitle"
+                                                        name="sub_title"
                                                         render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                            <TextField type={"text"} error={error}  {...field} name={"subtitle"} placeholder={"Sub Title"} className={"w-full pl-6"} />
+                                                            <TextField type={"text"} error={error}  {...field} name={"sub_title"} placeholder={"Sub Title"} className={"w-full pl-6"} />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className='col-span-12'>
+                                                <div className='form-control mb-2 '>
+                                                    <Controller
+                                                        control={control}
+                                                        name="status"
+                                                        render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                            <Selector defaultValues={field.value ?? null} label={"Status"} error={error} selectionOption={["Draft", "Published"]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                         )}
                                                     />
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div className='form-control mb-2 '>
-                                            <Controller
-                                                control={control}
-                                                name="sub_des"
-                                                render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextField type={"text"} error={error}  {...field} name={"sub_des"} placeholder={"Description"} className={"w-full pl-6"} />
-                                                )}
-                                            />
-                                        </div>
                                         <div className='form-control'>
                                             <Controller
                                                 control={control}
-                                                name="meta_content"
+                                                name="des"
                                                 render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                    <TextArea type={"text"} error={error}  {...field} name={"meta_content"} placeholder={"Meta Content"} className={"w-full pl-6"} />
+                                                    <TextArea type={"text"} error={error}  {...field} name={"description"} placeholder={"Description"} className={"w-full min-h-[90px] pl-6"} />
                                                 )}
                                             />
                                         </div>
@@ -262,54 +270,27 @@ export default function EventEdit() {
 
                                                 </div>
                                                 <div className=''>
-                                                    <Button
-                                                        type='submit'
+                                                    <Button type='submit'
                                                         isLoading={isLoading}
                                                         className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
                                                     // isDisabled={!isDirty || !isValid}
                                                     >
-                                                        {id ? 'UPDATE' : 'POST'}
+                                                        {'Submit'}
                                                     </Button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                             </form>
                         </FormProvider>
                     </div>
-                    <div>
-                        <div className='form-control'>
-                            <div style={{ width: '100%', height: 'auto', border: '1px solid lightgray' }}>
-                                <div ref={quillRef} />
-                            </div>
-                            <div className='flex justify-between mt-2'>
-                                <div className=''>
-
-                                </div>
-                                <div className=''>
-                                    {
-                                        id && (
-                                            <Button
-                                                isLoading={isLoading}
-                                                onClick={event__action}
-                                                className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `}
-                                            >
-                                                UPDATE
-                                            </Button>
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-
-        </React.Fragment >
+        </React.Fragment>
     )
 }
+
 
 
 const ProfileImage = styled.label`

@@ -18,6 +18,12 @@ export default function Events() {
                 tag[i].setAttribute("contenteditable", "false");
                 tag[i].setAttribute("contentEditable", "false");
             }
+
+            window.scrollTo({
+                top: 1000,
+                left: 100,
+                behavior: "smooth",
+              })
         }
     })
     return (

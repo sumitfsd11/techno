@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { SearchBarSVG } from 'icons'
 import { CSVLink } from 'react-csv';
 import { useFetch } from "hooks"
-import Loader from 'components/utilsComponents/Loader'
+import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { useNavigate } from 'react-router-dom'
 import moment from 'moment'
 export default function ApplyList() {
@@ -24,7 +24,7 @@ export default function ApplyList() {
     })
 
     const __analytic = React.useMemo(() => {
-        let data__ = [["Id", "Name", "Country", "Contact", "Mail", "Postal code", "DoB", "Program", "isAccept"]]
+        let data__ = [["Id", "Name", "Country", "Contact", "Mail", "Postal code", "CreatedAt", "Program", "isAccept"]]
         if (!exportingLoading) {
             exportData?.response?.map((i, index, arr) => {
                 data__.push([i?.id, i?.name, i?.country_name, i?.contact_number, i?.mail_id, i?.postal_code, i?.dob, i?.programme, i?.is_accepted_offer])
@@ -37,11 +37,11 @@ export default function ApplyList() {
     React.useEffect(() => {
         if (filter_values) {
             callFetch({
-                url: `/apply_get/?page=${filter_values}`,
+                url: `/apply_get/?page=${currentPage}&search=${filter_values}`,
                 method: 'get'
             })
         }
-    }, [filter_values])
+    }, [filter_values, callFetch])
 
     const paginationAction = React.useCallback((a, p) => {
         setCurrentPage(a)
@@ -62,7 +62,7 @@ export default function ApplyList() {
             <React.Fragment>
                 <div className="container p-2 mx-auto sm:p-4 dark:text-gray-100">
                     <div className='flex justify-between '>
-                        <h2 className="mb-3 text-2xl font-semibold leading-tight">Applyies#</h2>
+                        <h2 className="mb-3 text-2xl font-semibold leading-tight">Apply#</h2>
                         <div className=' lg:pr-16 md:pr-5 pr-2 '>
                             <Button isLoading={false} isDisabled={exportingLoading}
                                 className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black mb-3 box-shadow-none rounded-full hover:drop-shadow-none hover:shadow-none drop-shadow-none shadow-none `}
@@ -71,52 +71,62 @@ export default function ApplyList() {
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs">
+                        <table className="min-w-full text-xs relative h-[60vh] ">
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
-                                    <th className="p-3">Invoice #</th>
-                                    <th className="p-3">Client</th>
-                                    <th className="p-3">Issued</th>
-                                    <th className="p-3">Due</th>
-                                    <th className="p-3 text-right">Amount</th>
-                                <th className="p-3">Status</th>
+                                    <th className="p-3">ID#</th>
+                                    <th className="p-3">Learner</th>
+                                    <th className="p-3">Phone Nu</th>
+                                    <th className="p-3">Email</th>
+                                    <th className="p-3">created At</th>
+                                    <th className="p-3 ">Postal Code</th>
+                                    <th className="p-3">Country</th>
                                 </tr>
                             </thead>
                             {
-                                isLoading ? <Loader /> : (
+                                isLoading ? <GridLoader /> : (
                                     <React.Fragment>
                                         {
-                                            data?.response?.results.map((i, index) => (
-                                                <React.Fragment key={index}>
-                                                    <tbody>
-                                                        <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                            <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/event/${1}`)}>
-                                                                <p>{i?.id}</p>
-                                                            </td>
-                                                            <td className="p-3">
-                                                                <p className='cursor-pointer font-semibold'>{i?.name}</p>
-                                                            </td>
-                                                            <td className="p-3">
-
-                                                                <p className="dark:text-gray-400">{i?.title}</p>
-                                                            </td>
-                                                            <td className="p-3">
-                                                                <p>{moment(i?.created_on).format('MMMM Do YYYY, h:mm:ss a')}</p>
-                                                                <p className="dark:text-gray-400">Tuesday</p>
-                                                            </td>
-                                                            <td className="p-3 text-right">
-                                                                <p>{i?.reader_count}</p>
-                                                            </td>
-                                                            <td className="p-3 ">
-                                                                <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
-                                                                    <span>{i?.status}</span>
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-
-                                                    </tbody>
+                                            data?.response?.results?.length === 0 ? (
+                                                <React.Fragment>
+                                                    <EmptyData />
                                                 </React.Fragment>
-                                            ))
+                                            ) :
+                                                data?.response?.results.map((i, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <tbody>
+                                                            <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
+                                                                <td className="p-3 cursor-pointer" >
+                                                                    <p>{i?.id}</p>
+                                                                </td>
+                                                                <td className="p-3">
+                                                                    <p className='cursor-pointer font-semibold'>{i?.name}</p>
+                                                                </td>
+                                                                <td className="p-3">
+
+                                                                    <p className="dark:text-gray-400">{i?.contact_number}</p>
+                                                                </td>
+                                                                <td className="p-3">
+                                                                    <p className="dark:text-gray-400"> {i?.mail_id}</p>
+
+                                                                </td>
+                                                                <td className="p-3 ">
+                                                                    <p>{moment(i?.dob).format('MMMM Do YYYY, h:mm:ss a')}</p>
+                                                                </td>
+                                                                <td className="p-3">
+
+                                                                    <p className="dark:text-gray-400"> {i?.postal_code}</p>
+                                                                </td>
+                                                                <td className="p-3 ">
+                                                                    <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
+                                                                        <span>{i?.country_name}</span>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </React.Fragment>
+                                                ))
                                         }
                                     </React.Fragment>
                                 )
@@ -143,7 +153,7 @@ export default function ApplyList() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput onChange={(e) => setFilterValues(e.target.value)} className="searchbar" type="search" placeholder={'By  Name , Date  '} />
+                                <SearchInput onChange={(e) => setFilterValues(e.target.value)} className="searchbar" type="search" placeholder={'By learn , email etc...  '} />
                             </div>
                         </div>
                     </div>

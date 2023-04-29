@@ -29,7 +29,9 @@ import FeedBacks from "pages/ActionAdmin/Feedback/components/FeedBacks";
 import FeedBackAction from "pages/ActionAdmin/Feedback/components/FeedBackAction";
 import LandingWidgets from "pages/ActionAdmin/LandingWidgets/Index";
 import HeaderEdit from "pages/ActionAdmin/Navbar/components/HeaderEdit";
+import FeatureList from "pages/ActionAdmin/FeatureListAction/FeatureListing";
 import FooterEdit from "pages/ActionAdmin/Navbar/components/FooterEdit"
+import FeatureAction from "pages/ActionAdmin/FeatureListAction/FeatureAction";
 import { Social } from "pages/ActionAdmin/Widget/Index";
 import {NotFound} from "pages/Status/Index";
 
@@ -57,10 +59,24 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/course',
+        key: '',
+        permissions: [],
+        component: (<LandingBanner />)
+    },
+    {
+        name: '',
         path: '/admin/blogs-listing',
         key: '',
         permissions: [],
         component: (<Blogs/>)
+    },
+    {
+        name: '',
+        path: '/admin/blog',
+        key: '',
+        permissions: [],
+        component: (<BlogEdit />)
     },
     {
         name: '',
@@ -120,6 +136,41 @@ const private_routes = [
     },
     {
         name: '',
+        path: '/admin/feedback',
+        key: '',
+        permissions: [],
+        component: (<FeedBackAction />)
+    },
+    {
+        name: '',
+        path: '/admin/feature-listing',
+        key: '',
+        permissions: [],
+        component: (<FeatureList />)
+    },
+    {
+        name: '',
+        path: '/admin/feature/:id',
+        key: '',
+        permissions: [],
+        component: (<FeatureAction />)
+    },
+    {
+        name: '',
+        path: '/admin/feature',
+        key: '',
+        permissions: [],
+        component: (<FeatureAction />)
+    },
+    {
+        name: '',
+        path: '/admin/feedback',
+        key: '',
+        permissions: [],
+        component: (<FeedBackAction />)
+    },
+    {
+        name: '',
         path: '/admin/social-media',
         key: '',
         permissions: [],
@@ -155,7 +206,7 @@ const private_routes = [
     },
 ]
 
-
+// first have to compelte  this one 
 const public_routes_user = [
     {
         name: '',
@@ -173,7 +224,7 @@ const public_routes_user = [
     },
     {
         name: '',
-        path: '/blogs',
+        path: '/blog/:id',
         key: '',
         permissions: [],
         component: (<Blog />)
