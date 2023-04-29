@@ -55,7 +55,7 @@ export default function SidebarC({ children }) {
                                                 return {
                                                     color: disabled ? '#' : '#607489',
                                                     fontWeight: active ? "600" : "",
-                                                    backgroundColor: active ? '#' : undefined,
+                                                    backgroundColor: active ? '#000000' : undefined,
                                                 };
                                         },
                                     }}

@@ -12,7 +12,10 @@ import { EditIcon } from 'icons';
 import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
 import Footer from 'components/utilsComponents/Footer/Footer';
+import { useFetch } from "hooks"
 import { DeleteIcon } from 'icons';
+import { file_base64 } from 'utils/common.utils';
+import { toast } from 'react-hot-toast';
 export default function HeaderEdit() {
     const [open, setOpen] = React.useState(false);
     const methods = useForm({
@@ -29,16 +32,52 @@ export default function HeaderEdit() {
             footer_phone: "",
             columns_one: "",
             columns_two: "",
+            logo: ""
         }
     })
 
+
+    const onSuccess = React.useCallback((response, method) => {
+        if(method === 'post'){
+        toast.success('Updated succesfully !')
+        setOpen(false)
+        }
+    }, [])
+
+    const onFailure = React.useCallback((error) => {
+        try {
+            toast.error(error?.message);
+        } catch (error) {
+            console.log(" ")
+        }
+    }, [])
+
     const { control,
-        handleSubmit, watch,
+        handleSubmit, watch, setValue,
         formState: { isDirty, isValid } } = methods
 
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/footer/`,
+        skipOnStart: false,
+        methods: 'get',
+        onSuccess,
+        onFailure
+    })
+
     const onSubmit = React.useCallback((data) => {
-        console.log(data)
-    }, [])
+        const column_num_1 = data?.column__field?.filter((i) => i?.column_num === 1)
+        const column_num_2 = data?.column__field?.filter((i) => i?.column_num === 2)
+        let formData__ = {
+            ...data,
+            column_two_field: JSON.stringify([...column_num_2]),
+            column_one_field: JSON.stringify([...column_num_1])
+        }
+        callFetch({
+            url: `/footer/`,
+            method: 'post',
+            data: formData__
+        })
+    }, [callFetch])
 
     const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
         control,
@@ -46,11 +85,80 @@ export default function HeaderEdit() {
     });
 
     const onSubmit__arr = React.useCallback((data) => {
-        append({ title: data?.title_ar, content: data?.link, column_num: data.column_num })
+        append({ title: data?.title_ar, link: data?.link, column_num: data.column_num })
+    }, [append]);
 
-    }, []);
-    console.log(watch("column__field"))
     const handleOpen = () => setOpen(!open);
+
+    React.useEffect(() => {
+
+        if (!isLoading) {
+            let data__ = data?.response
+            setValue('address_line_1', data__?.address_line_1, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('address_line_2', data__?.address_line_2, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('title', data__?.title_one, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('sub_title', data__?.title_two, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('title_three', data__?.title_three, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('right_reserved', data__?.right_reserved, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('footer_email', data__?.footer_email, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('footer_phone', data__?.footer_phone, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('columns_one', data__?.columns_one, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('columns_two', data__?.columns_two, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            setValue('logo', data__?.logo, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            if (data__?.column_one_field && data__?.column_two_field) {
+                setValue('column__field', [...data__?.column_one_field?.map((i) => ({ title: i?.title, link: i?.link, column_num: 1 }))
+                    , ...data__?.column_two_field?.map((i) => ({ title: i?.title, link: i?.link, column_num: 2 }))] ?? [], {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                    shouldTouch: true
+                })
+            }
+        }
+    }, [setValue, isLoading, data])
 
     return (
         <div>
@@ -60,12 +168,12 @@ export default function HeaderEdit() {
                         <button className='w-[35px] h-[35px] bg-[#f8f7f769] hover:bg-[#f8f7f77a] cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? (<span className='spinner '><SpinnerIcon /></span>) : (<span onClick={handleOpen} className=' cursor-pointer '><EditIcon /></span>)} </button>
                     </div>
                 </div>
-                <Footer />
+                <Footer props={data?.response} />
             </React.Fragment>
             {/* model */}
             <React.Fragment>
                 <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-                    <DialogHeader className='text-base py-1 my-0'>Banner Edit </DialogHeader>
+                    <DialogHeader className='text-base py-1 my-0'>Footer Edit </DialogHeader>
                     <DialogBody className='h-[81vh] py-1 my-0' >
                         <div className="grid h-full overflow-auto">
                             <div className="m-auto">
@@ -83,7 +191,7 @@ export default function HeaderEdit() {
                                                                         {i?.title}
                                                                     </div>
                                                                     <div className='cursor-pointer'>
-                                                                    <div onClick={()=>remove(index)} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
+                                                                        <div onClick={() => remove(index)} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
                                                                             <DeleteIcon />
                                                                         </div>
                                                                     </div>
@@ -101,12 +209,12 @@ export default function HeaderEdit() {
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 2)?.map((i, index) => (
                                                             <React.Fragment key={index}>
-                                                               <div className='flex justify-between my-1'>
+                                                                <div className='flex justify-between my-1'>
                                                                     <div className='cursor-pointer' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
                                                                     <div className='cursor-pointer'>
-                                                                        <div onClick={()=>remove(index)} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
+                                                                        <div onClick={() => remove(index)} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
                                                                             <DeleteIcon />
                                                                         </div>
                                                                     </div>
@@ -127,7 +235,7 @@ export default function HeaderEdit() {
                                                             <div className="mb-3">
                                                                 <Controller
                                                                     control={control}
-                                                                    name="title"
+                                                                    name="title_one"
                                                                     render={({ field,
                                                                         fieldState: { invalid, isTouched, isDirty, error } }) => (
                                                                         <TextField type={"text"}
@@ -141,7 +249,7 @@ export default function HeaderEdit() {
                                                             <div className="mb-3">
                                                                 <Controller
                                                                     control={control}
-                                                                    name="sub_title"
+                                                                    name="title_two"
                                                                     render={({ field,
                                                                         fieldState: { invalid, isTouched, isDirty, error } }) => (
                                                                         <TextField type={"text"}
@@ -258,7 +366,7 @@ export default function HeaderEdit() {
                                                                 <div className='w-full'>
                                                                     <Controller
                                                                         control={control}
-                                                                        name="profileImg"
+                                                                        name="logo"
                                                                         render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
                                                                             let src = field.value ?? null;
                                                                             if (
@@ -283,7 +391,9 @@ export default function HeaderEdit() {
                                                                                         <FileInput
                                                                                             type="file"
                                                                                             onChange={(e) => {
-                                                                                                field.onChange(e.target.files);
+                                                                                                file_base64(e.target.files[0]).then((response) => {
+                                                                                                    field.onChange(response);
+                                                                                                })
                                                                                             }}
                                                                                         />
                                                                                     </ProfileImage>
@@ -317,7 +427,7 @@ export default function HeaderEdit() {
                                                                     control={control}
                                                                     name="column_num"
                                                                     render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <Selector type={"text"} defaultValues={field.value ?? null} label={"Column"} error={error} selectionOption={[1, 2]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                                        <Selector defaultValues={field.value ?? null} label={"Column"} error={error} selectionOption={[1, 2]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                                     )}
                                                                 />
                                                             </div>

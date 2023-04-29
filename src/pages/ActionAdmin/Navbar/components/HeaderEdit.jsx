@@ -13,49 +13,102 @@ import styled from 'styled-components';
 import { ImgIcon, SpinnerIcon } from 'icons';
 import { Navbar } from 'components/utilsComponents/Header/TopHeader';
 import { DeleteIcon } from 'icons';
-export default function HeaderEdit({props}) {
+import { file_base64 } from 'utils/common.utils';
+import { toast } from 'react-hot-toast';
+import { useFetch } from "hooks"
+
+export default function HeaderEdit({ props }) {
     const [open, setOpen] = React.useState(false);
     const methods = useForm({
         // resolver:joiResolver
         mode: "all",
         defaultValues: {
-            address_line_1: "",
-            address_line_2: "",
-            title_one: "",
-            title_two: "",
-            title_three: "",
-            right_reserved: "",
-            footer_email: "",
-            footer_phone: "",
-            columns_one: "",
-            columns_two: "",
+            logo: "",
         }
     })
-
-    const { control,
-        handleSubmit, watch,
-        formState: { isDirty, isValid } } = methods
-
-    const onSubmit = React.useCallback((data) => {
-        console.log(data)
+    const onSuccess = React.useCallback((response, method) => {
+        if (method === 'post') {
+            toast.success('Updated succesfully !')
+            setOpen(false)
+        }
     }, [])
 
-    const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
+    const onFailure = React.useCallback((error) => {
+        try {
+            toast.error(error?.message);
+            setOpen(false)
+        } catch (error) {
+            console.log(" ")
+        }
+    }, [])
+
+    const { control,
+        handleSubmit, watch, setValue,
+        formState: { isDirty, isValid } } = methods
+
+    const { isLoading, data, callFetch } = useFetch({
+        url: `/navbar/`,
+        skipOnStart: false,
+        methods: 'get',
+        onSuccess,
+        onFailure
+    })
+    const onSubmit = React.useCallback((data) => {
+        const column_num_1 = data?.column__field?.filter((i) => i?.column_num === 1)
+        const column_num_2 = data?.column__field?.filter((i) => i?.column_num === 2)
+        const column_num_3 = data?.column__field?.filter((i) => i?.column_num === 3)
+        const column_num_4 = data?.column__field?.filter((i) => i?.column_num === 4)
+        const column_num_5 = data?.column__field?.filter((i) => i?.column_num === 5)
+        let formData__ = {
+            ...data,
+            columns_1: JSON.stringify([...column_num_1]),
+            columns_2: JSON.stringify([...column_num_2]),
+            columns_3: JSON.stringify([...column_num_3]),
+            columns_4: JSON.stringify([...column_num_4]),
+            columns_5: JSON.stringify([...column_num_5])
+        }
+        callFetch({
+            url: `/navbar/`,
+            method: 'post',
+            data: formData__
+        })
+    }, [callFetch])
+
+    const { append, remove } = useFieldArray({
         control,
         name: "column__field",
     });
 
     const onSubmit__arr = React.useCallback((data) => {
-        append({ title: data?.title_ar, content: data?.link, column_num: data.column_num })
+        append({ title: data?.title_ar, link: data?.link, column_num: data.column_num })
+    }, [append]);
 
-    }, []);
-    console.log(watch("column__field"))
+    React.useEffect(() => {
+        if (!isLoading) {
+            let data__ = data?.response?.message
+            setValue('logo', data__?.logo, {
+                shouldDirty: true,
+                shouldValidate: true,
+                shouldTouch: true
+            })
+            if (data__?.columns_1 && data__?.columns_2 && data__?.columns_3 && data__?.columns_4 && data__?.columns_5) {
+                setValue('column__field', [...data__?.columns_1?.map((i) => ({ title: i?.title, link: i?.link, column_num: 1 })), ...data__?.columns_2?.map((i) => ({ title: i?.title, link: i?.link, column_num: 2 })),
+                ...data__?.columns_3?.map((i) => ({ title: i?.title, link: i?.link, column_num: 3 })), ...data__?.columns_4?.map((i) => ({ title: i?.title, link: i?.link, column_num: 4 })), ...data__?.columns_5?.map((i) => ({ title: i?.title, link: i?.link, column_num: 1 }))
+                ] ?? [], {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                    shouldTouch: true
+                })
+            }
+        }
+    }
+        , [isLoading, data, setValue])
     const handleOpen = () => setOpen(!open);
 
     return (
         <div>
             <React.Fragment>
-                <Navbar />
+                <Navbar props={data?.response?.message} />
                 <div className='relative mt-[90px]'>
                     <div className='absolute z-[190] bottom-10 right-10'>
                         <button className='w-[35px] h-[35px] bg-[#27262669] hover:bg-[#f8f7f77a]  cursor-pointer rounded-full pb-2 px-[5px] pt-1 text-[#222222]'> {false ? (<span className='spinner '><SpinnerIcon /></span>) : (<span onClick={handleOpen} className=' cursor-pointer '><EditIcon /></span>)}  </button>
@@ -65,25 +118,25 @@ export default function HeaderEdit({props}) {
             {/* model */}
             <React.Fragment>
                 <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-                    <DialogHeader className='text-base py-1 my-0'>Banner Edit </DialogHeader>
+                    <DialogHeader className='text-base py-1 my-0'>Navbar Edit </DialogHeader>
                     <DialogBody className='h-[81vh] py-1 my-0' >
                         <div className="grid h-full overflow-auto">
                             <div className="m-auto">
                                 <div className="  w-full  ">
-                                    <div className=' grid grid-cols-12 gap-2 mb-3'>
+                                    <div className=' grid grid-cols-10 gap-2 mb-3'>
                                         <div className=' col-span-2'>
-                                            <div className=''>Columns One</div>
+                                            <div className='text-xs'>Columns One</div>
                                             <section className=''>
                                                 <ul>
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 1)?.map((i, index) => (
                                                             <React.Fragment key={index}>
                                                                 <div className='flex justify-between my-1'>
-                                                                    <div className='cursor-pointer' title={i?.url}>
+                                                                    <div className='cursor-pointer text-xs pt-1' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
                                                                     <div className='cursor-pointer'>
-                                                                        <div onClick={() => remove(index)} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
+                                                                        <div onClick={() => remove(index)} style={{fontSize:"11px"}} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
                                                                             <DeleteIcon />
                                                                         </div>
                                                                     </div>
@@ -95,14 +148,14 @@ export default function HeaderEdit({props}) {
                                             </section>
                                         </div>
                                         <div className=' col-span-2'>
-                                            <div className=''>Columns Second</div>
+                                            <div className='text-xs'>Columns Second</div>
                                             <section className=''>
                                                 <ul>
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 2)?.map((i, index) => (
                                                             <React.Fragment key={index}>
                                                                 <div className='flex justify-between my-1'>
-                                                                    <div className='cursor-pointer' title={i?.url}>
+                                                                    <div className='text-xs cursor-pointer' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
                                                                     <div className='cursor-pointer'>
@@ -118,14 +171,14 @@ export default function HeaderEdit({props}) {
                                             </section>
                                         </div>
                                         <div className=' col-span-2'>
-                                            <div className=''>Columns Third</div>
+                                            <div className='text-xs'>Columns Third</div>
                                             <section className=''>
                                                 <ul>
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 3)?.map((i, index) => (
                                                             <React.Fragment key={index}>
                                                                 <div className='flex justify-between my-1'>
-                                                                    <div className='cursor-pointer' title={i?.url}>
+                                                                    <div className='text-xs cursor-pointer' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
                                                                     <div className='cursor-pointer'>
@@ -141,13 +194,13 @@ export default function HeaderEdit({props}) {
                                             </section>
                                         </div>
                                         <div className=' col-span-2'>
-                                            <div className=''>Columns Fourth</div>
+                                            <div className='text-xs'>Columns Fourth</div>
                                             <section className=''>
                                                 <ul>
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 4)?.map((i, index) => (
                                                             <React.Fragment key={index}>
-                                                                <div className='flex justify-between my-1'>
+                                                                <div className='flex text-xs justify-between my-1'>
                                                                     <div className='cursor-pointer' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
@@ -164,13 +217,13 @@ export default function HeaderEdit({props}) {
                                             </section>
                                         </div>
                                         <div className=' col-span-2'>
-                                            <div className=''>Columns Fifth</div>
+                                            <div className='text-xs'>Columns Fifth</div>
                                             <section className=''>
                                                 <ul>
                                                     {
                                                         watch("column__field")?.filter((i) => i.column_num === 5)?.map((i, index) => (
                                                             <React.Fragment key={index}>
-                                                                <div className='flex justify-between my-1'>
+                                                                <div className='text-xs flex justify-between my-1'>
                                                                     <div className='cursor-pointer' title={i?.url}>
                                                                         {i?.title}
                                                                     </div>
@@ -194,155 +247,6 @@ export default function HeaderEdit({props}) {
                                                 <form onSubmit={handleSubmit(onSubmit)}>
                                                     <div className="grid grid-cols-12 gap-2">
                                                         <div className='col-span-4'>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_one"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_one"
-                                                                            placeholder={"Columns One"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_one_url"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_one_url"
-                                                                            placeholder={"Columns One Url"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_two"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_two"
-                                                                            placeholder={"Columns Two"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_two_url"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_two_url"
-                                                                            placeholder={"Columns Two Url"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_three"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_three"
-                                                                            placeholder={"Columns Third"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_three_url"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_three_url"
-                                                                            placeholder={"Columns Third Url"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-                                                        </div>
-                                                        <div className='col-span-4'>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_fourth"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_fourth"
-                                                                            placeholder={"Columns Fourth"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_fourth_url"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_fourth_url"
-                                                                            placeholder={"Columns Fourth Url"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_fifth"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_fifth"
-                                                                            placeholder={"Columns Fifth"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-                                                            <div className="mb-3">
-                                                                <Controller
-                                                                    control={control}
-                                                                    name="columns_fifth_url"
-                                                                    render={({ field,
-                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <TextField type={"text"}
-                                                                            error={error}
-                                                                            {...field}
-                                                                            name="columns_fifth_url"
-                                                                            placeholder={"Columns Fifth Url"}
-                                                                            className={"w-full pl-6"} />
-                                                                    )} />
-                                                            </div>
-
-                                                        </div>
-                                                        <div className=' col-span-4'>
                                                             <div className='form-control'>
                                                                 <div className='w-full'>
                                                                     <Controller
@@ -372,7 +276,9 @@ export default function HeaderEdit({props}) {
                                                                                         <FileInput
                                                                                             type="file"
                                                                                             onChange={(e) => {
-                                                                                                field.onChange(e.target.files);
+                                                                                                file_base64(e.target.files[0]).then((response) => {
+                                                                                                    field.onChange(response);
+                                                                                                })
                                                                                             }}
                                                                                         />
                                                                                     </ProfileImage>
@@ -382,12 +288,10 @@ export default function HeaderEdit({props}) {
                                                                         }} />
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div className='col-span-4'>
                                                             <div className=''>
                                                                 <div className="form-control mt-6">
                                                                     <Button type={'submit'}
-                                                                        className={`w-[160px] bg-primarybg   hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
+                                                                        className={`w-full bg-primarybg   hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                                                                         isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
                                                                 </div>
                                                             </div>
@@ -406,7 +310,7 @@ export default function HeaderEdit({props}) {
                                                                     control={control}
                                                                     name="column_num"
                                                                     render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                        <Selector type={"text"} defaultValues={field.value ?? null} label={"Column"} error={error} selectionOption={[1, 2 , 3, 4, 5]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
+                                                                        <Selector defaultValues={field.value ?? null} label={"Column"} error={error} selectionOption={[1, 2, 3, 4, 5]}  {...field} name={"subtitle"} placeholder={"Sub title"} className={"w-full pl-6"} />
                                                                     )}
                                                                 />
                                                             </div>
