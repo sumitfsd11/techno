@@ -4,6 +4,7 @@ import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom'
 import { useFetch } from "hooks";
 import {Button} from "components"
+import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 
 export default function FeedBacks() {
     const navigate = useNavigate()
@@ -50,7 +51,13 @@ export default function FeedBacks() {
                             </thead>
                             <React.Fragment>
                                 {
-                                    isLoading ? (<div>loading...</div>) : data?.response?.map((i, index, arr) => (
+                                    isLoading ? ( <GridLoader /> ) :
+                                    data?.response?.results?.length === 0 ? (
+                                        <React.Fragment>
+                                            <EmptyData />
+                                        </React.Fragment>
+                                    ) :
+                                    data?.response?.map((i, index, arr) => (
                                         <tbody>
                                             <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
                                                 <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/feedback/${i?.id}`)}>
