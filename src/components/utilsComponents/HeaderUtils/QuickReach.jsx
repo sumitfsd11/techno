@@ -38,7 +38,7 @@ export default function QuickReach() {
     const Icon = React.memo(({ children }) => (
         <React.Fragment>
             <div className='h-full  '>
-                <div className={`grid cursor-pointer rounded-full gradient text-white bg-slate-400 w-[45px] h-[45px]`}>
+                <div className={`grid cursor-pointer rounded-full bg-[#973356] text-white bg-slate-400 w-[45px] h-[45px]`}>
                     {children}
                 </div>
             </div>

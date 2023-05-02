@@ -61,7 +61,7 @@ export default function Events() {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs relative min-h-auto max-h-[60vh] ">
+                        <table className="min-w-full text-xs relative  h-[60vh]  ">
                            
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
