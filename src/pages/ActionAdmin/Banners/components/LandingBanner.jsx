@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { TextField, TextArea, Button, Selector } from 'components';
 import { FormProvider, useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate, Link, useLocation, useParams } from 'react-router-dom';
+import { useNavigate,  useParams } from 'react-router-dom';
 import { useAuth, useFetch } from "hooks";
-import { ImgIcon, EditIcon, DeleteIcon } from 'icons';
+import { ImgIcon, DeleteIcon } from 'icons';
 import {
     Accordion,
     AccordionHeader,
@@ -63,7 +63,7 @@ export default function LandingBanner() {
             description: error?.response?.message,
             placement: 'topLeft'
         });
-    }, [])
+    }, [api])
 
     const { isLoading, data, callFetch } = useFetch({
         url: `/course_get/${id}`,
@@ -73,10 +73,10 @@ export default function LandingBanner() {
     })
 
     const { control, handleSubmit, setValue, watch,
-        formState: { isDirty, isValid }
+        // formState: { isDirty, isValid }
     } = methods;
 
-    const { fields, append, prepend, remove, swap, move, insert } = useFieldArray({
+    const { fields, append , remove } = useFieldArray({
         control,
         name: "fieldsfaqs",
     });
@@ -111,7 +111,7 @@ export default function LandingBanner() {
             })
         }
 
-    }, [quill, fields, id, callFetch]);
+    }, [quill, fields, id, callFetch, userValue]);
 
 
     const handleOpen = (value) => {
@@ -128,7 +128,7 @@ export default function LandingBanner() {
                 placement: 'topLeft'
             });
         }
-    }, [])
+    }, [api , append])
 
     const delete_ = React.useCallback((data, index) => {
         remove(index)
@@ -147,8 +147,7 @@ export default function LandingBanner() {
         } else {
             // toast.success('Event describition can not be empty !')
         }
-        console.log(data, " it is your name ")
-    }, [callFetch, id, quill])
+    }, [ id, quill])
 
     React.useEffect(() => {
         if (quill) {
@@ -156,7 +155,7 @@ export default function LandingBanner() {
                 quill.clipboard.dangerouslyPasteHTML(`${data?.response?.course_des}`);
             }
         }
-    }, [isLoading, data, quill])
+    }, [isLoading, data, quill, id])
 
 
     React.useEffect(() => {
@@ -218,7 +217,7 @@ export default function LandingBanner() {
                 shouldTouch: true
             })
         }
-    }, [setValue, data, isLoading])
+    }, [setValue, data, isLoading , id])
     return (
         <div>
             {contextHolder}

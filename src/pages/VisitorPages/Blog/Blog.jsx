@@ -20,7 +20,7 @@ export default function Blog() {
             }
         }
     })
-    console.log(data ,"  --- it is your name --- ")
+  
     return (
         <React.Fragment>
             {
