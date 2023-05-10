@@ -39,7 +39,7 @@ export default function BlogList({ props }) {
                         <div className=''>
 
                         </div>
-                        <div className='text-lg  cursor-pointer'>
+                        <div className='text-lg  cursor-pointer' onClick={()=>redirect__(dataRes?.response?.link)}>
                             {props?.btn_name ?? dataRes?.response?.btn_name} {">"}
                         </div>
                     </div>
