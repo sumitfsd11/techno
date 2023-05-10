@@ -1,58 +1,57 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Img_ } from 'utils/common.utils';
+import CouserBanner from '../components/Banner';
 import { useFetch } from "hooks";
-import Loader from 'components/utilsComponents/Loader';
+import { Img_ } from 'utils/common.utils';
 import moment from 'moment';
-
-export default function BlogList({ props }) {
+import { useParams } from 'react-router-dom';
+import Loader from 'components/utilsComponents/Loader';
+import { useNavigate } from 'react-router-dom';
+import { PaginationWrapper } from 'components/index';
+import { Pagination } from 'antd'
+export default function AllBlogs() {
     const navigate = useNavigate()
-
-    const redirect__ = React.useCallback((option) => {
-        if (option) {
-            navigate(option)
-        }
-    }, [navigate])
-
+    const [currentPage, setCurrentPage] = React.useState(1)
     const { data: dataRes } = useFetch({
         url: `/blog_layout/`,
         skipOnStart: false,
         methods: 'get',
     })
 
-    const { isLoading, data } = useFetch({
+    const { isLoading, data , callFetch } = useFetch({
         url: `/blog_list/?status=Published`,
         skipOnStart: false,
         methods: 'get',
     })
+    const redirect__ = React.useCallback((path) => {
+        navigate(path)
+    }, [navigate])
+
+    const paginationAction = React.useCallback((a, p) => {
+        setCurrentPage(a)
+        callFetch({
+            url: `/blog_list/?page=${a}&status=Published`,
+            method: 'get'
+        })
+    }, [callFetch])
+
 
     return (
         <div>
-            <div className='lg:px-20 md:px-3 px-2'>
-                <section className='  text-center  pb-8 pt-14 '>
-                    <h2 className='text-3xl text-primarybg font-semibold '>
-                        {props?.title ?? dataRes?.response?.title}
-                    </h2>
-                    <p className='text-[#77838f]'>{props?.des ?? dataRes?.response?.des}</p>
-                    <br />
-                    <div className='flex  justify-between'>
-                        <div className=''>
-
-                        </div>
-                        <div className='text-lg  cursor-pointer' onClick={()=>redirect__(dataRes?.response?.link)}>
-                            {props?.btn_name ?? dataRes?.response?.btn_name} {">"}
-                        </div>
-                    </div>
-                </section>
-                <div className=' grid grid-cols-12 gap-x-8'>
-                    {
-                        isLoading ? (<Loader />) : (
-                            <React.Fragment>
-
-                                {
-                                    data?.response?.results?.map((i, index) => (
-                                        <React.Fragment>
-                                            <div className='col-span-4' key={index}>
+            {
+                isLoading ? (<Loader />) : (
+                    <React.Fragment>
+                        <CouserBanner props={{
+                            bg: dataRes?.response?.bg,
+                            title: dataRes?.response?.title,
+                            des: dataRes?.response?.des,
+                        }} />
+                        <div className='lg:px-10 md:px-10 px-2'>
+                            <div className='grid grid-cols-12 gap-10 mt-16'>
+                                <React.Fragment>
+                                    {
+                                        data?.response?.results?.map((i, index) => (
+                                            <React.Fragment key={index}>
+                                              <div className='col-span-4' key={index}>
                                                 <React.Fragment>
                                                     <div className="mx-auto px-4 py-8 max-w-xl my-1">
                                                         <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-xl hover:shadow-2xl cursor-pointer rounded-lg mb-6 tracking-wide">
@@ -80,14 +79,25 @@ export default function BlogList({ props }) {
                                                     </div>
                                                 </React.Fragment>
                                             </div>
-                                        </React.Fragment>
-                                    ))
-                                }
-                            </React.Fragment>
-                        )
-                    }
-                </div>
-            </div>
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                </React.Fragment>
+                            </div>
+                            <div className='lg:px-10 md:px-5 px-1 mt-10'>
+                                <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
+                                    <Pagination showSizeChanger={false}
+                                        defaultCurrent={1}
+                                        current={currentPage}
+                                        defaultPageSize={10}
+                                        total={data?.response?.page_count}
+                                        onChange={paginationAction} />
+                                </PaginationWrapper>
+                            </div>
+                        </div>
+                    </React.Fragment>
+                )
+            }
         </div>
     )
 }

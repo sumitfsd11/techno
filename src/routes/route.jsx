@@ -32,6 +32,8 @@ import HeaderEdit from "pages/ActionAdmin/Navbar/components/HeaderEdit";
 import FeatureList from "pages/ActionAdmin/FeatureListAction/FeatureListing";
 import FooterEdit from "pages/ActionAdmin/Navbar/components/FooterEdit"
 import FeatureAction from "pages/ActionAdmin/FeatureListAction/FeatureAction";
+import AllEvents from "pages/VisitorPages/Events/AllEvents";
+import AllBlogs from "pages/VisitorPages/Blog/AllBlogs";
 import { Social } from "pages/ActionAdmin/Widget/Index";
 import {NotFound} from "pages/Status/Index";
 
@@ -249,6 +251,20 @@ const public_routes_user = [
         key: '',
         permissions: [],
         component: (<About/>)
+    },
+    {
+        name: '',
+        path: '/events',
+        key: '',
+        permissions: [],
+        component: (<AllEvents />)
+    },
+    {
+        name: '',
+        path: '/blogs',
+        key: '',
+        permissions: [],
+        component: (<AllBlogs />)
     },
     // authrization
     {

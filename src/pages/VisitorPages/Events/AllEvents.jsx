@@ -1,20 +1,23 @@
 import React from 'react'
-import { Img_ } from 'utils/common.utils';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
-import { useNavigate } from 'react-router-dom';
+import CouserBanner from '../components/Banner';
 import { useFetch } from "hooks";
-import Loader from 'components/utilsComponents/Loader';
+import { Img_ } from 'utils/common.utils';
 import moment from 'moment';
-
-export default function UpcomingEvent({props}) {
+import Loader from 'components/utilsComponents/Loader';
+import { useNavigate } from 'react-router-dom';
+import { PaginationWrapper } from 'components/index';
+import { Pagination } from 'antd'
+export default function AllEvents() {
     const navigate = useNavigate()
+    const [currentPage, setCurrentPage] = React.useState(1)
     const {  data } = useFetch({
         url: `/landing_event_layout/`,
         skipOnStart: false,
         methods: 'get',
     })
 
-    const { isLoading, data:dataRes } = useFetch({
+
+    const { isLoading, data: dataRes, callFetch } = useFetch({
         url: `/event_list/`,
         skipOnStart: false,
         methods: 'get',
@@ -23,10 +26,18 @@ export default function UpcomingEvent({props}) {
         navigate(path)
     }, [navigate])
 
-    const EventCard = React.memo(({props}) => (
+    const paginationAction = React.useCallback((a, p) => {
+        setCurrentPage(a)
+        callFetch({
+            url: `/event_list/?page=${a}&status=Published`,
+            method: 'get'
+        })
+    }, [callFetch])
+
+    const EventCard = React.memo(({ props }) => (
         <React.Fragment>
-           
-            <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white' onClick={() => redirect__(`/event/${props?.id}`)}>
+
+            <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white border border-[#c0c0c08b]' onClick={() => redirect__(`/event/${props?.id}`)}>
                 <div className='flex justify-between'>
                     <div className=''>
                         <div className='flex  items-center'>
@@ -65,41 +76,25 @@ export default function UpcomingEvent({props}) {
                     </div>
                     <div className='w-[150px] my-2 '>
                         <div className='grid h-full w-full text-center rounded-md bg-primarybg '>
-                            <h2 className='text-2xl font-semibold  m-auto  text-white '>{moment(props?.created_on).format("MMM Do YY") }</h2>
+                            <h2 className='text-2xl font-semibold  m-auto  text-white '>{moment(props?.created_on).format("MMM Do YY")}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </React.Fragment>
     ))
-
     return (
         <div>
-            <div>
-                <div style={{ background: `url(${props?.bg??data?.response?.bg})`, backgroundPosition: "center", height: "auto ", backgroundSize: "cover" }} className=' lg:px-10 md:px-11 px-2 mt-12 pb-12  '>
-                    <div className=''>
-                        <br />
-                        <div className='my-9'>
-                            <section className='text-center  mb-4 '>
-                                <h2 className='text-3xl text-white font-semibold '>
-                                {props?.title ?? data?.response?.title}
-                                </h2>
-                                <p className='text-white mt-2 '>{props?.des ?? data?.response?.des}</p>
-                            </section>
-                        </div>
-                        <div className='flex  justify-between'>
-                            <div className=''>
-
-                            </div>
-                            <div className='text-lg text-white cursor-pointer' onClick={()=>redirect__(data?.response?.link)}>
-                                {props?.btn_name ?? data?.response?.btn_name} {">"}
-                            </div>
-                        </div>
-                        <br />
-                    </div>
-                    <div className='grid grid-cols-12 gap-10'>
-                        {
-                            isLoading ? (<Loader />) : (
+            {
+                isLoading ? (<Loader />) : (
+                    <React.Fragment>
+                        <CouserBanner props={{
+                            bg: data?.response?.bg,
+                            title: data?.response?.title,
+                            des: data?.response?.des,
+                        }} />
+                        <div className='lg:px-10 md:px-10 px-2'>
+                            <div className='grid grid-cols-12 gap-10 mt-16'>
                                 <React.Fragment>
                                     {
                                         dataRes?.response?.results?.map((i, index) => (
@@ -113,11 +108,21 @@ export default function UpcomingEvent({props}) {
                                         ))
                                     }
                                 </React.Fragment>
-                            )
-                        }
-                    </div>
-                </div>
-            </div>
+                            </div>
+                            <div className='lg:px-10 md:px-5 px-1 mt-10'>
+                                <PaginationWrapper labelText={` Page Number ${dataRes?.response?.current_page ?? '--'} of ${dataRes?.response?.page_count ?? '--'}`} >
+                                    <Pagination showSizeChanger={false}
+                                        defaultCurrent={1}
+                                        current={currentPage}
+                                        defaultPageSize={10}
+                                        total={dataRes?.response?.page_count}
+                                        onChange={paginationAction} />
+                                </PaginationWrapper>
+                            </div>
+                        </div>
+                    </React.Fragment>
+                )
+            }
         </div>
     )
 }
