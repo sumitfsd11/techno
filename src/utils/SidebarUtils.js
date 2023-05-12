@@ -66,6 +66,7 @@ const sidebar_utils = [
                 subtitle: '',
                 query: '',
             },
+
             {
                 title: 'About Us',
                 permissions: [],
@@ -93,6 +94,15 @@ const sidebar_utils = [
                 permissions: [],
                 key_: '',
                 link: '/admin/social-media',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
+                title: 'Feature ',
+                permissions: [],
+                key_: '',
+                link: '/admin/feature-listing',
                 icon: '',
                 subtitle: '',
                 query: '',

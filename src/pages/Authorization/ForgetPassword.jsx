@@ -132,10 +132,11 @@ export const ResetPassword = () => {
                 >{'SUBMIT '}</Button>
               </div>
               <section className='form_control p-0 mb-3 mt-4' style={{ boxShadow: "none", background: "none" }}>
-                <p className="text-sm text-gray-500 py-2"><span>By continuing, you agree to Technomatic Academy's  </span><span className='text-blue-500 font-semibold'><Link to="" >Conditions</Link></span> of Use and <span className='text-blue-500 font-semibold'><Link to="" >Privacy</Link></span>  Notice.</p>
+                <p className="text-sm text-gray-500 py-2"><span>By continuing, you agree to Technomatic Academy's  </span><span className='text-blue-500 font-semibold'><Link to="/admin/otp-verfication" >Conditions</Link></span> of Use and <span className='text-blue-500 font-semibold'><Link to="" >Privacy</Link></span>  Notice.</p>
                 <details className='text-sm'>
                   <summary className='text-sm cursor-pointer font-semibold'>Need to help ?</summary>
-                  <div className='text-blue-500 '><span className='cursor-pointer '
+                  <div className='text-blue-500 '>
+                    <span className='cursor-pointer '
                   //  onClick={() => rerdirectOut(`mailto:${'lenwoper@gmail.com'}`)}
                   >Report ?</span></div>
                 </details>

@@ -2,9 +2,9 @@ import axios from "axios";
 import { isPublicApi, asyncWrapper , getLocalStorage} from "utils/common.utils";
 import { AUTH_TOKEN } from "constants/Localstorage.constants";
 // const baseURl = 'https://ehsan-api.vinratechllp.com'
-// const baseURl = 'http://127.0.0.1:8000'
+const baseURl = 'http://127.0.0.1:8000'
 // const baseURl = 'https://104.236.1.97:2000'
-const baseURl = 'https://ehasan-api.vinratechllp.com'
+// const baseURl = 'https://ehasan-api.vinratechllp.com'
 
 export const options = {
     method: 'get',
