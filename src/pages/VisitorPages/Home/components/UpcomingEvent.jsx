@@ -91,7 +91,7 @@ export default function UpcomingEvent({props}) {
                             <div className=''>
 
                             </div>
-                            <div className='text-lg text-white cursor-pointer'>
+                            <div className='text-lg text-white cursor-pointer' onClick={()=>redirect__(data?.response?.link)}>
                                 {props?.btn_name ?? data?.response?.btn_name} {">"}
                             </div>
                         </div>

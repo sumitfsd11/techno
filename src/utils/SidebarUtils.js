@@ -66,6 +66,7 @@ const sidebar_utils = [
                 subtitle: '',
                 query: '',
             },
+
             {
                 title: 'About Us',
                 permissions: [],
@@ -98,10 +99,19 @@ const sidebar_utils = [
                 query: '',
             },
             {
+                title: 'Feature ',
+                permissions: [],
+                key_: '',
+                link: '/admin/feature-listing',
+                icon: '',
+                subtitle: '',
+                query: '',
+            },
+            {
                 title: 'Navbar',
                 permissions: [],
                 key_: '',
-                link: '',
+                link: '/admin/header-widget',
                 icon: '',
                 subtitle: '',
                 query: '',
@@ -110,7 +120,7 @@ const sidebar_utils = [
                 title: 'Footer',
                 permissions: [],
                 key_: '',
-                link: '',
+                link: '/admin/footer-widget',
                 icon: '',
                 subtitle: '',
                 query: '',

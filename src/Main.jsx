@@ -1,4 +1,5 @@
 import React from 'react';
+import { ConfigProvider } from "antd"
 import { Outlet, Routes, Route, Navigate, BrowserRouter, useLocation } from 'react-router-dom';
 import { Layout, UserLayout } from 'components';
 import {
@@ -26,30 +27,38 @@ const Protected = ({ user, link = "/" }) => {
 
 
 export default function Main() {
-    const {session} = useAuth()
-console.log(session() ,"==== session")
+    const { session } = useAuth()
+
     return (
         <React.Fragment>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={ session()?(<Layout/>):(<UserLayout />)}>
-                        <Route element={<Authetication user={session()} />}>
-                            {
-                                public_routes_user?.map((route, index, arr) => {
-                                    return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
-                                })
-                            }
+            <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: "#7F002A",
+                    },
+                }}
+            >
+                <BrowserRouter>
+                    <Routes>
+                        <Route element={session() ? (<Layout />) : (<UserLayout />)}>
+                            <Route element={<Authetication user={session()} />}>
+                                {
+                                    public_routes_user?.map((route, index, arr) => {
+                                        return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
+                                    })
+                                }
+                            </Route>
+                            <Route element={<Protected user={session()} />}>
+                                {
+                                    private_routes?.map((route, index, array) => {
+                                        return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
+                                    })
+                                }
+                            </Route>
                         </Route>
-                        <Route element={<Protected user={session()} />}>
-                            {
-                                private_routes?.map((route, index, array) => {
-                                    return (<Route key={index} path={route?.path} element={route?.component} {...route} />)
-                                })
-                            }
-                        </Route>
-                    </Route>
-                </Routes>
-            </BrowserRouter>
+                    </Routes>
+                </BrowserRouter>
+            </ConfigProvider>
         </React.Fragment>
     )
 }
