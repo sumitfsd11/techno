@@ -2,12 +2,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from "styled-components"
-import { UserOutlined } from '@ant-design/icons';
 import { AutoComplete, Input } from 'antd';
 
 const SearchBar = () => {
   const navigate = useNavigate()
-  const [value, setValue] = React.useState('')
+  const [ setValue] = React.useState('')
   const search_options = [
     {
       value: "Applied",
@@ -74,7 +73,7 @@ const SearchBar = () => {
     if (data) {
       navigate(data?.link)
     }
-  }, [navigate])
+  }, [navigate , setValue])
 
   return (
     <CustomeSpan

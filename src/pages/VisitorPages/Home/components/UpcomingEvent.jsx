@@ -2,7 +2,6 @@ import React from 'react'
 import { Img_ } from 'utils/common.utils';
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from "hooks";
-import Loader from 'components/utilsComponents/Loader';
 import moment from 'moment';
 import { LoaderWrapper } from 'components/utilsComponents/Loader';
 export default function UpcomingEvent({ props }) {
@@ -30,7 +29,7 @@ export default function UpcomingEvent({ props }) {
                     <div className=''>
                         <div className='flex  items-center'>
                             <div className=''>
-                                <img alt='Test Demo image ' className='w-[170px] rounded-md m-auto  h-[140px]' src={Img_(props?.backgroundImage)} />
+                                <img alt='Test Demo  ' className='w-[170px] rounded-md m-auto  h-[140px]' src={Img_(props?.backgroundImage)} />
                             </div>
                             <div className='px-3  '>
                                 <h3 className='text-primarybg text-xl font-semibold mb-2 '>{props?.title ?? data?.response?.title}</h3>
