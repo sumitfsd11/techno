@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConfigProvider } from "antd"
-import { Outlet, Routes, Route, Navigate, BrowserRouter, useLocation } from 'react-router-dom';
+import { Outlet, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
 import { Layout, UserLayout } from 'components';
 import {
     private_routes,

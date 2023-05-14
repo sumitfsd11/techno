@@ -1,5 +1,4 @@
 import React from "react";
-// import { Button, Textfield as TextField, TextArea } from "../Index";
 import { Button, TextField, TextArea } from "components";
 import {
   Dialog,
@@ -9,10 +8,10 @@ import {
 } from "@material-tailwind/react";
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { MailSVG, PhoneNumber, PhotoIcon } from "icons";
-import styled from "styled-components";
 import { useAuth, useFetch } from "hooks";
 import { toast } from "react-hot-toast";
 import { Img_, file_base64 } from "utils/common.utils";
+import { LoaderWrapper } from "components/utilsComponents/Loader";
 
 export default function Profile(props) {
   const [open, setOpen] = React.useState(false);
@@ -23,8 +22,8 @@ export default function Profile(props) {
     defaultValues: {
       mobile_num: "",
       bio: "",
-      lastName:"",
-      firstName:"",
+      lastName: "",
+      firstName: "",
       profileImg: ""
     }
   })
@@ -32,7 +31,7 @@ export default function Profile(props) {
 
   const { control,
     handleSubmit, setValue,
-    setError, formState: { isDirty, isValid } } = methods
+     formState: { isDirty, isValid } } = methods
 
   const onSuccess = React.useCallback((response, method) => {
     if (method === 'put') {
@@ -46,11 +45,12 @@ export default function Profile(props) {
 
   const { isLoading, data, callFetch } = useFetch({
     url: `/profile_update/${userValue?.id}`,
-    skipOnStart: true,
-    method: 'post',
+    skipOnStart: false,
+    method: 'get',
     onSuccess,
     onFailure
   });
+
 
 
 
@@ -60,46 +60,48 @@ export default function Profile(props) {
       last_name: data?.lastName,
       mobile_no: data?.mobile_num,
       detail: data?.bio,
-      profile_picture:data?.profileImg
+      profile_picture: data?.profileImg
     }
     callFetch({
       url: `/profile_update/${userValue?.id}`,
       method: 'put',
       data: formData__
     })
-  }, [callFetch])
+  }, [callFetch , userValue?.id])
 
+  console.log(userValue)
   const handleOpen = () => setOpen(!open);
 
   React.useEffect(() => {
-    if (userValue) {
-      setValue('mobile_num', userValue?.mobile_no, {
+    if (!isLoading) {
+      let data__ = data?.response?.message;
+      setValue('mobile_num', data__?.mobile_no, {
         shouldTouch: true,
         shouldDirty: true,
         shouldValidate: true
       })
-      setValue('bio',  userValue?.detail, {
+      setValue('bio', data__?.detail, {
         shouldTouch: true,
         shouldDirty: true,
         shouldValidate: true
       })
-      setValue('lastName',userValue?.firstName, {
+      setValue('lastName', data__?.last_name, {
         shouldTouch: true,
         shouldDirty: true,
         shouldValidate: true
       })
-      setValue('firstName', userValue?.lastName, {
+      setValue('firstName', data__?.first_name, {
         shouldTouch: true,
         shouldDirty: true,
         shouldValidate: true
       })
-      setValue('profileImg',  userValue?.profile_picture, {
+      setValue('profileImg', data__?.profile_picture, {
         shouldTouch: true,
         shouldDirty: true,
         shouldValidate: true
       })
     }
-  }, [setValue, userValue])
+  }, [setValue, isLoading, data])
 
   return (
     <React.Fragment>
@@ -214,7 +216,8 @@ export default function Profile(props) {
                         </div>
                         <div className="form-control mt-6">
                           <Button type={'submit'}
-                            className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
+                            isLoading={isLoading}
+                            className={`w-full bg-primarybg hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                             isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
                         </div>
                       </form>
@@ -228,31 +231,32 @@ export default function Profile(props) {
           </Dialog>
         </React.Fragment>
       </React.Fragment>
-      <div className="lg:px-36 md:px-10 px-2 mt-8 ">
-        <div className=" p-2 border rounded-lg border-[#c0c0c05e]">
-          <div className="p-6 sm:p-12 dark:bg-gray-900 dark:text-gray-100">
-            <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
-              <img src={Img_(userValue?.profile_picture)} alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
-              <div className="flex flex-col">
-                <h4 className="text-lg font-semibold text-center md:text-left">{userValue?.first_name}</h4>
-                <p className="dark:text-gray-400">{userValue?.detail}</p>
-                <Button onClick={handleOpen}
-                  className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black drop-shadow-none box-shadow-none rounded-full `} type={'submit'}
-                >{'EDIT'}</Button>
+      <LoaderWrapper isLoading={isLoading} component={(
+        <React.Fragment>
+          <div className="lg:px-36 md:px-10 px-2 mt-8 ">
+            <div className=" p-2 border rounded-lg border-[#c0c0c05e]">
+              <div className="p-6 sm:p-12 dark:bg-gray-900 dark:text-gray-100">
+                <div className="flex flex-col space-y-4 md:space-y-0 md:space-x-6 md:flex-row">
+                  <img src={Img_(data?.response?.message?.profile_picture)} alt="" className="self-center flex-shrink-0 w-24 h-24 border rounded-full md:justify-self-start dark:bg-gray-500 dark:border-gray-700" />
+                  <div className="flex flex-col">
+                    <h4 className="text-lg font-semibold text-center md:text-left">{data?.response?.message?.fullname}</h4>
+                    <p className="dark:text-gray-400">{data?.response?.message?.detail}</p>
+                    <Button onClick={handleOpen}
+                      className={`w-[120px] h-[30px] mt-2 leading-[4px] bg-black drop-shadow-none box-shadow-none rounded-full `} type={'submit'}
+                    >{'EDIT'}</Button>
+                  </div>
+                </div>
+                <div className="flex justify-center pt-4 space-x-4 align-center">
+
+                </div>
               </div>
             </div>
-            <div className="flex justify-center pt-4 space-x-4 align-center">
-
+            <div className="my-5">
             </div>
           </div>
-        </div>
-        <div className="my-5">
-        </div>
-      </div>
+        </React.Fragment>
+      )} />
     </React.Fragment>
   );
 }
 
-const FileInput = styled.input`
-  display: none;
-`;

@@ -35,7 +35,7 @@ export default function EventEdit() {
     const onSuccess = React.useCallback((response, method) => {
 
         if (method === 'post') {
-            navigate('/admin/event-listing')
+            navigate('/admin/blogs-listing')
             toast.success('Posted  successfully !')
         } if (method === 'put') {
             toast.success('Updated successfully !')
@@ -303,7 +303,7 @@ export default function EventEdit() {
                                     </div>
                                     <div className='lg:col-span-8 md:col-span-12 col-span-12'>
                                         <div className=' grid grid-cols-12 gap-3'>
-                                            <div className='col-span-6'>
+                                            <div className='col-span-12'>
                                                 <div className='form-control mb-2 '>
                                                     <Controller
                                                         control={control}
@@ -314,7 +314,7 @@ export default function EventEdit() {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='col-span-6'>
+                                            {/* <div className='col-span-6'>
                                                 <div>
                                                     <Controller
                                                         control={control}
@@ -323,7 +323,7 @@ export default function EventEdit() {
                                                             <input className='border border-[#e0ddddd7] rounded-lg w-full px-2 py-[6px]' placeholder="Date" name={"schedule"} id="_date_picker" onChange={(e) => field.onChange(e.target.value)} type="text" onFocus={_onFocus} value={field?.value} />
                                                         )} />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className=' grid grid-cols-12 gap-3'>
                                             <div className='col-span-6'>

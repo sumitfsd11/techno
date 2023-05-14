@@ -39,13 +39,11 @@ const FetchHandler = async function (config) {
     if (error) {
         throw { data: null, error:error_msg }
     }
-    console.log(error ," it is status ")
     if (status === 401) {
         const __response = {
             message: '"Session is Expired!"',
             data: response?.data
         }
-       
         localStorage.clear();
         window.location.href = '/';
         return __response
