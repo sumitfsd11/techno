@@ -28,6 +28,20 @@ export default function TopHeader() {
 
                         </div>
                         <div className=''>
+
+                        </div>
+                        <div className=''>
+
+                        </div>
+                        <div className=''>
+
+                        </div>
+                        <div className=''>
+
+                        </div>
+
+
+                        <div className=''>
                             <QuickReach />
                         </div>
                     </div>
@@ -64,7 +78,7 @@ export const Navbar = ({ props }) => {
                     <ul className="nav-links">
                         <label htmlFor="close-btn" className="btn close-btn"><i className="fas fa-times" /><Times /></label>
                         <li>
-                            <a  onClick={() => redirect_it(data__?.columns_1[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_1[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_1[0]?.title}</a>
+                            <a onClick={() => redirect_it(data__?.columns_1[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_1[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_1[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label htmlFor="showDrop" className="mobile-item">{data__?.columns_1[0]?.title}</label>
                             <ul className="drop-menu">

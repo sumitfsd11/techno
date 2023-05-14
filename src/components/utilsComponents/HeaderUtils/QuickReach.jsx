@@ -1,5 +1,5 @@
 import React from 'react'
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Dropdown } from 'antd';
 import {
     PersonSVG,
@@ -54,8 +54,20 @@ export default function QuickReach() {
     return (
         <React.Fragment>
             <div className='lg:px-2 mt-2 grid grid-cols-5 gap-3'>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+                <div>
+
+                </div>
+                <div>
+                    
+                    </div>
                 <Dropdown menu={{ items }} placement="bottomRight" arrow>
-                    <div>
+                    <div className='pb-4'>
                         <ProfileIcon />
                     </div>
                 </Dropdown>

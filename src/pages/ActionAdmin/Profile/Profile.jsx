@@ -60,7 +60,8 @@ export default function Profile(props) {
       last_name: data?.lastName,
       mobile_no: data?.mobile_num,
       detail: data?.bio,
-      profile_picture: data?.profileImg
+      profile_picture: data?.profileImg,
+      lang:'en'
     }
     callFetch({
       url: `/profile_update/${userValue?.id}`,
