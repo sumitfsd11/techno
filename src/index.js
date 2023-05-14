@@ -6,7 +6,6 @@ import { isDebugging } from './utils/common.utils';
 const container = document.getElementById('root');
 const root = createRoot(container);
 isDebugging(false)
-
 root.render(
   <React.StrictMode>
      <App/>
