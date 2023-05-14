@@ -46,11 +46,12 @@ export default function Profile(props) {
 
   const { isLoading, data, callFetch } = useFetch({
     url: `/profile_update/${userValue?.id}`,
-    skipOnStart: true,
-    method: 'post',
+    skipOnStart: false,
+    method: 'get',
     onSuccess,
     onFailure
   });
+
 
 
 
@@ -69,6 +70,7 @@ export default function Profile(props) {
     })
   }, [callFetch])
 
+  console.log(userValue)
   const handleOpen = () => setOpen(!open);
 
   React.useEffect(() => {

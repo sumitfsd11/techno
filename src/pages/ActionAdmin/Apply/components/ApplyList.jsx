@@ -7,7 +7,8 @@ import { CSVLink } from 'react-csv';
 import { useFetch } from "hooks"
 import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { useNavigate } from 'react-router-dom'
-import moment from 'moment'
+import moment from 'moment';
+import { LoaderWrapper } from 'components/utilsComponents/Loader'
 export default function ApplyList() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
@@ -141,7 +142,7 @@ export default function ApplyList() {
 
 
     return (
-        <div>
+        <React.Fragment>
             <div>
                 <React.Fragment>
                     <div className='flex justify-between mt-4 lg:px-36 md:px-10 px-2'>
@@ -160,18 +161,23 @@ export default function ApplyList() {
 
                 </React.Fragment>
             </div>
-            <Table />
-            <div className='lg:px-10 md:px-5 px-1'>
-                <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
-                    <Pagination showSizeChanger={false}
-                        defaultCurrent={1}
-                        current={currentPage}
-                        defaultPageSize={10}
-                        total={data?.response?.page_count}
-                        onChange={paginationAction} />
-                </PaginationWrapper>
-            </div>
-        </div>
+            <LoaderWrapper isLoading={isLoading} component={(
+                <div>
+
+                    <Table />
+                    <div className='lg:px-10 md:px-5 px-1'>
+                        <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
+                            <Pagination showSizeChanger={false}
+                                defaultCurrent={1}
+                                current={currentPage}
+                                defaultPageSize={10}
+                                total={data?.response?.page_count}
+                                onChange={paginationAction} />
+                        </PaginationWrapper>
+                    </div>
+                </div>)} />
+        </React.Fragment>
+
     )
 }
 

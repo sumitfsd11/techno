@@ -27,6 +27,7 @@ export default function About() {
                         <CouserBanner props={{
                             title: data?.response?.title,
                             des: data?.response?.sub_des,
+                            bg:data?.response?.backgroundImage
                         }} />
                         <div className='lg:px-40 md:px-10 px-2'>
                             <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>

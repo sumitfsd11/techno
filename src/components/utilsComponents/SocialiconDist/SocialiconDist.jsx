@@ -2,7 +2,12 @@ import React from 'react'
 import { socialUtils } from "pages/ActionAdmin/Widget/components/utils"
 export default function SocialiconDist({ props }) {
 
-    console.log(props, "==")
+    const redirect_out__ = React.useCallback((path) => {
+        if (path) {
+            window.open(path)
+        }
+    }, [])
+
 
     return (
         <div>
@@ -11,7 +16,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.twitter && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.twitter)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[0].name}>
                                         {socialUtils[0].icon}
                                     </div>
@@ -23,7 +28,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.linkedin && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.linkedin)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[1].name}>
                                         {socialUtils[1].icon}
                                     </div>
@@ -34,7 +39,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.facebook && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.facebook)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[2].name}>
                                         {socialUtils[2].icon}
                                     </div>
@@ -45,7 +50,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.instagram && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.instagram)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[3].name}>
                                         {socialUtils[3].icon}
                                     </div>
@@ -56,7 +61,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.youtube && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.youtube)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[4].name}>
                                         {socialUtils[4].icon}
                                     </div>
@@ -67,7 +72,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.discord && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.discord)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[5].name}>
                                         {socialUtils[5].icon}
                                     </div>
@@ -78,7 +83,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.slack && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.slack)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[6].name}>
                                         {socialUtils[6].icon}
                                     </div>
@@ -89,7 +94,7 @@ export default function SocialiconDist({ props }) {
                     <React.Fragment>
                         {
                             props?.snapchat && (
-                                <div className=' mx-2 text-xs cursor-pointer '>
+                                <div onClick={() => redirect_out__(props?.snapchat)} className=' mx-2 text-xs cursor-pointer '>
                                     <div title={socialUtils[7].name}>
                                         {socialUtils[7].icon}
                                     </div>

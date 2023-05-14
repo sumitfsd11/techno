@@ -10,15 +10,17 @@ const Index = () => {
 
     return (
         <React.Fragment>
-            <div className='bg-[#f0fdf8]'>
-                <BannerEdit />
-                <FeatureLEdit />
+            <div className=" relative overflow-hidden">
+                <div className='bg-[#f0fdf8]'>
+                    <BannerEdit />
+                    <FeatureLEdit />
+                </div>
+                <ApplyLEdit />
+                <FeedbackLEdit />
+                <EventLEdit />
+                <BlogLEdit />
+                <Footer />
             </div>
-            <ApplyLEdit />
-            <FeedbackLEdit />
-            <EventLEdit />
-            <BlogLEdit />
-            <Footer />
         </React.Fragment>
     )
 }
