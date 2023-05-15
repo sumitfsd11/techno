@@ -6,7 +6,7 @@ import { AutoComplete, Input } from 'antd';
 
 const SearchBar = () => {
   const navigate = useNavigate()
-  const [ setValue] = React.useState('')
+  const [data , setValue] = React.useState('')
   const search_options = [
     {
       value: "Applied",
@@ -70,6 +70,7 @@ const SearchBar = () => {
 
   let onSelect = React.useCallback((a, data) => {
     setValue(a)
+    console.log(data ," === it is list of data ")
     if (data) {
       navigate(data?.link)
     }
