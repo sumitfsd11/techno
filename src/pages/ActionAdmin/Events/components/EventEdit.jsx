@@ -223,7 +223,8 @@ export default function EventEdit() {
         <React.Fragment>
             <CouserBanner props={{
                 title: data?.response?.title ?? watch('title'),
-                des: data?.response?.sub_des ?? watch('sub_des')
+                des: data?.response?.sub_des ?? watch('sub_des'),
+                bg:data?.response?.backgroundImage ?? watch('backgroundImage')
             }} />
             <div className='lg:px-40 md:px-10 px-2'>
                 <div className='mt-[-80px] bg-white lg:mx-20 py-10  drop-shadow-lg md:mx-4 mx-0  rounded-md '>

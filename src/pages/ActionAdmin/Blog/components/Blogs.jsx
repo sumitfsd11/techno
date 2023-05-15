@@ -1,23 +1,15 @@
 import React from 'react'
 import { Pagination } from 'antd'
 import { PaginationWrapper , Button} from 'components'
-import styled from 'styled-components'
-// import { SearchBarSVG } from 'icons'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
-import { Tooltip } from 'antd'
 import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { useFetch } from "hooks"
-import {
-    Card,
-    CardHeader,
-    Typography,
-    Avatar,
-} from "@material-tailwind/react";
+
 export default function Blogs() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
-    const [filter_values, setFilterValues] = React.useState()
+    // const [filter_values, setFilterValues] = React.useState()
 
     const onSuccess = React.useCallback((response) => {
 
@@ -49,38 +41,6 @@ export default function Blogs() {
         }
     }, [navigate])
 
-    const ProfileCard = React.memo(({ props }) => {
-        return (
-            <React.Fragment>
-                <Card color="transparent" shadow={false} className="w-full max-w-[26rem] pt-1">
-                    <CardHeader
-                        color="transparent"
-                        floated={false}
-                        shadow={false}
-                        className="mx-0 flex items-center gap-4 pt-0 pb-1 "
-                    >
-                        <Avatar
-                            size="lg"
-                            variant="circular"
-                            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
-                            alt="candice wu"
-                        />
-                        <div className="flex w-full flex-col gap-0.5">
-                            <div className="flex items-center justify-between">
-                                <Typography variant="" color="blue-gray  " className="text-sm font-normal">
-                                    Candice Wu
-                                </Typography>
-                                <div className="5 flex items-center gap-0">
-                                    ⭐⭐⭐⭐
-                                </div>
-                            </div>
-                            <Typography color="blue-white" className="text-xs text-white">Frontend Lead @ Google</Typography>
-                        </div>
-                    </CardHeader>
-                </Card>
-            </React.Fragment>
-        )
-    }, [])
 
     const Table = React.memo(() => {
         return (
@@ -194,31 +154,3 @@ export default function Blogs() {
         </div>
     )
 }
-
-
-const SearchInput = styled.input`
-
-padding: 6px 12px;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5;
-outline:none;
-width:100%;
-margin-bottom:10px;
-margin-top:10px;
-padding-left:40px;
-color: #212529;
-background-color: #fff;
-background-clip: padding-box;
-border: 1px solid #ced4da;
-appearance: none;
-border-radius: 40px;
-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-&& :focus{
-    color: #212529;
-    background-color: #fff;
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
-}
-`;

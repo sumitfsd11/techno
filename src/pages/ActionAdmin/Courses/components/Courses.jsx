@@ -15,6 +15,8 @@ import {
 } from "@material-tailwind/react";
 import moment from 'moment'
 import { Img_ } from 'utils/common.utils'
+import { LoaderWrapper } from 'components/utilsComponents/Loader'
+
 export default function Courses() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
@@ -124,10 +126,10 @@ export default function Courses() {
                                                                                                         <div className="flex w-full flex-col gap-0.5">
                                                                                                             <div className="flex items-center justify-between">
                                                                                                                 <Typography variant="" color="blue-gray  " className="text-sm font-normal">
-                                                                                                                  {i?.user_id?.first_name}
+                                                                                                                    {i?.user_id?.first_name}
                                                                                                                 </Typography>
                                                                                                                 <div className="5 flex items-center gap-0">
-                                                                                                                  
+
                                                                                                                 </div>
                                                                                                             </div>
                                                                                                         </div>
@@ -178,7 +180,7 @@ export default function Courses() {
 
 
     return (
-        <div>
+        <React.Fragment>
             <div>
                 <React.Fragment>
                     <div className='flex justify-between mt-4 lg:px-36 md:px-10 px-2'>
@@ -190,25 +192,29 @@ export default function Courses() {
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
-                                <SearchInput onChange={(e) => SetSearchQuery(e.target.value)} className="searchbar" type="search" placeholder={'By title , status etc...   '} />
+                                <SearchInput value={search_query} onChange={(e) => SetSearchQuery(e.target.value)} className="searchbar" type="search" placeholder={'By title , status etc...   '} />
                             </div>
                         </div>
                     </div>
 
                 </React.Fragment>
             </div>
-            <Table />
-            <div className='lg:px-10 md:px-5 px-1'>
-                <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
-                    <Pagination showSizeChanger={false}
-                        defaultCurrent={1}
-                        current={currentPage}
-                        defaultPageSize={10}
-                        total={data?.response?.page_count}
-                        onChange={paginationAction} />
-                </PaginationWrapper>
-            </div>
-        </div>
+            
+            <LoaderWrapper isLoading={isLoading} component={
+            <React.Fragment>
+                <Table />
+                <div className='lg:px-10 md:px-5 px-1'>
+                    <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
+                        <Pagination showSizeChanger={false}
+                            defaultCurrent={1}
+                            current={currentPage}
+                            defaultPageSize={10}
+                            total={data?.response?.page_count}
+                            onChange={paginationAction} />
+                    </PaginationWrapper>
+                </div>
+            </React.Fragment>} />
+        </React.Fragment>
     )
 }
 

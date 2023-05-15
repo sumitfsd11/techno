@@ -1,6 +1,4 @@
 import React from 'react';
-import { AnimationOnScroll } from 'react-animation-on-scroll';
-// import TopBanner from './components/TopBanner';
 import TopBanner from './components/TopBanner';
 import DatailBanner from './components/DatailBanner';
 import CouseList from './components/CouseList';

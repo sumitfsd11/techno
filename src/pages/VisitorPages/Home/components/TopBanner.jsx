@@ -1,16 +1,16 @@
 import React from 'react'
-// import { IconProvider } from '../../../utils/common.utils';
-// import {AiOutlineSlack} from "react-icons/ai"
-import imgs_growth from './png_tree.png';
 import Loader from 'components/utilsComponents/Loader';
 import { useFetch } from "hooks";
+
 export default function TopBanner({props}) {
-    const { isLoading, data, callFetch } = useFetch({
+    
+    const { isLoading, data } = useFetch({
         url: `/landing_banner/`,
         skipOnStart: false,
         methods: 'get',
     })
-    console.log(props ," ==== ")
+
+
     return (
         <React.Fragment>
             {

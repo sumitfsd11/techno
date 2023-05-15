@@ -12,8 +12,7 @@ import {
 import { useForm, Controller, FormProvider } from "react-hook-form";
 import { EditIcon } from 'icons';
 import Feedback from 'pages/VisitorPages/Home/components/Feedback';
-import styled from 'styled-components';
-import { ImgIcon, SpinnerIcon } from 'icons';
+import {  SpinnerIcon } from 'icons';
 import { useFetch } from "hooks"
 import { toast } from 'react-hot-toast';
 import { file_base64 } from 'utils/common.utils';
@@ -30,7 +29,6 @@ export default function FeatureLEdit() {
             title: "",
             sub_title: "",
             des: "",
-            bg: ""
         }
     })
 
@@ -136,7 +134,7 @@ export default function FeatureLEdit() {
                                     <FormProvider {...methods}>
                                         <form onSubmit={handleSubmit(onSubmit)}>
                                             <div className="grid grid-cols-12 gap-2">
-                                                <div className='col-span-8'>
+                                                <div className='col-span-12'>
                                                     <div className="mb-3">
                                                         <Controller
                                                             control={control}
@@ -180,54 +178,13 @@ export default function FeatureLEdit() {
                                                     </div>
 
                                                 </div>
-                                                <div className=' col-span-4'>
-                                                    <div className='form-control'>
-                                                        <div className='w-full'>
-                                                            <Controller
-                                                                control={control}
-                                                                name="bg"
-                                                                render={({ field, fieldState: { invalid, isDirty, isTouched, error } }) => {
-                                                                    let src = field.value ?? null;
-                                                                    if (
-                                                                        field.value &&
-                                                                        field.value.length > 0 &&
-                                                                        typeof field.value !== "string"
-                                                                    ) {
-                                                                        const objectUrl = URL.createObjectURL(field.value[0]);
-                                                                        src = objectUrl;
-                                                                    }
-
-                                                                    return (
-                                                                        <React.Fragment>
-                                                                            <ProfileImage>
-                                                                                {src ? (
-                                                                                    <Image src={src} />
-                                                                                ) : (
-                                                                                    <UploadText>
-                                                                                        <ImgIcon className={'w-20 h-20 '} />
-                                                                                    </UploadText>
-                                                                                )}
-                                                                                <FileInput
-                                                                                    type="file"
-                                                                                    onChange={(e) => {
-                                                                                        field.onChange(e.target.files);
-                                                                                    }}
-                                                                                />
-                                                                            </ProfileImage>
-                                                                            <p className=" px-2 text-[#f5594e] mb-0 pt-1 text-xs ">{error?.message}</p>
-                                                                        </React.Fragment>
-                                                                    );
-                                                                }} />
-                                                        </div>
-                                                    </div>
-                                                </div>
 
                                             </div>
 
                                             <div className="form-control mt-6">
                                                 <Button type={'submit'}
                                                 isLoading={isLoading}
-                                                    className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
+                                                    className={`w-full bg-primarybg hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                                               >{`SUBMIT`}</Button>
                                             </div>
                                         </form>
@@ -243,35 +200,3 @@ export default function FeatureLEdit() {
         </div>
     )
 }
-const ProfileImage = styled.label`
-  width: 100%;
-  padding:10px;
-  background: #ffffff;
-  border: 1px dashed #c0c0c0;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-width:100%;
-height:100%;
-  justify-content: center;
-`;
-
-
-const UploadText = styled.span`
-  font-family: "Raleway";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 16px;
-  color: #000000;
-`;
-
-
-const FileInput = styled.input`
-  display: none;
-`;
-const Image = styled.img`
-  width: 100%;
-  height: 100%;
-`;
-
