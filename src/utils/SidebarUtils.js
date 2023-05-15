@@ -31,7 +31,7 @@ const sidebar_utils = [
         query: '',
         SubMenu: [
             {
-                title: 'Couses',
+                title: 'Course',
                 permissions: [],
                 key_: '',
                 link: '/admin/course-listing',

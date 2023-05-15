@@ -266,7 +266,7 @@ const public_routes_user = [
         permissions: [],
         component: (<AllBlogs />)
     },
-    // authrization
+    // 
     {
         name: '',
         path: '/admin/login',

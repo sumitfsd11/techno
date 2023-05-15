@@ -294,6 +294,7 @@ export default function HeaderEdit({ props }) {
                                                                 <div className=''>
                                                                     <div className="form-control mt-6">
                                                                         <Button type={'submit'}
+                                                                        isLoading={isLoading}
                                                                             className={`w-full bg-primarybg   hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                                                                             isDisabled={!isDirty || !isValid}>{`SUBMIT`}</Button>
                                                                     </div>
