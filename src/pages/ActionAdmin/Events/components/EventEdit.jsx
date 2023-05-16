@@ -241,7 +241,6 @@ export default function EventEdit() {
                                         </div>
                                         <div className='mx-2 text-sm pt-1 '>
                                             {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
-                                            {/* moment created_on */}
                                         </div>
                                         <div className='mx-2 '>
                                             <button className=' bg-[#8c98a4] text-white  py-1 font-normal px-4 rounded-full text-sm'>
@@ -380,7 +379,7 @@ export default function EventEdit() {
                                                     <Button
                                                         type='submit'
                                                         isLoading={isLoading}
-                                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} type={'submit'}
+                                                        className={`w-[140px] drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full `} 
                                                     // isDisabled={!isDirty || !isValid}
                                                     >
                                                         {id ? 'UPDATE' : 'POST'}

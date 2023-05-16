@@ -73,45 +73,47 @@ export default function UpcomingEvent({ props }) {
 
     return (
         <div>
-            <LoaderWrapper isLoading={(isLoadingLayout || isLoading)} component={(
-                <div>
-                    <div style={{ background: `url(${props?.bg ?? data?.response?.bg})`, backgroundPosition: "center", height: "auto ", backgroundSize: "cover" }} className=' lg:px-10 md:px-11 px-2 mt-12 pb-12  '>
-                        <div className=''>
-                            <br />
-                            <div className='my-9'>
-                                <section className='text-center  mb-4 '>
-                                    <h2 className='text-3xl text-white font-semibold '>
-                                        {props?.title ?? data?.response?.title}
-                                    </h2>
-                                    <p className='text-white mt-2 '>{props?.des ?? data?.response?.des}</p>
-                                </section>
-                            </div>
-                            <div className='flex  justify-between'>
-                                <div className=''>
+            <div className='w-full'>
+                <LoaderWrapper isLoading={(isLoadingLayout || isLoading)} component={(
+                    <div>
+                        <div style={{ background: `url(${props?.bg ?? data?.response?.bg})`, backgroundPosition: "center", height: "auto ", backgroundSize: "cover" }} className=' lg:px-10 md:px-11 px-2 mt-12 pb-12  '>
+                            <div className=''>
+                                <br />
+                                <div className='my-9'>
+                                    <section className='text-center  mb-4 '>
+                                        <h2 className='text-3xl text-white font-semibold '>
+                                            {props?.title ?? data?.response?.title}
+                                        </h2>
+                                        <p className='text-white mt-2 '>{props?.des ?? data?.response?.des}</p>
+                                    </section>
+                                </div>
+                                <div className='flex  justify-between'>
+                                    <div className=''>
 
+                                    </div>
+                                    <div className='text-lg text-white cursor-pointer' onClick={() => redirect__(data?.response?.link)}>
+                                        {props?.btn_name ?? data?.response?.btn_name} {">"}
+                                    </div>
                                 </div>
-                                <div className='text-lg text-white cursor-pointer' onClick={() => redirect__(data?.response?.link)}>
-                                    {props?.btn_name ?? data?.response?.btn_name} {">"}
-                                </div>
+                                <br />
                             </div>
-                            <br />
-                        </div>
-                        <div className='grid grid-cols-12 gap-10'>
-                            <React.Fragment>
-                                {
-                                    dataRes?.response?.results?.map((i, index) => (
-                                        <React.Fragment key={index}>
-                                            <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
-                                                <EventCard props={i} />
-                                            </div>
-                                        </React.Fragment>
-                                    ))
-                                }
-                            </React.Fragment>
+                            <div className='grid grid-cols-12 gap-10'>
+                                <React.Fragment>
+                                    {
+                                        dataRes?.response?.results?.map((i, index) => (
+                                            <React.Fragment key={index}>
+                                                <div key={index} className=' lg:col-span-6 md:col-span-12 col-span-12'>
+                                                    <EventCard props={i} />
+                                                </div>
+                                            </React.Fragment>
+                                        ))
+                                    }
+                                </React.Fragment>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )} />
+                )} />
+            </div>
         </div>
     )
 }

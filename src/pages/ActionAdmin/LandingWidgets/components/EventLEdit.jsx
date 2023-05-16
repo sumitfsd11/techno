@@ -133,7 +133,7 @@ export default function BannerLEdit() {
             {/* model */}
             <React.Fragment>
                 <Dialog size={'xl'} open={open} className="border-none  " handler={handleOpen}>
-                    <DialogHeader className='text-base py-1 my-0'>Banner Edit </DialogHeader>
+                    <DialogHeader className='text-base py-1 my-0'>Event Edit </DialogHeader>
                     <DialogBody className='h-[81vh] py-1 my-0' >
                         <div className="grid h-full">
                             <div className="m-auto">
@@ -246,7 +246,7 @@ export default function BannerLEdit() {
                                             <div className="form-control mt-6">
                                                 <Button type={'submit'}
                                                     isLoading={isLoading}
-                                                    className={`w-full primary_color hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
+                                                    className={`w-full bg-primarybg hover:drop-shadow-none drop-shadow-none hover:shadow-none shadow-none  rounded-full `}
                                                 >{`SUBMIT`}</Button>
                                             </div>
                                         </form>
