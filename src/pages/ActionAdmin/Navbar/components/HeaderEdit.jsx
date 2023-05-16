@@ -139,7 +139,7 @@ export default function HeaderEdit({ props }) {
                                                                             {i?.title}
                                                                         </div>
                                                                         <div className='cursor-pointer'>
-                                                                            <div onClick={() => remove(i?.id)} style={{ fontSize: "11px" }} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
+                                                                            <div onClick={() => remove(index)} style={{ fontSize: "11px" }} className=' p-1 rounded-full mr-3 text-white text-sm bg-[#0e0e0e5d]'>
                                                                                 <DeleteIcon />
                                                                             </div>
                                                                         </div>
