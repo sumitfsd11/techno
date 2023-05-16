@@ -134,20 +134,7 @@ export default function LandingBanner() {
         remove(index)
     }, [remove])
 
-    const event__action = React.useCallback((e) => {
-        let content = quill.container.outerHTML ?? null;
-        if (content && quill) {
-            if (id) {
-                // callFetch({
-                //     url: `/blog_action/${id}`,
-                //     method: 'put',
-                //     data: data__
-                // })
-            }
-        } else {
-            // toast.success('Event describition can not be empty !')
-        }
-    }, [id, quill])
+
 
     React.useEffect(() => {
         if (quill) {
@@ -221,6 +208,7 @@ export default function LandingBanner() {
     return (
         <div>
             {contextHolder}
+            <div className='course__'>
                 <React.Fragment>
                     <div className='grid lg:grid-cols-12 gap-3 '>
                         <div className='col-span-9  overflow-y-auto h-[95vh] custome_scroll '>
@@ -557,17 +545,18 @@ export default function LandingBanner() {
                                 </Accordion>
                                 <div className=' p-3'>
                                     <Button
-                                     isLoading={isLoading}
+                                        isLoading={isLoading}
                                         className={`w-full bg-primarybg rounded-full `}
                                         onClick={handleSubmit(onSubmit)}
                                         type='submit'
-                                    >{id?'UPDATE':'POST'}</Button>
+                                    >{id ? 'UPDATE' : 'POST'}</Button>
                                 </div>
 
                             </React.Fragment>
                         </div>
                     </div>
                 </React.Fragment>
+            </div>
         </div >
     )
 }

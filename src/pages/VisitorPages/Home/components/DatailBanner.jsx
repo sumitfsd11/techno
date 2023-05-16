@@ -22,15 +22,15 @@ export default function DatailBanner({ props }) {
                 <React.Fragment>
                     <div className='lg:px-36 md:px-11 px-2 mt-12 pb-12 '>
                         <section className='text-center  mb-4 '>
-                            <h2 className='text-3xl text-primarybg font-semibold '>
+                            <h2 className='text-2xl text-primarybg font-semibold '>
                                 {props?.title ?? data?.response?.title}
                             </h2>
-                            <p className='text-[#77838f]'>{props?.des ?? data?.response?.des}</p>
+                            <p className='text-[#77838f] mt-2'>{props?.des ?? data?.response?.des}</p>
                         </section>
                         <div className='grid grid-cols-12 gap-7 '>
                             {
                                 resData?.response?.map((i, index) => (
-                                    <div className='col-span-4 lg:px-12 py-6 ' key={index}>
+                                    <div className=' lg:col-span-4 md:col-span-6 col-span-12  lg:px-12 md:px-10 py-8 ' key={index}>
                                         {/* <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s"> */}
                                         <div className=' text-center'>
                                             {
