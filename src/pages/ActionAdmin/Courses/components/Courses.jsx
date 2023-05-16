@@ -1,8 +1,8 @@
 import React from 'react'
 import { Pagination } from 'antd'
 import { PaginationWrapper, Button } from 'components'
-import styled from 'styled-components'
-import { SearchBarSVG } from 'icons'
+// import styled from 'styled-components'
+// import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from "hooks";
 import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
@@ -20,30 +20,30 @@ import { LoaderWrapper } from 'components/utilsComponents/Loader'
 export default function Courses() {
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = React.useState(1)
-    const [search_query, SetSearchQuery] = React.useState('')
+    // const [search_query, SetSearchQuery] = React.useState('')
     const { isLoading, data, callFetch } = useFetch({
-        url: `/course_get/?page=${currentPage}`,
+        url: `/get_fast_data/?page=${currentPage}`,
         skipOnStart: false,
     })
 
     const paginationAction = React.useCallback((a, p) => {
         setCurrentPage(a)
         callFetch({
-            url: `/course_get/?page=${a}`,
+            url: `/get_fast_data/?page=${a}`,
             method: 'get'
         })
     }, [callFetch])
 
-    React.useEffect(() => {
-        if (!isLoading) {
-            setTimeout(() => {
-                callFetch({
-                    url: `/course_get/?page=${currentPage}&search=${search_query}`,
-                    method: 'get'
-                })
-            }, [600])
-        }
-    }, [search_query, currentPage, callFetch])
+    // React.useEffect(() => {
+    //     if (!isLoading) {
+    //         setTimeout(() => {
+    //             callFetch({
+    //                 url: `/get_fast_data/?page=${currentPage}&search=${search_query}`,
+    //                 method: 'get'
+    //             })
+    //         }, [600])
+    //     }
+    // }, [search_query, currentPage, callFetch])
 
     const redirect__ = React.useCallback((path) => {
         if (path) {
@@ -90,12 +90,12 @@ export default function Courses() {
                                 ) : (
                                     <React.Fragment>
                                         {
-                                            data?.response?.results?.length === 0 ? (
+                                            data?.response?.data?.length === 0 ? (
                                                 <React.Fragment>
                                                     <EmptyData />
                                                 </React.Fragment>
                                             ) :
-                                                data?.response?.results?.map((i, index, arr) => (
+                                                data?.response?.data?.map((i, index, arr) => (
                                                     <React.Fragment>
                                                         <React.Fragment>
                                                             <tbody>
@@ -183,19 +183,19 @@ export default function Courses() {
         <React.Fragment>
             <div>
                 <React.Fragment>
-                    <div className='flex justify-between mt-4 lg:px-36 md:px-10 px-2'>
+                    {/* <div className='flex justify-between mt-4 lg:px-36 md:px-10 px-2'> */}
                         <div>
 
                         </div>
                         <div>
-                            <div className='relative ml-1'>
+                            {/* <div className='relative ml-1'>
                                 <div className='absolute font-semibold text-[#d6d4d4] top-[17px] left-3 z-[4]'>
                                     <SearchBarSVG />
                                 </div>
                                 <SearchInput value={search_query} onChange={(e) => SetSearchQuery(e.target.value)} className="searchbar" type="search" placeholder={'By title , status etc...   '} />
-                            </div>
+                            </div> */}
                         </div>
-                    </div>
+                    {/* </div> */}
 
                 </React.Fragment>
             </div>
@@ -204,12 +204,12 @@ export default function Courses() {
             <React.Fragment>
                 <Table />
                 <div className='lg:px-10 md:px-5 px-1'>
-                    <PaginationWrapper labelText={` Page Number ${data?.response?.current_page ?? '--'} of ${data?.response?.page_count ?? '--'}`} >
+                    <PaginationWrapper labelText={` Page Number ${currentPage?? '--'} of ${data?.response?.count ?? '--'}`} >
                         <Pagination showSizeChanger={false}
                             defaultCurrent={1}
                             current={currentPage}
                             defaultPageSize={10}
-                            total={data?.response?.page_count}
+                            total={data?.response?.count}
                             onChange={paginationAction} />
                     </PaginationWrapper>
                 </div>
@@ -219,29 +219,29 @@ export default function Courses() {
 }
 
 
-const SearchInput = styled.input`
+// const SearchInput = styled.input`
 
-padding: 6px 12px;
-font-size: 16px;
-font-weight: 400;
-line-height: 1.5;
-outline:none;
-width:100%;
-margin-bottom:10px;
-margin-top:10px;
-padding-left:40px;
-color: #212529;
-background-color: #fff;
-background-clip: padding-box;
-border: 1px solid #ced4da;
-appearance: none;
-border-radius: 40px;
-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-&& :focus{
-    color: #212529;
-    background-color: #fff;
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
-}
-`;
+// padding: 6px 12px;
+// font-size: 16px;
+// font-weight: 400;
+// line-height: 1.5;
+// outline:none;
+// width:100%;
+// margin-bottom:10px;
+// margin-top:10px;
+// padding-left:40px;
+// color: #212529;
+// background-color: #fff;
+// background-clip: padding-box;
+// border: 1px solid #ced4da;
+// appearance: none;
+// border-radius: 40px;
+// transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+// && :focus{
+//     color: #212529;
+//     background-color: #fff;
+//     border-color: #86b7fe;
+//     outline: 0;
+//     box-shadow: 0 0 0 0.25rem rgb(13 110 253 / 25%);
+// }
+// `;
