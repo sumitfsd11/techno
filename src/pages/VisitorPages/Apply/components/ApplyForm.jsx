@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button, Selector } from 'components';
+import { TextField, Button, Selector  , TextArea} from 'components';
 import { useForm, Controller, FormProvider } from 'react-hook-form';
 import CouserBanner from "pages/VisitorPages/components/Banner";
 import { useFetch } from "hooks";
@@ -39,7 +39,7 @@ export default function ApplyForm() {
         onSuccess,
         onFailure
     })
-    const { handleSubmit, control, formState: { isDirty, isValid } } = methods
+    const { handleSubmit, control, watch, formState: { isDirty, isValid } } = methods
     const onSubmit = React.useCallback((data) => {
         let formData = {
             name: data?.firstName + " " + data?.lastName,
@@ -57,6 +57,7 @@ export default function ApplyForm() {
         })
     }, [callFetch])
 
+    console.log(watch('course_selection'), " ===== form data ")
     return (
         <div>
             {
@@ -66,7 +67,7 @@ export default function ApplyForm() {
                             <CouserBanner props={{
                                 bg: data?.response?.banner_img_sec,
                                 title: data?.response?.title,
-                                des:data?.response?.des,
+                                des: data?.response?.des,
                             }} />
                             <div>
                                 <div className='lg:px-64 md:px-10 px-2'>
@@ -153,6 +154,7 @@ export default function ApplyForm() {
                                                                 />
                                                             </div>
                                                         </div>
+
                                                         <div className='lg:col-span-6 md:col-span-6 col-span-12'>
                                                             <div className='form-control mb-2 '>
                                                                 <Controller
@@ -164,6 +166,88 @@ export default function ApplyForm() {
                                                                 />
                                                             </div>
                                                         </div>
+                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                            <div className='form-control mb-2 '>
+                                                                <Controller
+                                                                    control={control}
+                                                                    name="course_selection"
+                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                        <Selector {...field} defaultValues={field.value ?? null} label={"Select any option"} error={error} selectionOption={["hello", "Road to amazon"]} name={"country_name"} placeholder={"Select any option"} className={"w-full pl-6"} />
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                        </div>
+                                                        <React.Fragment>
+                                                            {
+                                                                watch('course_selection') === 'Road to amazon' ? (
+                                                                    <React.Fragment>
+                                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                                            <div className='form-control mb-2 '>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="course_intrested"
+                                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                                        <Selector {...field} defaultValues={field.value ?? null} label={"Select your current Job Role.*"} error={error} selectionOption={["hello", "Road to amazon"]} name={"country_name"} placeholder={"Select any option"} className={"w-full pl-6"} />
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                                            <div className='form-control mb-2 '>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="linkedin"
+                                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                                        <TextField type={"text"} error={error}  {...field} name={"linkedin"} placeholder={"Your Linkedin profile *"} className={"w-full pl-6"} />
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                                            <div className='form-control mb-2 '>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="linkedin"
+                                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                                        <TextField type={"text"} error={error}  {...field} name={"linkedin"} placeholder={"Your Linkedin profile *"} className={"w-full pl-6"} />
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                            <div className='form-control mb-2 '>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="exprience"
+                                                                                    render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                                        <TextField type={"text"} error={error}  {...field} name={"exprience"} placeholder={"Years of professional experience *"} className={"w-full pl-6"} />
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                                                            <div className='form-control mb-2 '>
+                                                                                <Controller
+                                                                                    control={control}
+                                                                                    name="course_des"
+                                                                                    render={({ field,
+                                                                                        fieldState: { invalid, isTouched, isDirty, error } }) => (
+                                                                                        <TextArea type={"text"}
+                                                                                            error={error}  {...field}
+                                                                                            name={"des"}
+                                                                                            // icon={<MailSVG />}
+                                                                                            placeholder={"Let us know why you are interested in this program. *"} className={"w-full pl-6"} />
+                                                                                    )} />
+                                                                            </div>
+                                                                        </div>
+                                                                    </React.Fragment>
+                                                                ) : (
+                                                                    <React.Fragment>
+                                                                        else part
+                                                                    </React.Fragment>
+                                                                )
+                                                            }
+                                                        </React.Fragment>
                                                     </div>
 
                                                     <div className='form-control'>
