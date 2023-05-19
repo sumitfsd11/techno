@@ -18,7 +18,7 @@ export default function ApplyDetail() {
         method: 'get',
       })
     }
-  }, [callFetch])
+  }, [callFetch ,id])
 
   const DetailUI = React.memo(() => {
     return (
