@@ -141,6 +141,12 @@ export const Navbar = ({ props }) => {
                                 }
                             </ul>
                         </li>
+                        {/* login */}
+                        <li>
+                            <ul >
+                                <a href='https://portal.technomaticacademy.com/member/#/' className={`cursor-pointer desktop-item  ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''} bg-primarybg w-[120px] px-5 text-white rounded-full login_btn `}>Login</a>
+                            </ul>
+                        </li>
                     </ul>
                     <label htmlFor="menu-btn" className="btn menu-btn text-black"><Menu /></label>
                 </div>
