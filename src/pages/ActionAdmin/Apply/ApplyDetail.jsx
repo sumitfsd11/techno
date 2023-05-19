@@ -5,7 +5,7 @@ import { LoaderWrapper } from 'components/utilsComponents/Loader';
 export default function ApplyDetail() {
   const { id } = useParams()
   const { isLoading, data, callFetch } = useFetch({
-    url: `/about_us/${id}`,
+    url: `/apply_get/${id}`,
     skipOnStart: false,
   })
 
@@ -14,7 +14,7 @@ export default function ApplyDetail() {
   React.useEffect(() => {
     if (id) {
       callFetch({
-        url: `/about_us/${id}`,
+        url: `/apply_get/${id}`,
         method: 'get',
       })
     }
