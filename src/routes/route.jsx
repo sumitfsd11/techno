@@ -21,6 +21,7 @@ import BlogEdit from "pages/ActionAdmin/Blog/components/BlogEdit";
 import Blogs from "pages/ActionAdmin/Blog/components/Blogs";
 import CourseList from "pages/ActionAdmin/Courses/components/Courses";
 import ApplyList from "pages/ActionAdmin/Apply/components/ApplyList";
+import ApplyDetail from "pages/ActionAdmin/Apply/ApplyDetail";
 import Profile from "pages/ActionAdmin/Profile/Profile";
 import AboutUsEdit from "pages/ActionAdmin/About-us/components/AboutUs";
 import About from "pages/VisitorPages/AboutUS/components/About";
@@ -35,7 +36,7 @@ import FeatureAction from "pages/ActionAdmin/FeatureListAction/FeatureAction";
 import AllEvents from "pages/VisitorPages/Events/AllEvents";
 import AllBlogs from "pages/VisitorPages/Blog/AllBlogs";
 import { Social } from "pages/ActionAdmin/Widget/Index";
-import {NotFound} from "pages/Status/Index";
+import { NotFound } from "pages/Status/Index";
 
 const private_routes = [
     {
@@ -44,6 +45,13 @@ const private_routes = [
         key: '',
         permissions: [],
         component: (<ApplyList />)
+    },
+    {
+        name: '',
+        path: '/admin/apply/:id',
+        key: '',
+        permissions: [],
+        component: (<ApplyDetail />)
     },
     {
         name: '',
@@ -71,7 +79,7 @@ const private_routes = [
         path: '/admin/blogs-listing',
         key: '',
         permissions: [],
-        component: (<Blogs/>)
+        component: (<Blogs />)
     },
     {
         name: '',
@@ -204,7 +212,7 @@ const private_routes = [
         path: '*',
         key: '',
         permissions: [],
-        component: (<NotFound/>)
+        component: (<NotFound />)
     },
 ]
 
@@ -243,14 +251,14 @@ const public_routes_user = [
         path: '/Apply',
         key: '',
         permissions: [],
-        component: (<ApplyForm/>)
+        component: (<ApplyForm />)
     },
     {
         name: '',
         path: '/about-us',
         key: '',
         permissions: [],
-        component: (<About/>)
+        component: (<About />)
     },
     {
         name: '',

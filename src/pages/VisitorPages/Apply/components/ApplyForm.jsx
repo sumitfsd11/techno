@@ -50,6 +50,7 @@ export default function ApplyForm() {
             contact_number: data?.contact_number,
             programme: data?.programme ?? "---",
             country_name: data?.country_name,
+            
         }
         // callFetch({
         //     url: '/apply/',
@@ -58,7 +59,6 @@ export default function ApplyForm() {
         // })
     }, [callFetch])
 
-    console.log(watch('course_selection'), " ===== form data ")
     return (
         <div>
             {
