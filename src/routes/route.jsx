@@ -243,7 +243,7 @@ const public_routes_user = [
         path: '/Apply',
         key: '',
         permissions: [],
-        component: (<ApplyForm />)
+        component: (<ApplyForm/>)
     },
     {
         name: '',
