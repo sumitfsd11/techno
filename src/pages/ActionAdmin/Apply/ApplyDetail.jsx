@@ -20,18 +20,16 @@ export default function ApplyDetail() {
     }
   }, [callFetch])
 
-  console.log(data, "  ==== data id ==  ", id)
-
-  const DetailUI = React.memo(()=>{
+  const DetailUI = React.memo(() => {
     return (
       <React.Fragment>
-
+        {JSON.stringify(data)}
       </React.Fragment>
     )
-  },[])
+  }, [])
   return (
     <div>
-      <LoaderWrapper isLoading={isLoading} component={<DetailUI/>} />
+      <LoaderWrapper isLoading={isLoading} component={<DetailUI />} />
     </div>
   )
 }
