@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginValidationSchema } from 'utils/validation';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from 'hooks';
-import img from "assets/icon.png";
+import img from "assets/icon.jpg";
 
 export default function Login() {
   const { isLoading,login , error} = useAuth();

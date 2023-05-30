@@ -75,16 +75,16 @@ export default function Footer({ props }) {
                 <div className='z-[1] bg-[#fff]  h-[10px] mb-[-5px]'>
                 </div>
                 <div _ngcontent-htc-c25="" className="shape   pt-5 shape-blur mb-n-1 shape-top shape-flip-both svg-shim text-white mt-n-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgb(127 0 42)" fill-opacity="1" d="M0,128L40,144C80,160,160,192,240,208C320,224,400,224,480,218.7C560,213,640,203,720,208C800,213,880,235,960,229.3C1040,224,1120,192,1200,192C1280,192,1360,224,1400,240L1440,256L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#2e7aa5" fill-opacity="1" d="M0,128L40,144C80,160,160,192,240,208C320,224,400,224,480,218.7C560,213,640,203,720,208C800,213,880,235,960,229.3C1040,224,1120,192,1200,192C1280,192,1360,224,1400,240L1440,256L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path></svg>
                 </div>
                 <div className='bg-primarybg lg:px-36 pb-8 md:px-5'>
                     <footer className='grid lg:grid-cols-12 md:grid-cols-12 grid-cols-12  gap-4'>
-                        <div className=' col-span-4'>
+                        <div className=' lg:col-span-4 md:col-span-4 col-span-12'>
                             <LeftSideFooter />
                         </div>
-                        <div className='col-span-4'>
-                            <div className='grid  grid-cols-12 '>
-                                <section className='lg:col-span-6 md:col-span-6 col-span-12'>
+                        <div className=' lg:col-span-4 md:col-span-4 col-span-12 '>
+                            <div className='grid  grid-cols-12 gap-5 lg:px-0 md:px-3 px-4 '>
+                                <section className='lg:col-span-6 md:col-span-6 col-span-6'>
                                     <div className=''>
                                         <strong className='text-white text-lg '>
                                             {data__?.columns_one}
@@ -102,7 +102,7 @@ export default function Footer({ props }) {
                                         </section>
                                     </div>
                                 </section>
-                                <section className='lg:col-span-6 md:col-span-6 col-span-12'>
+                                <section className='lg:col-span-6 md:col-span-6 col-span-6'>
                                     <div className=''>
                                         <strong className='text-white text-lg '>
                                             {data__?.columns_two}
@@ -122,7 +122,7 @@ export default function Footer({ props }) {
                                 </section>
                             </div>
                         </div>
-                        <div className='col-span-4'>
+                        <div className='lg:col-span-4 md:col-span-4 col-span-12'>
                             <React.Fragment>
                                 <React.Fragment>
                                     <div className=' lg:px-3 md:px-2 px-4'>
@@ -152,12 +152,12 @@ export default function Footer({ props }) {
                         </div>
                     </footer>
 
-                    <footer className=' mt-4 inner-section border-t border-white'>
+                    <footer className=' mt-4 inner-section border-t border-white px-3'>
                         <div className='lg:flex md:flex block lg:justify-between md:justify-between'>
-                            <div className='text-white text-sm lg:mt-4 mt-2 '>
+                            <div className='text-white lg:text-sm md:text-sm text-xs lg:mt-4 mt-2 '>
                                 {data__?.right_reserved}
                             </div>
-                            <div className='text-white text-sm lg:mt-4 mt-2 '>
+                            <div className='text-white lg:text-sm md:text-sm text-xs lg:mt-4 mt-2 '>
                                 <SocialiconDist props={data?.response?.message} />
                             </div>
                         </div>

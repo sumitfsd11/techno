@@ -52,7 +52,7 @@ export default function BlogList({ props }) {
                                 {
                                     data?.response?.results?.map((i, index) => (
                                         <React.Fragment>
-                                            <div className='col-span-4' key={index}>
+                                            <div className='lg:col-span-4 md:col-span-6 col-span-12 ' key={index}>
                                                 <React.Fragment>
                                                     <div className="mx-auto px-4 py-8 max-w-xl my-1">
                                                         <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-xl hover:shadow-2xl cursor-pointer rounded-lg mb-6 tracking-wide">

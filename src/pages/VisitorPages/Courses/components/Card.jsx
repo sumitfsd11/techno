@@ -9,7 +9,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import {
-  StarIcon,
+  // StarIcon,
   HeartIcon,
 
 } from "@heroicons/react/24/solid";
