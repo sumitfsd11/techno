@@ -20,7 +20,7 @@ export default function CouseList() {
                 <div className='grid grid-cols-12 gap-5 '>
                     {
                         data?.response?.map((i, index) => (
-                            <div key={index} className='col-span-4 my-2 lg:px-3  '>
+                            <div key={index} className='lg:col-span-4 md:col-span-6 col-span-12 my-2 lg:px-3 md:px-4 px-6  '>
                                 {/* <AnimationOnScroll  animateIn="animate__zoomIn "> */}
                                 {/* {JSON.stringify(i?.banner_des)} */}
                                 <React.Fragment>

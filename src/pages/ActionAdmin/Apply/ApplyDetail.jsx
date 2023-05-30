@@ -27,6 +27,7 @@ export default function ApplyDetail() {
       </React.Fragment>
     )
   }, [])
+  
   return (
     <div>
       <LoaderWrapper isLoading={isLoading} component={<DetailUI />} />

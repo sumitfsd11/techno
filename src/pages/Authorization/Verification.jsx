@@ -6,7 +6,7 @@ import { FormProvider, useForm, Controller } from "react-hook-form";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {  useFetch } from "hooks";
 import toast from 'react-hot-toast';
-import img from "assets/icon.png";
+import img from "assets/icon.jpg";
 
 export const VerifyOtp = () => {
 

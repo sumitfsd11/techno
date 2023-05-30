@@ -34,7 +34,7 @@ export default function Main() {
             <ConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: "#7F002A",
+                        colorPrimary: "#2e7aa5",
                     },
                 }}
             >

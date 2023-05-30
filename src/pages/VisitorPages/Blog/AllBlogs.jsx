@@ -3,7 +3,7 @@ import CouserBanner from '../components/Banner';
 import { useFetch } from "hooks";
 import { Img_ } from 'utils/common.utils';
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import Loader from 'components/utilsComponents/Loader';
 import { useNavigate } from 'react-router-dom';
 import { PaginationWrapper } from 'components/index';
