@@ -29,7 +29,7 @@ export default function Feedback({ props }) {
                     <div className='grid grid-cols-12 gap-5 '>
                         {
                             resData?.response?.map((i, index) => (
-                                <div className='  col-span-4 lg:px-5 md:px-2 px-0 py-6 ' key={index}>
+                                <div className='  lg:col-span-4 md:col-span-6 col-span-12 lg:px-5 md:px-2 px-4 py-6 ' key={index}>
                                     {/* <AnimationOnScroll animateIn="animate__fadeIn nimate__delay-4s"> */}
                                     <div className=' border bg-white border-[#e7e7ec] animation-all  hover:drop-shadow-lg rounded-md ' style={{ boxShadow: " rgba(149, 157, 165, 0.15) 0px 3px 6px 0px" }}>
                                         <div className=' '>

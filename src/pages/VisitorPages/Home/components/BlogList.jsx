@@ -28,7 +28,8 @@ export default function BlogList({ props }) {
 
     return (
         <div>
-            <div className='lg:px-20 md:px-3 px-2'>
+            {
+                isLoading ? (<Loader />) : (             <div className='lg:px-20 md:px-3 px-2'>
                 <section className='  text-center  pb-8 pt-14 '>
                     <h2 className='text-3xl text-primarybg font-semibold '>
                         {props?.title ?? dataRes?.response?.title}
@@ -45,8 +46,6 @@ export default function BlogList({ props }) {
                     </div>
                 </section>
                 <div className=' grid grid-cols-12 gap-x-8'>
-                    {
-                        isLoading ? (<Loader />) : (
                             <React.Fragment>
 
                                 {
@@ -84,10 +83,10 @@ export default function BlogList({ props }) {
                                     ))
                                 }
                             </React.Fragment>
-                        )
-                    }
                 </div>
-            </div>
+            </div>)
+            }
+
         </div>
     )
 }

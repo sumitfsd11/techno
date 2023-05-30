@@ -22,7 +22,7 @@ export default function DatailBanner({ props }) {
                 <React.Fragment>
                     <div className='lg:px-36 md:px-11 px-2 mt-12 pb-12 '>
                         <section className='text-center  mb-4 '>
-                            <h2 className='text-2xl text-primarybg font-semibold '>
+                            <h2 className='text-3xl text-primarybg font-semibold '>
                                 {props?.title ?? data?.response?.title}
                             </h2>
                             <p className='text-[#77838f] mt-2'>{props?.des ?? data?.response?.des}</p>
