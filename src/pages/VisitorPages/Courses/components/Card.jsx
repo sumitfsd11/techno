@@ -8,11 +8,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-import {
-  // StarIcon,
-  HeartIcon,
 
-} from "@heroicons/react/24/solid";
 import { Img_ } from "utils/common.utils";
 import { useNavigate } from "react-router-dom";
 export default function CourseCard({ props }) {
@@ -22,8 +18,9 @@ export default function CourseCard({ props }) {
       <Card className="w-full max-w-full mt-[-50px] shadow-lg">
         <CardHeader floated={false} color="blue-gray">
           <img
+          className="w-full bg-cover"
             src={Img_(props?.card_img)}
-            alt="course"
+            alt="course "
           />
           <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
           <IconButton
@@ -32,12 +29,11 @@ export default function CourseCard({ props }) {
             variant="text"
             className="!absolute top-4 right-4 rounded-full"
           >
-            <HeartIcon className="h-6 w-6" />
           </IconButton>
         </CardHeader>
         <CardBody>
           <div className="mb-3 flex items-center justify-between">
-            <Typography variant="h5" color="blue-gray" className="font-medium">
+            <Typography variant="h5" color="blue-gray  " className="font-semibold  lg:text-2xl md:text-xl text-base">
               {props?.card_title}
             </Typography>
           </div>
