@@ -1,6 +1,6 @@
 import React from 'react'
 import AccordionComponent from './Accordion'
-import TabsComponent from './Tabs'
+// import TabsComponent from './Tabs'
 import CourseCard from './Card'
 
 

@@ -56,7 +56,11 @@
   background: #0e0e0eb7;
   color: #f6f6f6 !important;
 }
-
+.login_btn{
+  color: white !important;
+  border-radius: 30px !important;
+  width: 170px !important;
+}
 .nav_bar_user .wrapper{
   position: relative;
   max-width: 1300px;
@@ -199,7 +203,7 @@
     max-width: 350px;
     top: 0;
     left: -100%;
-    background: #242526;
+    background: #040505f1;
     display: block;
     padding: 50px 10px;
     line-height: 50px;

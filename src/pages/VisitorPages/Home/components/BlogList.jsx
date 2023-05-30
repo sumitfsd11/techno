@@ -28,7 +28,8 @@ export default function BlogList({ props }) {
 
     return (
         <div>
-            <div className='lg:px-20 md:px-3 px-2'>
+            {
+                isLoading ? (<Loader />) : (             <div className='lg:px-20 md:px-3 px-2'>
                 <section className='  text-center  pb-8 pt-14 '>
                     <h2 className='text-3xl text-primarybg font-semibold '>
                         {props?.title ?? dataRes?.response?.title}
@@ -45,14 +46,12 @@ export default function BlogList({ props }) {
                     </div>
                 </section>
                 <div className=' grid grid-cols-12 gap-x-8'>
-                    {
-                        isLoading ? (<Loader />) : (
                             <React.Fragment>
 
                                 {
                                     data?.response?.results?.map((i, index) => (
                                         <React.Fragment>
-                                            <div className='col-span-4' key={index}>
+                                            <div className='lg:col-span-4 md:col-span-6 col-span-12 ' key={index}>
                                                 <React.Fragment>
                                                     <div className="mx-auto px-4 py-8 max-w-xl my-1">
                                                         <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-xl hover:shadow-2xl cursor-pointer rounded-lg mb-6 tracking-wide">
@@ -84,10 +83,10 @@ export default function BlogList({ props }) {
                                     ))
                                 }
                             </React.Fragment>
-                        )
-                    }
                 </div>
-            </div>
+            </div>)
+            }
+
         </div>
     )
 }

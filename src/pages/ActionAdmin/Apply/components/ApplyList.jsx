@@ -28,7 +28,11 @@ export default function ApplyList() {
         let data__ = [["Id", "Name", "Country", "Contact", "Mail", "Postal code", "CreatedAt", "Program", "isAccept"]]
         if (!exportingLoading) {
             exportData?.response?.map((i, index, arr) => {
-                data__.push([i?.id, i?.name, i?.country_name, i?.contact_number, i?.mail_id, i?.postal_code, i?.dob, i?.programme, i?.is_accepted_offer])
+                data__.push([i?.id, i?.name, i?.country_name,
+                i?.contact_number, i?.mail_id,
+                i?.postal_code, i?.dob,
+                i?.programme,
+                i?.is_accepted_offer])
                 return i
             })
         }
@@ -98,7 +102,7 @@ export default function ApplyList() {
                                                         <tbody>
                                                             <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
                                                                 <td className="p-3 cursor-pointer" >
-                                                                    <p>{i?.id}</p>
+                                                                    <p onClick={()=>navigate(`/admin/apply/${i?.id}`)}>{i?.id}</p>
                                                                 </td>
                                                                 <td className="p-3">
                                                                     <p className='cursor-pointer font-semibold'>{i?.name}</p>

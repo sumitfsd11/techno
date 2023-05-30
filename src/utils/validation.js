@@ -40,10 +40,46 @@ export const applyValidation = yup.object({
   mail_id: yup.string().required('Mail is required ! '),
   contact_number: yup.string().required('Contact Number is required ! '),
   country_name: yup.string().required('Country is required ! '),
+  course: yup.string().required('Course is required !'),
+  current_role: yup.string().required('Course Role is required !'),
+  linkedin_profile: yup.string().required('Linkedin profile  url  is required !'),
+  exprience: yup.string().required('Linkedin profile  url  is required !'),
+  whyInterested: yup.string().required('Linkedin profile  url  is required !'),
 })
 
+export const applyValidation_wider = yup.object({
+  firstName: yup.string().required('First Name is required ! '),
+  lastName: yup.string().required('Last Name is required ! '),
+  postal_code: yup.string().required('Postal code is required ! '),
+  mail_id: yup.string().required('Mail is required ! '),
+  contact_number: yup.string().required('Contact Number is required ! '),
+  country_name: yup.string().required('Country is required ! '),
 
-export const courseValidation= yup.object({
+  course: yup.string().required('Course is required !'),
+  current_role: yup.string().required('Job role is required!'),
+  linkedin_profile: yup.string().required('Job role is required!'),
+  exprience: yup.string().required('experience is required!'),
+  whyInterested: yup.string().required('This field is required!'),
+
+  inspiration: yup.string().required('This field is required'),
+  education: yup.string().required('Education is required!'),
+  beleieveOnInstructor: yup.string().required('This field is required!'),
+  ProfessionalTraining: yup.string().required('This field is required!'),
+  studyTime: yup.string().required('Study time is required!'),
+  workingHour: yup.string().required('Working Hour is required!'),
+  intraction: yup.string().required('This field is required!'),
+  courseScope: yup.string().required('This field is required!'),
+  pacework: yup.string().required('This field is required!'),
+  success: yup.string().required('This field is required!'),
+  hopeFromCourse: yup.string().required('This field is required!'),
+  hearFrom: yup.string().required('This field is required!'),
+  workAuth: yup.string().required('work authorization is required!'),
+  willing: yup.string().required('Your willing is required!'),
+  referedName: yup.string().required('Referal name is required!'),
+  aboutYourSelf: yup.string().required('About yourself is required!'),
+})
+
+export const courseValidation = yup.object({
   bannerTitle: yup.string().required('Title is required ! '),
   bannerDes: yup.string().required('Describition is required ! '),
 })

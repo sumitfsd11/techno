@@ -1,0 +1,17 @@
+
+landingBanner 
+137
+    const event__action = React.useCallback((e) => {
+        let content = quill.container.outerHTML ?? null;
+        if (content && quill) {
+            if (id) {
+                // callFetch({
+                //     url: `/blog_action/${id}`,
+                //     method: 'put',
+                //     data: data__
+                // })
+            }
+        } else {
+            // toast.success('Event describition can not be empty !')
+        }
+    }, [id, quill])

@@ -84,7 +84,7 @@ export default function FeatureList() {
         <div>
             <LoaderWrapper isLoading={isLoading} component={<React.Fragment>
                 <div>
-                    <React.Fragment>
+                    {/* <React.Fragment>
                         <div className='flex justify-between mt-4 lg:px-36 md:px-10 px-2'>
                             <div>
                             </div>
@@ -97,7 +97,7 @@ export default function FeatureList() {
                                 </div>
                             </div>
                         </div>
-                    </React.Fragment>
+                    </React.Fragment> */}
                 </div>
                 <Table />
             </React.Fragment>} />

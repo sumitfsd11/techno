@@ -7,8 +7,8 @@ module.exports = withMT({
     extend: {
       colors: {
         // 'primarybg': '#162445',
-        'primarybg': '#7F002A',
-        
+        // 'primarybg': '#7F002A',
+        'primarybg' :'#2e7aa5',
         'title-bg': '#ffc78b',
         'pink': '#ff49db',
         'orange': '#ff7849',
