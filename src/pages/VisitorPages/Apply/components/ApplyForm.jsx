@@ -12,9 +12,10 @@ export default function ApplyForm() {
     const [is_wider_form, setFormWider] = React.useState(false)
     const navigate = useNavigate()
     const methods = useForm({
-        resolver: yupResolver(is_wider_form? applyValidation_wider :applyValidation),
+        resolver: yupResolver(is_wider_form ? applyValidation_wider :applyValidation),
         mode: 'all',
     })
+
     const { isLoading: dataIsLoading, data } = useFetch({
         url: `/landing_apply_section/`,
         skipOnStart: false,
@@ -40,24 +41,54 @@ export default function ApplyForm() {
         onSuccess,
         onFailure
     })
-    const { handleSubmit, control,  watch, formState: { isDirty } } = methods
+    
+    const { handleSubmit, control,  watch,
+        //  formState: {  errors , isValid, isDirty } 
+} = methods
     const onSubmit = React.useCallback((data) => {
-
         let formData = {
             name: data?.firstName + " " + data?.lastName,
             postal_code: data?.postal_code,
             mail_id: data?.mail_id,
             dob: new Date(),
             contact_number: data?.contact_number,
-            programme: data?.programme ?? "---",
             country_name: data?.country_name,
+            programme: data?.programme ?? "---",
+            is_accepted_offer:null,
+            course_name:data?.course,
+            job_role_aws:data?.current_role,
+            program_i_aws:"",
+            linkedin_profile_aws:data?.linkedin_profile,
+            profession_exprience:data?.exprience,
+            dev_links:data?.whyInterested,
+            // else 
+            education_level:data?.education,
+            self_belief:data?.beleieveOnInstructor,
+            is_it_taining:data?.ProfessionalTraining,
+            weekly_working:data?.workingHour,
+            class_interaction:data?.intraction,
+            perday_study_time:data?.studyTime,
+            regular_team_learning:data?.courseScope,
+            inspiration:data?.inspiration,
+            your_skills:data.skill,
+            name_of_pace:data.pacework,
+            will_u_success:data?.success,
+            hopeFromCourse:data?.hopeFromCourse,
+            what_u_hear:data?.hearFrom,
+            working_auth:data?.workAuth,
+            is_continuous_learn:data?.learnMore,
+            hope_after_cmp:data?.willing,
+            portfolio_link:data?.portfolio_link,
+            referred_name:data?.referedName,
+            coupon_code:data?.couponCode,
+            about_yr_self:data?.aboutYourSelf,
         }
-        // callFetch({
-        //     url: '/apply/',
-        //     method: 'post',
-        //     data: formData
-        // })
-    }, [])
+        callFetch({
+            url: '/apply/',
+            method: 'post',
+            data: formData
+        })
+    }, [callFetch])
 
     React.useEffect(() => {
         if (watch('course')==='Road To Amazon') {
@@ -66,6 +97,7 @@ export default function ApplyForm() {
             setFormWider(true)
         }
     }, [is_wider_form , watch])
+
 
     return (
         <div>
@@ -240,8 +272,7 @@ export default function ApplyForm() {
 
                                                                     </React.Fragment>
                                                                 ) : (
-                                                                    <React.Fragment>{
-                                                                        watch('course') === "DevOps" || watch('course') === 'QAAE' || watch('course') === "Data Analytics" || watch('course') === "Cyber Security" || watch('course') === "DevOps For Fresher" || watch('course') === "I'm not Sure" ? (
+                                                                    <React.Fragment>
                                                                             <React.Fragment>
                                                                                 <div className='lg:col-span-6 md:col-span-6 col-span-12'>
                                                                                     <div className='form-control mb-2 '>
@@ -384,7 +415,7 @@ export default function ApplyForm() {
                                                                                     <div className='form-control mb-2 '>
                                                                                         <Controller
                                                                                             control={control}
-                                                                                            name="workAuth"
+                                                                                            name="learnMore"
                                                                                             render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
                                                                                                 <Selector {...field} defaultValues={field.value ?? null} label={"Do you continue study for couple of weeks to get desired IT job?"} error={error} selectionOption={["Yes", "No", "May be"]} name={"workAuth"} placeholder={"Do you continue study for couple of weeks to get desired IT job?"} className={"w-full pl-6"} />
                                                                                             )}
@@ -399,8 +430,6 @@ export default function ApplyForm() {
                                                                                             )}
                                                                                         />
                                                                                     </div>
-
-
                                                                                     <div className='form-control mb-2 '>
                                                                                         <Controller
                                                                                             control={control}
@@ -425,9 +454,9 @@ export default function ApplyForm() {
                                                                                     <div className='form-control mb-2 '>
                                                                                         <Controller
                                                                                             control={control}
-                                                                                            name="cuponCode"
+                                                                                            name="couponCode"
                                                                                             render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                                                <TextField type={"text"} error={error}  {...field} name={"cuponCode"} placeholder={"Cupon Code"} className={"w-full pl-6"} />
+                                                                                                <TextField type={"text"} error={error}  {...field} name={"couponCode"} placeholder={"Coupon Code"} className={"w-full pl-6"} />
                                                                                             )}
                                                                                         />
                                                                                     </div>
@@ -448,11 +477,6 @@ export default function ApplyForm() {
                                                                                 </div>
 
                                                                             </React.Fragment>
-                                                                        ) : (
-                                                                            <React.Fragment>
-                                                                            </React.Fragment>
-                                                                        )
-                                                                    }
                                                                     </React.Fragment>
                                                                 )
                                                             }
@@ -466,7 +490,7 @@ export default function ApplyForm() {
                                                                         <Button type='submit'
                                                                             isLoading={isLoading}
                                                                             className={`w-[170px] py-3 leading-6 drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full text-base `}
-                                                                        isDisabled={!isDirty }
+                                                                        // isDisabled={!isDirty }
                                                                         >
                                                                             {'Submit'}
                                                                         </Button>

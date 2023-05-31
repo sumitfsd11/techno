@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginValidationSchema } from 'utils/validation';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from 'hooks';
-import img from "assets/icon.jpg";
+import img from "assets/icon.png";
 
 export default function Login() {
   const { isLoading,login , error} = useAuth();
@@ -19,29 +19,23 @@ export default function Login() {
       password: ""
     }
   });
-
   const { control, handleSubmit, setError,
     formState: { isDirty, isValid }
   } = methods;
-
   const onSubmit = React.useCallback((data) => {
     login({
       username: data?.email,
       password: data?.password
     })
   }, [login]);
-
   React.useEffect(()=>{
     if(error){
       setError('email', { type: 'custom', message:error })
-       
     }
-  },[error])
-
+  },[error , setError])
 
   return (
     <React.Fragment>
-
       <div className="grid h-[100vh] bg-transparent background_authpage_logim">
         <div className="m-auto lg:w-[27%] bg-white p-[30px] rounded-md md:w-[40%] w-[85%]">
           <div className="gird">

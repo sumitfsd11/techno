@@ -1,8 +1,6 @@
 import React from 'react'
 
 export default function CouserBanner({props}) {
-    console.log(" inner a bannner ", props)
-    
     return (
         <div>
             
