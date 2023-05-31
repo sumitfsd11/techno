@@ -23,7 +23,6 @@ export default function UpcomingEvent({ props }) {
 
     const EventCard = React.memo(({ props }) => (
         <React.Fragment>
-
             <div className=' card-event cursor-pointer  w-ful rounded-md p-3 bg-white' onClick={() => redirect__(`/event/${props?.id}`)}>
                 <div className='flex justify-between'>
                     <div className=''>
