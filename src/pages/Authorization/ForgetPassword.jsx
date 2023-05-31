@@ -6,7 +6,7 @@ import { FormProvider, useForm, Controller } from "react-hook-form";
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {  useFetch } from "hooks";
 import toast from "react-hot-toast";
-import img from "assets/icon.jpg";
+import img from "assets/icon.png";
 
 export const ResetPassword = () => {
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ export const ResetPassword = () => {
         "otp": data?.otp
       }
     })
-  }, [callFetch]);
+  }, [callFetch , state]);
 
   return (
     <React.Fragment>
@@ -128,7 +128,7 @@ export const ResetPassword = () => {
                 <Button
                   isLoading={isLoading}
                   className={`w-full bg-primarybg rounded-full `} type={'submit'}
-                // isDisabled={!isDirty || !isValid}
+                isDisabled={!isDirty || !isValid}
                 >{'SUBMIT '}</Button>
               </div>
               <section className='form_control p-0 mb-3 mt-4' style={{ boxShadow: "none", background: "none" }}>

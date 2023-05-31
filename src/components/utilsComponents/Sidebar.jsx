@@ -2,24 +2,20 @@ import React from 'react';
 import { Sidebar, Menu, MenuItem, useProSidebar, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { AdminSVG } from 'icons';
-import img from "assets/icon.jpg";
-import icons from "assets/icons.jpg";
+import img from "assets/icon.png";
+import icons from "assets/icon.png";
 import { ArrowRight, ArrowLeft } from 'icons';
 import { sidebar_utils } from 'utils/SidebarUtils';
 
 export default function SidebarC({ children }) {
     const { collapseSidebar, collapsed } = useProSidebar();
-    console.log(collapsed, "")
-
-    let [isOpen, setIsOpen] = React.useState(true)
-
-    function closeModal() {
-        setIsOpen(false)
-    }
-
-    function openModal() {
-        setIsOpen(true)
-    }
+    // let [ setIsOpen] = React.useState(true)
+    // function closeModal() {
+    //     setIsOpen(false)
+    // }
+    // function openModal() {
+    //     setIsOpen(true)
+    // }
 
     const IconWrapper = React.memo(({ children }) => (
         <div className='p-2 rounded-md icon text-primarybg text-lg mr-2  '>
