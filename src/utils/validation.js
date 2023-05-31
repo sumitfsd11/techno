@@ -54,12 +54,11 @@ export const applyValidation_wider = yup.object({
   mail_id: yup.string().required('Mail is required ! '),
   contact_number: yup.string().required('Contact Number is required ! '),
   country_name: yup.string().required('Country is required ! '),
-
   course: yup.string().required('Course is required !'),
-  current_role: yup.string().required('Job role is required!'),
-  linkedin_profile: yup.string().required('Job role is required!'),
-  exprience: yup.string().required('experience is required!'),
-  whyInterested: yup.string().required('This field is required!'),
+  // current_role: yup.string().required('Job role is required!'),
+  // linkedin_profile: yup.string().required('Job role is required!'),
+  // exprience: yup.string().required('experience is required!'),
+  // whyInterested: yup.string().required('This field is required!'),
 
   inspiration: yup.string().required('This field is required'),
   education: yup.string().required('Education is required!'),
@@ -93,4 +92,43 @@ export {
   documentValidationSchema,
   changePasswordValidationSchema
 };
+
+
+// "id": 7,
+// "name": "Vinay Barnwal",
+// "country_name": "Nepal",
+// "contact_number": "09015413889",
+// "mail_id": "vinay@vinratech.com",
+// "postal_code": "110018",
+// "dob": "2023-05-29T12:33:34.340Z",
+// "programme": "---",
+// "is_accepted_offer": true,
+// "course_name": null,
+// "job_role_aws": null,
+// "program_i_aws": null,
+// "linkedin_profile_aws": null,
+// "profession_exprience": null,
+// "education_level": null,
+// "just_lecture": null,
+// "is_it_taining": null,
+// "weekly_working": null,
+// "class_interaction": null,
+// "perday_study_time": null,
+// "is_continuous_learn": null,
+// "inspiration": null,
+// "referred_name": null,
+// "name_of_pace": null,
+// "will_u_success": null,
+// "hope_after_cmp": null,
+// "what_u_hear": null,
+// "working_auth": null,
+// "self_belief": null,
+// "regular_team_learning": null,
+// "your_skills": null,
+// "dev_links": null,
+// "coupon_code": null,
+// "about_yr_self": null
+
+
+
 

@@ -12,7 +12,7 @@ export default function ApplyForm() {
     const [is_wider_form, setFormWider] = React.useState(false)
     const navigate = useNavigate()
     const methods = useForm({
-        resolver: yupResolver(is_wider_form? applyValidation_wider :applyValidation),
+        resolver: yupResolver(is_wider_form ? applyValidation_wider :applyValidation),
         mode: 'all',
     })
 
@@ -42,9 +42,10 @@ export default function ApplyForm() {
         onFailure
     })
     
-    const { handleSubmit, control,  watch, formState: { isDirty } } = methods
+    const { handleSubmit, control,  watch,
+        //  formState: {  errors , isValid, isDirty } 
+} = methods
     const onSubmit = React.useCallback((data) => {
-
         let formData = {
             name: data?.firstName + " " + data?.lastName,
             postal_code: data?.postal_code,
@@ -53,16 +54,16 @@ export default function ApplyForm() {
             contact_number: data?.contact_number,
             country_name: data?.country_name,
             programme: data?.programme ?? "---",
-            is_accepted_offer:'--',
+            is_accepted_offer:null,
             course_name:data?.course,
             job_role_aws:data?.current_role,
             program_i_aws:"",
             linkedin_profile_aws:data?.linkedin_profile,
             profession_exprience:data?.exprience,
-            whyInterested:data?.whyInterested,
+            dev_links:data?.whyInterested,
             // else 
             education_level:data?.education,
-            beleieveOnInstructor:data?.beleieveOnInstructor,
+            self_belief:data?.beleieveOnInstructor,
             is_it_taining:data?.ProfessionalTraining,
             weekly_working:data?.workingHour,
             class_interaction:data?.intraction,
@@ -96,6 +97,7 @@ export default function ApplyForm() {
             setFormWider(true)
         }
     }, [is_wider_form , watch])
+
 
     return (
         <div>
@@ -270,8 +272,7 @@ export default function ApplyForm() {
 
                                                                     </React.Fragment>
                                                                 ) : (
-                                                                    <React.Fragment>{
-                                                                        watch('course') === "DevOps" || watch('course') === 'QAAE' || watch('course') === "Data Analytics" || watch('course') === "Cyber Security" || watch('course') === "DevOps For Fresher" || watch('course') === "I'm not Sure" ? (
+                                                                    <React.Fragment>
                                                                             <React.Fragment>
                                                                                 <div className='lg:col-span-6 md:col-span-6 col-span-12'>
                                                                                     <div className='form-control mb-2 '>
@@ -429,8 +430,6 @@ export default function ApplyForm() {
                                                                                             )}
                                                                                         />
                                                                                     </div>
-
-
                                                                                     <div className='form-control mb-2 '>
                                                                                         <Controller
                                                                                             control={control}
@@ -457,7 +456,7 @@ export default function ApplyForm() {
                                                                                             control={control}
                                                                                             name="couponCode"
                                                                                             render={({ field, fieldState: { invalid, isTouched, isDirty, error } }) => (
-                                                                                                <TextField type={"text"} error={error}  {...field} name={"cuponCode"} placeholder={"Cupon Code"} className={"w-full pl-6"} />
+                                                                                                <TextField type={"text"} error={error}  {...field} name={"couponCode"} placeholder={"Coupon Code"} className={"w-full pl-6"} />
                                                                                             )}
                                                                                         />
                                                                                     </div>
@@ -478,11 +477,6 @@ export default function ApplyForm() {
                                                                                 </div>
 
                                                                             </React.Fragment>
-                                                                        ) : (
-                                                                            <React.Fragment>
-                                                                            </React.Fragment>
-                                                                        )
-                                                                    }
                                                                     </React.Fragment>
                                                                 )
                                                             }
@@ -496,7 +490,7 @@ export default function ApplyForm() {
                                                                         <Button type='submit'
                                                                             isLoading={isLoading}
                                                                             className={`w-[170px] py-3 leading-6 drop-shadow-none shadow-none hover:drop-shadow-none hover:shadow-none bg-primarybg rounded-full text-base `}
-                                                                        isDisabled={!isDirty }
+                                                                        // isDisabled={!isDirty }
                                                                         >
                                                                             {'Submit'}
                                                                         </Button>
