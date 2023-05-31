@@ -46,12 +46,12 @@ export default function AllBlogs() {
                             des: dataRes?.response?.des,
                         }} />
                         <div className='lg:px-10 md:px-10 px-2'>
-                            <div className='grid grid-cols-12 gap-10 mt-16'>
+                            <div className='grid grid-cols-12 gap-5 mt-16'>
                                 <React.Fragment>
                                     {
                                         data?.response?.results?.map((i, index) => (
                                             <React.Fragment key={index}>
-                                              <div className='col-span-4' key={index}>
+                                              <div className='lg:col-span-4 md:col-span-6  col-span-12' key={index}>
                                                 <React.Fragment>
                                                     <div className="mx-auto px-4 py-8 max-w-xl my-1">
                                                         <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-xl hover:shadow-2xl cursor-pointer rounded-lg mb-6 tracking-wide">

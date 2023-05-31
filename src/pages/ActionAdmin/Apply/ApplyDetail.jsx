@@ -13,8 +13,6 @@ export default function ApplyDetail() {
     skipOnStart: false,
   })
 
-
-
   React.useEffect(() => {
     if (id) {
       callFetch({
@@ -27,7 +25,6 @@ export default function ApplyDetail() {
   const DetailUI = React.memo(() => {
     return (
       <React.Fragment>
-
         <div className='  mt-10 '>
           <div className='lg:px-40 md:px-8 px-2'>
             {
