@@ -3,14 +3,12 @@ import { TextField, Button } from 'components';
 import { FormProvider, useForm, Controller } from "react-hook-form";
 // import { yupResolver } from '@hookform/resolvers/yup';
 // import { rerdirectOut } from 'utils/common.util';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {  useFetch } from "hooks";
 import toast from 'react-hot-toast';
-import img from "assets/icon.jpg";
+import img from "assets/icon.png";
 
 export const VerifyOtp = () => {
-
-    const state = useLocation()
     const navigate = useNavigate();
     const methods = useForm({
         // resolver: yupResolver(loginValidationSchema),
@@ -29,7 +27,7 @@ export const VerifyOtp = () => {
             toast.success(response?.message)
             navigate("/admin/forget-password" ,{state:watch('username')})
         }
-    }, [navigate])
+    }, [navigate ,watch])
 
     const onFailure = React.useCallback((data) => {
         let response = data.error

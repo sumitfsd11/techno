@@ -71,11 +71,13 @@ export const applyValidation_wider = yup.object({
   courseScope: yup.string().required('This field is required!'),
   pacework: yup.string().required('This field is required!'),
   success: yup.string().required('This field is required!'),
+  learnMore:yup.string().required('This field is required!'),
   hopeFromCourse: yup.string().required('This field is required!'),
   hearFrom: yup.string().required('This field is required!'),
   workAuth: yup.string().required('work authorization is required!'),
   willing: yup.string().required('Your willing is required!'),
   referedName: yup.string().required('Referal name is required!'),
+  couponCode:yup.string().required('Referal name is required!'),
   aboutYourSelf: yup.string().required('About yourself is required!'),
 })
 
@@ -90,9 +92,5 @@ export {
   ticketReplayValidationSchema,
   documentValidationSchema,
   changePasswordValidationSchema
-
 };
-
-
-
 
