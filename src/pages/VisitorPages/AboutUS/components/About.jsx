@@ -33,16 +33,16 @@ export default function About() {
                             <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>
                                 <section className='text-center'>
                                     <article>
-                                        <h2 className='text-3xl font-semibold '>{data?.response?.title}</h2>
+                                        <h2 className='lg:text-2xl md:text-2xl text-2xl font-semibold '>{data?.response?.title}</h2>
                                         <div className='grid mt-4'>
                                             <div className='m-auto'>
                                                 <div className='flex my-2'>
                                                     <div className='mx-2 '>
-                                                        <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full text-sm '>
+                                                        <button className='bg-[#ffc78b] text-white italic py-1 font-normal px-4 rounded-full lg:text-sm md:text-sm text-xs '>
                                                         {data?.response?.user_id?.first_name +" "+data?.response?.user_id?.last_name}
                                                         </button>
                                                     </div>
-                                                    <div className='mx-2 text-sm pt-1 '>
+                                                    <div className='mx-2 lg:text-sm md:text-sm text-xs pt-1 '>
                                                     {moment(data?.response?.created_on).format('MMMM Do YYYY, h:mm:ss a')}
                                                     </div>
 

@@ -31,18 +31,23 @@ export default function AccordionComponent({ props }) {
 
   return (
     <Fragment>
-      {
-        props?.map((i, index, arr) => (
-          <Accordion key={index} className="drop-shadow-lg my-4 py-1 px-3 border-[#e7e7ec] rounded-md border  " style={{ boxShadow: "0px 4px 6px 0px rgba(50,50,93,0.11) , 0px 1px 3px 0px rgba(0,0,0,0.08)" }} open={open === index+1} icon={<Icon id={1} open={open} />}>
-            <AccordionHeader className="border-0" onClick={() => handleOpen(index + 1)}>
-              {i?.title}
-            </AccordionHeader>
-            <AccordionBody>
-              {i?.des}
-            </AccordionBody>
-          </Accordion>
-        ))
-      }
+      <div className="lg:px-1 md:px-1 px-6 mt-3">
+        <section>
+          <h1 className="lg:text-3xl md:text-2xl text-2xl  font-semibold ">Frequently asked questions</h1>
+        </section>
+        {
+          props?.map((i, index, arr) => (
+            <Accordion key={index} className="drop-shadow-lg my-4 py-1 px-3 border-[#e7e7ec] rounded-md border  " style={{ boxShadow: "0px 4px 6px 0px rgba(50,50,93,0.11) , 0px 1px 3px 0px rgba(0,0,0,0.08)" }} open={open === index + 1} icon={<Icon id={1} open={open} />}>
+              <AccordionHeader className="border-0 lg:text-lg md:text-base text-sm" onClick={() => handleOpen(index + 1)}>
+                {i?.title}
+              </AccordionHeader>
+              <AccordionBody>
+                {i?.des}
+              </AccordionBody>
+            </Accordion>
+          ))
+        }
+      </div>
     </Fragment>
   );
 }
