@@ -31,6 +31,7 @@ export default function Blog() {
                             des: data?.response?.sub_des,
                             bg: data?.response?.backgroundImage
                         }} />
+
                         <div className='lg:px-40 md:px-10 px-2'>
                             <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>
                                 <section className='text-center'>
@@ -56,6 +57,7 @@ export default function Blog() {
                             <div className='blog_container__ outline-none border-none mt-10 lg:px-48 md:px-10 px-2 ' contenteditable="false" dangerouslySetInnerHTML={{ __html: data?.response?.blog_content }}>
                             </div>
                         </div>
+                        
                     </React.Fragment>
                 )
             }
