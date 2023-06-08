@@ -4,6 +4,7 @@ import SidebarC from '../Sidebar';
 import TopHeader from './TopHeader';
 import Footer from '../Footer/Footer';
 import { Navbar } from './TopHeader';
+
 export default function AfterLoginHeader() {
     return (
         <div>
@@ -18,7 +19,6 @@ export default function AfterLoginHeader() {
         </div>
     )
 }
-
 
 export const UserAfterLoginHeader = () => {
     return (

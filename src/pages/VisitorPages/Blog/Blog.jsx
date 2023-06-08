@@ -33,6 +33,7 @@ export default function Blog() {
                         }} />
 
                         <div className='lg:px-40 md:px-10 px-2'>
+                   
                             <div className='mt-[20px] bg-white lg:mx-20 py-10   md:mx-4 mx-0  rounded-md '>
                                 <section className='text-center'>
                                     <article>
