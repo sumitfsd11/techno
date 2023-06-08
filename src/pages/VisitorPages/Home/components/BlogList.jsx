@@ -31,16 +31,16 @@ export default function BlogList({ props }) {
             {
                 isLoading ? (<Loader />) : (             <div className='lg:px-20 md:px-3 px-2'>
                 <section className='  text-center  pb-8 pt-14 '>
-                    <h2 className='text-3xl text-primarybg font-semibold '>
+                    <h2 className='lg:text-3xl md:text-2xl text-2xl text-primarybg font-semibold '>
                         {props?.title ?? dataRes?.response?.title}
                     </h2>
-                    <p className='text-[#77838f]'>{props?.des ?? dataRes?.response?.des}</p>
+                    <p className='text-[#77838f] lg:text-sm md:text-xs text-xs'>{props?.des ?? dataRes?.response?.des}</p>
                     <br />
                     <div className='flex  justify-between'>
                         <div className=''>
 
                         </div>
-                        <div className='text-lg  cursor-pointer' onClick={()=>redirect__(dataRes?.response?.link)}>
+                        <div className='  cursor-pointer lg:text-sm md:text-xs text-xs' onClick={()=>redirect__(dataRes?.response?.link)}>
                             {props?.btn_name ?? dataRes?.response?.btn_name} {">"}
                         </div>
                     </div>

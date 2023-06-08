@@ -6,13 +6,14 @@ import { AutoComplete, Input } from 'antd';
 
 const SearchBar = () => {
   const navigate = useNavigate()
-  const [data , setValue] = React.useState('')
+  const [, setValue] = React.useState('')
   const search_options = [
     {
       value: "Applied",
       label: 'Applied',
       link: '/admin/home'
     },
+
     {
       value: "Couses",
       label: 'Couses',
