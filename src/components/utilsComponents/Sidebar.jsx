@@ -31,7 +31,9 @@ export default function SidebarC({ children }) {
                         <div className='flex'>
                             <img src={img} alt={"loading..."} className={collapsed ? ` hidden` : ''} />
                             <div className='pt-[8px]'>
-                                <button onClick={() => collapseSidebar()} className={'mr-1 mt-4'}>{collapsed ? <ArrowRight /> : <ArrowLeft />}</button>
+                                <button 
+                                onClick={() => collapseSidebar()}
+                                 className={'mr-1 mt-4'}> {collapsed ? <ArrowRight /> : <ArrowLeft />}</button>
                             </div>
                         </div>
                     </header>
