@@ -42,6 +42,7 @@ export default function HeaderEdit({ props }) {
             console.log(" ")
         }
     }, [])
+    
 
     const { control,
         handleSubmit, watch, setValue,
@@ -66,7 +67,7 @@ export default function HeaderEdit({ props }) {
             columns_2: JSON.stringify([...column_num_2]),
             columns_3: JSON.stringify([...column_num_3]),
             columns_4: JSON.stringify([...column_num_4]),
-            columns_5: JSON.stringify([...column_num_5])
+            columns_5: JSON.stringify([...column_num_5]),
         }
         callFetch({
             url: `/navbar/`,
@@ -95,7 +96,7 @@ export default function HeaderEdit({ props }) {
             })
             if (data__?.columns_1 && data__?.columns_2 && data__?.columns_3 && data__?.columns_4 && data__?.columns_5) {
                 setValue('column__field', [...data__?.columns_1?.map((i) => ({ title: i?.title, link: i?.link, column_num: 1 })), ...data__?.columns_2?.map((i) => ({ title: i?.title, link: i?.link, column_num: 2 })),
-                ...data__?.columns_3?.map((i) => ({ title: i?.title, link: i?.link, column_num: 3 })), ...data__?.columns_4?.map((i) => ({ title: i?.title, link: i?.link, column_num: 4 })), ...data__?.columns_5?.map((i) => ({ title: i?.title, link: i?.link, column_num: 1 }))
+                ...data__?.columns_3?.map((i) => ({ title: i?.title, link: i?.link, column_num: 3 })), ...data__?.columns_4?.map((i) => ({ title: i?.title, link: i?.link, column_num: 4 })), ...data__?.columns_5?.map((i) => ({ title: i?.title, link: i?.link, column_num: 5 }))
                 ] ?? [], {
                     shouldDirty: true,
                     shouldValidate: true,

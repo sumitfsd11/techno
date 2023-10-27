@@ -59,7 +59,7 @@ export default function Events() {
                     </div>
 
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs relative  h-[60vh]  ">
+                        <table className="min-w-full text-xs relative  h-[10vh]  ">
 
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
@@ -83,7 +83,7 @@ export default function Events() {
                                                     <React.Fragment key={index}>
                                                         <tbody>
                                                             <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                                <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/event/${i?.id}`)}>
+                                                                <td className="p-3 cursor-pointer hover:bg-blue-300 hover:bg-opacity-11 rounded-lg"  style={{ width: '20px'}} onClick={() => redirect__(`/admin/event/${i?.id}`)}>
                                                                     <p>{i?.id}</p>
                                                                 </td>
                                                                 <td className="p-3">

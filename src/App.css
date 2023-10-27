@@ -55,11 +55,13 @@
 .active_navbar_{
   background: #0e0e0eb7;
   color: #f6f6f6 !important;
+  margin-left: 10px !important;
 }
 .login_btn{
   color: white !important;
   border-radius: 30px !important;
   width: 170px !important;
+  
 }
 .nav_bar_user .wrapper{
   position: relative;

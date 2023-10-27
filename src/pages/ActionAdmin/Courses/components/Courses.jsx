@@ -5,6 +5,8 @@ import { PaginationWrapper, Button } from 'components'
 // import { SearchBarSVG } from 'icons'
 import { useNavigate } from 'react-router-dom';
 import { useFetch } from "hooks";
+import { DeleteIcon } from 'icons';
+import toast from 'react-hot-toast';
 import { GridLoader, EmptyData } from 'components/utilsComponents/Loader'
 import { Tooltip } from 'antd'
 import {
@@ -19,17 +21,35 @@ import { LoaderWrapper } from 'components/utilsComponents/Loader'
 
 export default function Courses() {
     const navigate = useNavigate()
+    const [reload, setReload] = React.useState(false);
     const [currentPage, setCurrentPage] = React.useState(1)
     // const [search_query, SetSearchQuery] = React.useState('')
+    const onSuccess = React.useCallback((response, method) => {
+        if (method === 'delete') {
+            setReload(true)
+            toast.success('Deleted successfully !')
+        }
+    }, [])
+    const onFailure = React.useCallback((error) => {
+    }, [])
+
     const { isLoading, data, callFetch } = useFetch({
         url: `/get_fast_data/?page=${currentPage}`,
         skipOnStart: false,
-    })
+        onSuccess,
+        onFailure
+    });
+    const deletedPost = React.useCallback((id) => {
+        callFetch({
+            url: `/delete_course/${id}`,
+            method: 'delete',
+        })
+    }, [callFetch])
 
     const paginationAction = React.useCallback((a, p) => {
         setCurrentPage(a)
         callFetch({
-            url: `/get_fast_data/?page=${a}`,
+            url: `/course_list/?page=${a}`,
             method: 'get'
         })
     }, [callFetch])
@@ -50,10 +70,16 @@ export default function Courses() {
             navigate(path)
         }
     }, [navigate])
-
-
-
-
+    React.useEffect(() => {
+        if (reload) {
+            callFetch({
+                url: `/course_list/?page=${currentPage}`,
+                method: 'get'
+            })
+            setReload(reload)
+        }
+    }, [reload, currentPage, callFetch])
+        
     const Table = React.memo(() => {
         return (
             <React.Fragment>
@@ -74,7 +100,7 @@ export default function Courses() {
                         <table className="min-w-full text-xs relative h-[60vh] ">
                             <thead className="dark:bg-gray-700" >
                                 <tr className="text-left">
-                                    <th className="p-3">ID #</th>
+                                    <th className="p-3">ID</th>
                                     <th className="p-3">Created By</th>
                                     <th className="p-3 w-[30%]">Post</th>
                                     <th className="p-3">Last Updated</th>
@@ -100,7 +126,7 @@ export default function Courses() {
                                                         <React.Fragment>
                                                             <tbody>
                                                                 <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                                    <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/course/${i?.id}`)}>
+                                                                    <td className="p-3 cursor-pointer hover:bg-blue-300 hover:bg-opacity-11 rounded-lg"  style={{ width: '30px'}} onClick={() => redirect__(`/admin/course/${i?.id}`)}>
                                                                         <p>{i?.id}</p>
                                                                     </td>
                                                                     <td className="p-3">
@@ -161,7 +187,16 @@ export default function Courses() {
                                                                         <span className="px-3 py-1 font-semibold rounded-md dark:bg-violet-400 dark:text-gray-900">
                                                                             <span>{i?.status}</span>
                                                                         </span>
-                                                                    </td>
+                                                                    </td> 
+                                                                
+                                                                         <span onClick={() => deletedPost(i?.id)} className='cursor-pointer p-2 pl-4 py-2'>  
+                                                                        <div className=' p-1 rounded-md mt-8 text-white text-md bg-[#0e0e0e5d] w-9'>
+                                                                        <DeleteIcon /> 
+                                                                        </div>
+                                                                        </span>
+                                                                   
+                                                                    
+                                                                    
                                                                 </tr>
                                                             </tbody>
                                                         </React.Fragment>

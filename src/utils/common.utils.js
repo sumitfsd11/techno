@@ -3,7 +3,7 @@ import { CURRENCY_SYMBOL } from "constants/common.constants";
 import moment from "moment";
 import toast from 'react-hot-toast';
 import styled from "styled-components";
-import no_img_sqr from "assets/free__blog_no_img.jpg"
+import no_img_sqr from "assets/user.png"
 
 
 export const isFunction = (fn) => typeof fn === "function";

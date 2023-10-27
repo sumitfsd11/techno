@@ -100,8 +100,8 @@ export default function ApplyList() {
                                                 data?.response?.results.map((i, index) => (
                                                     <React.Fragment key={index}>
                                                         <tbody>
-                                                            <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                                <td className="p-3 cursor-pointer" >
+                                                            <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900 ">
+                                                                <td className="p-3 cursor-pointer hover:bg-blue-300 hover:bg-opacity-11 rounded-lg"  style={{ width: '30px', height:'10px'}} >
                                                                     <p onClick={()=>navigate(`/admin/apply/${i?.id}`)}>{i?.id}</p>
                                                                 </td>
                                                                 <td className="p-3">

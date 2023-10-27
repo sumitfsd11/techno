@@ -48,7 +48,7 @@ export default function FeatureList() {
                                     isLoading ? (<div>loading...</div>) : data?.response?.map((i, index, arr) => (
                                         <tbody>
                                             <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/feature/${i?.id}`)}>
+                                                <td className="p-3 cursor-pointer hover:bg-blue-300 hover:bg-opacity-11 rounded-lg"  style={{ width: '30px', height:'10px'}} onClick={() => redirect__(`/admin/feature/${i?.id}`)}>
                                                     <p >{i?.id}</p>
                                                 </td>
                                                 <td className="p-3 w-[50%]">

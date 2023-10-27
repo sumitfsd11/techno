@@ -45,33 +45,33 @@ export default function BlogList({ props }) {
                         </div>
                     </div>
                 </section>
-                <div className=' grid grid-cols-12 gap-x-8'>
+                <div className=' grid grid-cols-12 gap-2'>
                             <React.Fragment>
 
                                 {
                                     data?.response?.results?.map((i, index) => (
                                         <React.Fragment>
-                                            <div className='lg:col-span-4 md:col-span-6 col-span-12 ' key={index}>
+                                            <div className='lg:col-span-4 sm:col-span-6 col-span-12 ' key={index}>
                                                 <React.Fragment>
-                                                    <div className="mx-auto px-4 py-8 max-w-xl my-1">
-                                                        <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-xl hover:shadow-2xl cursor-pointer rounded-lg mb-6 tracking-wide">
-                                                            <div className="md:flex-shrink-0">
-                                                                <img src={Img_(i?.backgroundImage)} alt="mountains" className="w-full h-64 rounded-lg rounded-b-none" />
+                                                    <div className="mx-auto px-1 py-0 max-w-lg my-0">
+                                                        <div onClick={() => redirect__(`/blog/${i?.id}`)} className="bg-white shadow-lg hover:shadow-2xl cursor-pointer rounded-2xl mb-4 tracking-wide">
+                                                            <div className="md:flex-shrink-1">
+                                                                <img src={Img_(i?.backgroundImage)} alt="mountains" className="w-full h-60 rounded-2xl" />
                                                             </div>
                                                             <div className="px-4 py-2 mt-2">
-                                                                <h2 className="font-bold text-2xl text-gray-800 tracking-normal">{i?.title}</h2>
-                                                                <p className="text-sm text-gray-700 px-2 mr-1">
+                                                                <h2 className="font-bold text-2md text-gray-800 tracking-normal">{i?.title}</h2>
+                                                                <p className="text-sm text-gray-700 px-0 mr-1">
                                                                     {i?.subtitle}  {i?.sub_des}
                                                                 </p>
                                                                 <div className="flex items-center justify-between mt-2 mx-6">
-                                                                    <div onClick={() => redirect__(`/blog/${i?.id}`)} className="text-blue-500 text-xs -ml-3 cursor-pointer ">Show More</div>
+                                                                    <div onClick={() => redirect__(`/blog/${i?.id}`)} className="text-blue-500 text-xs -ml-5 cursor-pointer ">Show More</div>
                                                                 </div>
                                                                 <div className="author flex items-center -ml-3 my-3">
                                                                     <div className="user-logo">
-                                                                        <img className="w-12 h-12 object-cover rounded-full mx-4  shadow" src={Img_()} alt="avatar" />
+                                                                        <img className="w-8 h-8 object-cover rounded-full mx-4  shadow" src={Img_()} alt="avatar" />
                                                                     </div>
                                                                     <h2 className="text-sm tracking-tighter text-gray-900">
-                                                                        <div  >By {i?.first_name ?? i?.user_id?.username}</div> <span className="text-gray-600">{moment(i?.created_on).format("MMM Do YY")}</span>
+                                                                        <div  >By {i?.first_name ?? i?.user_id?.first_name+' '+i?.user_id?.last_name}</div> <span className="text-gray-600">{moment(i?.created_on).format("MMM Do YY")}</span>
                                                                     </h2>
                                                                 </div>
                                                             </div>

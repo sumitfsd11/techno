@@ -90,7 +90,7 @@ export const Navbar = ({ props }) => {
                             <i className="fas fa-times " />
                             <Times style={{color:"white"}} />
                         </label>
-                        <li>
+                        <li style={{margin: '10px'}}>
                             <a onClick={() => redirect_it(data__?.columns_1[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_1[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_1[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label onClick={() => redirect_it(data__?.columns_1[0]?.link)} htmlFor="showDrop" className="mobile-item">{data__?.columns_1[0]?.title}</label>
@@ -103,7 +103,7 @@ export const Navbar = ({ props }) => {
                             </ul>
                         </li>
 
-                        <li>
+                        <li style={{margin: '10px'}}>
                             <a onClick={() => redirect_it(data__?.columns_2[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_2[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_2[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label onClick={() => redirect_it(data__?.columns_2[0]?.link)} htmlFor="showDrop" className="mobile-item">{data__?.columns_2[0]?.title}</label>
@@ -116,7 +116,7 @@ export const Navbar = ({ props }) => {
                             </ul>
                         </li>
 
-                        <li>
+                        <li style={{margin: '10px'}}>
                             <a onClick={() => redirect_it(data__?.columns_3[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_3[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_3[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label onClick={() => redirect_it(data__?.columns_3[0]?.link)} htmlFor="showDrop" className="mobile-item">{data__?.columns_3[0]?.title}</label>
@@ -129,7 +129,7 @@ export const Navbar = ({ props }) => {
                             </ul>
                         </li>
 
-                        <li>
+                        <li style={{margin: '10px'}}>
                             <a onClick={() => redirect_it(data__?.columns_4[0]?.link)} className={`desktop-item cursor-pointer ${location?.pathname === data__?.columns_4[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_4[0]?.title}</a>
                             <input type="checkbox" id="showDrop" />
                             <label onClick={() => redirect_it(data__?.columns_4[0]?.link)} htmlFor="showDrop" className="mobile-item">{data__?.columns_4[0]?.title}</label>
@@ -141,27 +141,15 @@ export const Navbar = ({ props }) => {
                                 }
                             </ul>
                         </li>
-                        <li>
-                            <a onClick={() => redirect_it(data__?.columns_5[0]?.link)} className={`cursor-pointer desktop-item ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''}`}>{data__?.columns_5[0]?.title}</a>
-                            <input type="checkbox" id="showDrop" />
-                            <label onClick={() => redirect_it(data__?.columns_5[0]?.link)} htmlFor="showDrop" className="mobile-item">{data__?.columns_5[0]?.title}</label>
-                            <ul className="drop-menu">
-                                {
-                                    data__?.columns_5?.filter((i, index) => index !== 0)?.map((i) => (
-                                        <li className='cursor-pointer'><Link to="/course/2">{i?.title}</Link></li>
-                                    ))
-                                }
-                            </ul>
-                        </li>
                         <li className='lg:hidden md:hidden block'>
                             <a onClick={() => redirect_it(data__?.columns_5[0]?.link)} className={`cursor-pointer desktop-item ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''}`}>Login</a>
                             <input type="checkbox" id="showDrop" />
                             <label onClick={() => window.open('https://portal.technomaticacademy.com/member/#/')} htmlFor="showDrop" className="mobile-item">Login</label>
                         </li>
                         {/* login */}
-                        <li>
+                        <li style={{margin: '10px'}}>
                             <ul >
-                                <a href='https://portal.technomaticacademy.com/member/#/' className={`cursor-pointer desktop-item  ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''} bg-primarybg w-[120px] px-5 text-white rounded-full login_btn `}>Login</a>
+                                <a href='https://portal.technomaticacademy.com/member/#/' className={`cursor-pointer desktop-item  ${location?.pathname === data__?.columns_5[0]?.link ? 'active_navbar_ ' : ''} bg-primarybg w-[120px] px-5 mt-5 text-white rounded-full login_btn `}>Login</a>
                             </ul>
                         </li>
                     </ul>

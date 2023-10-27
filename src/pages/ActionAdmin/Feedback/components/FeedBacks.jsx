@@ -35,7 +35,7 @@ export default function FeedBacks() {
                         </div>
                     </div>
                     <div className="overflow-x-auto">
-                        <table className="min-w-full text-xs">
+                        <table className="min-w-full text-xs h-[10vh]">
                             <thead className="dark:bg-gray-700">
                                 <tr className="text-left">
                                     <th className="p-3">Id #</th>
@@ -56,7 +56,7 @@ export default function FeedBacks() {
                                             data?.response?.map((i, index, arr) => (
                                                 <tbody>
                                                     <tr className="border-b border-opacity-20 dark:border-gray-700 dark:bg-gray-900">
-                                                        <td className="p-3 cursor-pointer" onClick={() => redirect__(`/admin/feedback/${i?.id}`)}>
+                                                        <td className="p-3 cursor-pointer hover:bg-blue-300 hover:bg-opacity-11 rounded-lg"  style={{ width: '30px', height:'10px'}} onClick={() => redirect__(`/admin/feedback/${i?.id}`)}>
                                                             <p >{i?.id}</p>
                                                         </td>
                                                         <td className="p-3">
